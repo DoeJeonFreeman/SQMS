@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.nmsc.sat.qms.mybatis.MostRecentStuffMapper">
+
+  <select id="seekLatestStuff" parameterType="string" resultType="UpToDateStuff">
+  	SELECT 
+  		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff
+		FROM CPP_RADIODETPARAM_V
+		WHERE  Detector=1 and Channel=1 and Name='SNR'
+ 		AND PID=1 and INSTRUMENTMODE=4
+  </select>
+  
+  <!-- TID 7이 Slope -->
+  <select id="seekLatestStuff_IRRS" parameterType="string" resultType="UpToDateStuff">
+ 	SELECT 
+  		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff
+		FROM CPP_RADIODETPARAM_V
+		WHERE  Detector=1 and Channel=4 
+ 		AND PID=1 and INSTRUMENTMODE=4 AND INSTRUMENT='I'
+		AND TID=7
+  </select>
+  
+  <!-- TID 25가 Visible PRNU -->
+  <select id="seekLatestStuff_VisPRNU" parameterType="string" resultType="UpToDateStuff">
+ 	SELECT 
+  		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff
+		FROM CPP_RADIODETPARAM_V
+		WHERE  Detector=1 and Channel=1 
+ 		AND PID=1 and INSTRUMENTMODE=4 AND INSTRUMENT='V'
+		AND TID=25
+  </select>
+  
+  
+  <!-- TID 31은 IR_PRNU_220K -->
+  <select id="seekLatestStuff_IRPRNU" parameterType="string" resultType="UpToDateStuff">
+ 	SELECT 
+  		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff
+		FROM CPP_RADIODETPARAM_V
+		WHERE  Detector=1 and Channel=4 
+ 		AND PID=1 and INSTRUMENTMODE=4 AND INSTRUMENT='I'
+		AND TID=31
+  </select>
+  
+  
+  
+  <!-- 미규현 -->
+  <select id="seekLatestStuff_IRNEDT" parameterType="string" resultType="UpToDateStuff">
+ 	SELECT 
+  		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff
+		FROM CPP_RADIODETPARAM_V
+		WHERE  Detector=1 and Channel=4 
+ 		AND PID=1 and INSTRUMENTMODE=4
+		AND TID=36
+  </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  <select id="seekLatestOne" parameterType="string" resultType="UpToDateStuff">
+  	SELECT 
+  		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff 
+	FROM CPP_NAVPERFO_V
+	WHERE IMGMODE=1
+  </select>
+  
+</mapper>
