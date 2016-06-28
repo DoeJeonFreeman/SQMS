@@ -4,9 +4,9 @@
 
 <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
 
+	<!-- 1. telescope primary temp -->
+	<!-- 1. telescope primary temp -->
 	<li class=""><!--doejeon active blue --> 
-		<!-- 1. telescope primary temp -->
-		<!-- 1. telescope primary temp -->
 		<a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-angle-double-right fa-stack-1x "></i></span>Telescope Primary Temperature</a>
 		<ul class="nav-pills nav-stacked" style="list-style-type: none;">
 			<li>

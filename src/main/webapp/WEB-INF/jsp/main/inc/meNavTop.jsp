@@ -98,8 +98,9 @@
          <div class="collapse navbar-collapse" id="navbar-mecollapse">
              <ul class="nav navbar-nav navbar-right">
          
-                <li class="dropdown">
+                <li class="dropdown disabled">
                      <a  href="#" class="dropdown-toggle" data-toggle="dropdown">Level 1 A<b class="caret"></b></a>
+                     <!-- 
                      <ul class="dropdown-menu meDropkick" >
                          <li>
                          	<a href='#' onclick="javascript:fn_main_headPageAction('11','QI/LV1A.do')">품질지표</a>
@@ -108,58 +109,17 @@
                          	<a href='#' onclick="javascript:fn_main_headPageAction('12','EI/LV1A.do')">환경정보</a>
                          </li>
                      </ul>
+                      -->
                  </li>
              
              
-           	    <!-- mega menu -->
-			    <!-- mega menu -->
-			    <!-- 
-                <li class="dropdown menu-large">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Level 1 A<b class="caret"></b></a>				
-					<ul class="dropdown-menu megamenu row">
-						<li class="col-sm-4">
-							<ul>
-								<li class="dropdown-header">품질지표</li>
-								<li><a href="#LINK" style="font-weight: bold;" onclick="javascript:fn_main_headPageAction('11','QI/level_1_a.do')">Visible SNR</a></li>
-								<li><a href="#LINK" style="font-weight: bold;" onclick="javascript:fn_main_headPageAction('11','QI/level_1_a.do')">Visible Radiance</a></li>
-								<li class="divider"></li>
-								<li><a href="#LINK" style="font-weight: bold;" onclick="javascript:fn_main_headPageAction('11','QI/level_1_a_VisiblePRNU.do')">Visible PRNU</a></li>
-								<li><a href="#LINK">Visible Albedo Monitor Slope</a></li>
-								<li><a href="#LINK">Visible Image Response( Moon )</a></li>
-								<li><a href="#LINK" style="font-weight: bold;" onclick="javascript:fn_main_headPageAction('11','QI/level_1_a_IRRadiance.do')">IR Radiance Statistics</a></li>
-								<li><a href="#LINK" style="font-weight: bold;" onclick="javascript:fn_main_headPageAction('11','QI/level_1_a_IR_NEDT.do')">IR NEDT</a></li>
-								<li><a href="#LINK" style="font-weight: bold;" onclick="javascript:fn_main_headPageAction('11','QI/level_1_a_IR_PRNU.do')">IR PRNU</a></li>
-							</ul>
-						</li>
-						<li class="col-sm-4">
-							<ul>
-								<li class="dropdown-header">환경변수</li>
-								<li><a href="#LINK">Environment Variable 01</a></li>
-								<li><a href="#LINK">Environment Variable 02</a></li>
-								<li><a href="#LINK">Environment Variable 03</a></li>
-								<li><a href="#LINK">Environment Variable 04</a></li>
-								<li><a href="#LINK">Environment Variable 05</a></li>
-							</ul>
-						</li>
-						<li class="col-sm-4">
-							<ul>
-								<li class="dropdown-header">menu 03</li>
-								<li><a href="#LINK" >menu 03-01</a></li>
-								<li><a href="#LINK" >menu 03-02</a></li>
-							</ul>
-						</li>
-					</ul>
-				</li>
-			     -->
-			    <!-- mega menu -->
-			    <!-- mega menu -->
-			    <!-- mega menu --> 
 			  
            	    <!-- mega menu 01-->
 			    <!-- mega menu 01-->
 			    <!-- mega menu 01-->
-                <li class="dropdown menu-large">
+                <li class="dropdown menu-large disabled">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Level 1 B<b class="caret"></b></a>				
+					<!-- 
 					<ul class="dropdown-menu megamenu row">
 						<li class="col-sm-4">
 							<ul>
@@ -192,7 +152,9 @@
 							</ul>
 						</li>
 					</ul>
+					 -->
 				</li>
+				
 			    <!-- mega menu 01-->
 			    <!-- mega menu 01-->
 			    <!-- mega menu 01--> 
@@ -200,8 +162,9 @@
            	    <!-- plain menu 02-->
            	    <!-- plain menu 02-->
            	    <!-- plain menu 02-->
-                <li class="dropdown">
+                <li class="dropdown disabled">
                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Level 2<b class="caret"></b></a>
+                     <!-- 
                      <ul class="dropdown-menu meDropkick" >
                          <li>
                          	<a href='#' onclick="javascript:fn_main_headPageAction('12','QI/level_2.do')">CLD</a>
@@ -210,6 +173,7 @@
                          	<a href='#' onclick="javascript:fn_main_headPageAction('12','QI/level_2.do')">Cloud Amount</a>
                          </li>
                      </ul>
+                      -->
                  </li>
            	    <!-- plain menu 02-->
            	    <!-- plain menu 02-->
@@ -239,10 +203,10 @@
                  
                  
                  <li>
-                     <a href="#LINK" onclick="javascript:fn_main_headPageMove('51','cmm/sysSummary')" >시스템개요</a>
+                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('51','alternative/a.do')" >Alternative 1</a>
                  </li>
                  <li>
-                     <a href="#LINK" onclick="javascript:fn_main_headPageMove('61','cmm/reference')" >관련사이트</a>
+                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('61','alternative/b.do')" >Alternative 2</a>
                  </li>
   
              </ul>

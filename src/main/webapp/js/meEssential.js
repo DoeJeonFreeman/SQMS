@@ -581,6 +581,7 @@ $(document).ready(function () {//doejeon
 		var cbName = $(this).closest('div.meDraggableItem').attr('id');
 		$("input[name='" + cbName + "']").prop('checked',false); //	or .removeAttr('checked');
 		$('#'+cbName).remove();
+		map.remove( 'ts_'+cbName);
 	});
 	
 	

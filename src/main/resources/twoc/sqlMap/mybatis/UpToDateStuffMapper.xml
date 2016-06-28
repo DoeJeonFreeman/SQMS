@@ -11,7 +11,7 @@
   		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff
 		FROM CPP_RADIODETPARAM_V
 		WHERE  Detector=1 and Channel=1 and Name='SNR'
- 		AND PID=1 and INSTRUMENTMODE=4
+ 		AND PID=1 and INSTRUMENTMODE='LA'
   </select>
   
   <!-- TID 7이 Slope -->
@@ -20,7 +20,7 @@
   		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff
 		FROM CPP_RADIODETPARAM_V
 		WHERE  Detector=1 and Channel=4 
- 		AND PID=1 and INSTRUMENTMODE=4 AND INSTRUMENT='I'
+ 		AND PID=1 and INSTRUMENTMODE='LA' AND INSTRUMENT='I'
 		AND TID=7
   </select>
   
@@ -30,7 +30,7 @@
   		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff
 		FROM CPP_RADIODETPARAM_V
 		WHERE  Detector=1 and Channel=1 
- 		AND PID=1 and INSTRUMENTMODE=4 AND INSTRUMENT='V'
+ 		AND PID=1 and INSTRUMENTMODE='LA' AND INSTRUMENT='V'
 		AND TID=25
   </select>
   
@@ -41,19 +41,19 @@
   		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff
 		FROM CPP_RADIODETPARAM_V
 		WHERE  Detector=1 and Channel=4 
- 		AND PID=1 and INSTRUMENTMODE=4 AND INSTRUMENT='I'
+ 		AND PID=1 and INSTRUMENTMODE='LA' AND INSTRUMENT='I'
 		AND TID=31
   </select>
   
   
   
-  <!-- 미규현 -->
+  <!-- 미구현현 -->
   <select id="seekLatestStuff_IRNEDT" parameterType="string" resultType="UpToDateStuff">
  	SELECT 
   		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff
 		FROM CPP_RADIODETPARAM_V
 		WHERE  Detector=1 and Channel=4 
- 		AND PID=1 and INSTRUMENTMODE=4
+ 		AND PID=1 and INSTRUMENTMODE='LA'
 		AND TID=36
   </select>
   
@@ -68,7 +68,7 @@
   	SELECT 
   		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff 
 	FROM CPP_NAVPERFO_V
-	WHERE IMGMODE=1
+	WHERE IMGMODEID=4 AND PID=1
   </select>
   
 </mapper>

@@ -12,11 +12,31 @@
   			TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff
 			FROM CPP_RADIODETPARAM_V
 			WHERE  Detector=1 and Channel=1 and Name='SNR'
- 			AND PID=1 and INSTRUMENTMODE=4
+ 			AND PID=1 and INSTRUMENTMODE='LA'
 	</select>	
 	
 	
 	
+	<select id="selectTimeSeriesData_L1A_VSNR_Alternative" parameterType="hashmap" resultType="hashmap">
+	    SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR,     
+	    	max(case when Detector=0 then Value else null end) as DT_0, 
+	    	max(case when Detector=1 then Value else null end) as DT_1, 
+	    	max(case when Detector=2 then Value else null end) as DT_2, 
+	    	max(case when Detector=3 then Value else null end) as DT_3, 
+	    	max(case when Detector=4 then Value else null end) as DT_4, 
+	    	max(case when Detector=5 then Value else null end) as DT_5, 
+	    	max(case when Detector=6 then Value else null end) as DT_6, 
+	    	max(case when Detector=7 then Value else null end) as DT_7 
+			FROM CPP_RADIODETPARAM_V 
+			WHERE ImgRef like '${targetDate}%'  	 
+			AND Channel=1 AND Name='SNR' 
+			AND Detector IN (0,1,2,3,4,5,6,7) 
+			AND PID=1 
+			AND INSTRUMENTMODE='LA' 
+			GROUP BY IMGREFDT 
+			ORDER BY DSTR
+ 	</select>
+ 	
 	<select id="selectTimeSeriesData_L1A_VSNR" parameterType="hashmap" resultType="hashmap">
 	    SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, VALUE, DETECTOR
 			FROM CPP_RADIODETPARAM_V 
@@ -24,7 +44,7 @@
 			AND Channel=1 AND Name='SNR' 
 			AND Detector IN (0,1,2,3,4,5,6,7) 
 			AND PID=1 
-			AND INSTRUMENTMODE=4 
+			AND INSTRUMENTMODE='LA' 
 			ORDER BY dStr, detector
  	</select>
   
@@ -42,7 +62,7 @@
 	          AND Channel=1
 	          AND Name IN ('RadianceMin', 'RadianceMax','RadianceMean','RadianceMedian', 'RadianceSTD')
 	          AND PID=1
-	          AND INSTRUMENTMODE=4                        and INSTRUMENT='V'
+	          AND INSTRUMENTMODE='LA'                        and INSTRUMENT='V'
 	          GROUP BY IMGREFDT
 	          ORDER BY DSTR
  	</select>
@@ -56,7 +76,7 @@
 			AND Channel=1 
 			AND Name IN ('RadianceMin', 'RadianceMax','RadianceMean','RadianceMedian', 'RadianceSTD') 
 			AND PID=1 
-			AND INSTRUMENTMODE=4  and INSTRUMENT='V'
+			AND INSTRUMENTMODE='LA'  and INSTRUMENT='V'
 			ORDER BY dStr, name
  	</select>
   
@@ -77,7 +97,7 @@
 	       WHERE ImgRef like '${targetDate}%'      
 	       AND Detector=${detector}
 	       AND PID=1
-	       AND INSTRUMENTMODE=4
+	       AND INSTRUMENTMODE='LA'
 	       AND INSTRUMENT='V'
 	       AND Channel=1
 	       AND TID IN (25)
@@ -96,7 +116,7 @@
 	      AND Detector=${detector}
           AND INSTRUMENT='I'
 	      AND PID=1
-          AND INSTRUMENTMODE=4
+          AND INSTRUMENTMODE='LA'
           AND Channel=4
           AND TID IN (31)
           GROUP BY IMGREFDT,detector       									
@@ -122,7 +142,7 @@
            AND Detector = ${detector}
            AND INSTRUMENT='I'
 		   AND PID=1
-           AND INSTRUMENTMODE=4
+           AND INSTRUMENTMODE='LA'
            AND Channel BETWEEN 2 AND 5
            AND TID IN (36)
            GROUP BY IMGREFDT,Channel       									
@@ -232,13 +252,81 @@
   </select>
   
 
+	<!-- LEVEL 1 A ENVironment varialbes -->
+	<!-- LEVEL 1 A ENVironment varialbes -->
+	<!-- LEVEL 1 A ENVironment varialbes -->
+	<!-- LEVEL 1 A ENVironment varialbes -->
+	<!-- LEVEL 1 A ENVironment varialbes -->
+	<!-- 
+		25 TELESCOPE_PRIMARY_TMPR
+		
+		26 LOUVER_RADIATOR_TMPR 
+		
+		34 TELESCOPE_SECONDARY_TMPR1   
+		73 TELESCOPE_SECONDARY_TMPR2   
+		72 TELESCOPE_SECONDARY_TMPR3
+		
+		36 SCAN_MIRROR_TMPR   
+		
+		74 PRIMARY_BAFFLE_TMPR1   
+		75 PRIMARY_BAFFLE_TMPR2   
+		
+		6  EW_SERVO_CURRENT
+		
+		20 NS_SERVO_CURRENT
 
+	
+		CREATE OR REPLACE FUNCTION FC_ToModeStr( nImgMode IN CPP_IMG_PRODUCT_T.InstrumentMode%TYPE )
+	    RETURN VARCHAR2
+	    IS
+	        v_modeStr VARCHAR2(32);
+	    BEGIN
+	        CASE
+	            WHEN nImgMode = '0' THEN v_modeStr := 'FD';
+	            WHEN nImgMode = '1' THEN v_modeStr := 'ENH';
+	            WHEN nImgMode = '2' THEN v_modeStr := 'LSH';
+	            WHEN nImgMode = '3' THEN v_modeStr := 'APNH';
+	            WHEN nImgMode = '4' THEN v_modeStr := 'LA';
+	            WHEN nImgMode = '5' THEN v_modeStr := 'GOCI_DAY';
+	            WHEN nImgMode = '6' THEN v_modeStr := 'GOCI_NIGHT';
+	            WHEN nImgMode = '8' THEN v_modeStr := 'DARK';
+	            ELSE v_modeStr := 'Unknown';
+	        END CASE;
+	        return v_modeStr;
+	    END;
+	
+	
+		CREATE or replace VIEW DJF_RADIO_ENV_V AS
+		  SELECT
+		    ip.ID AS ID,  
+		    TO_CHAR(ip.IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR,
+		    p.ID AS PID, 
+		    p.NAME  PNAME,
+		    ip.ImgRef, 
+		    ip.ImgRefDT, 
+		    ip.InstrumentMode AS InstrumentMode,
+		    FC_ToModeStr(ip.InstrumentMode) AS InstrumentModeStr,
+		    ebag.AVGVALUE as VALUE, 
+		    ebag.VALUETYPE as TYPEID, 
+		    etype.name as TYPENAME
+		  FROM
+		    CPP_IMG_PRODUCT_T ip, CPP_RADIO_ENV_BAG_T ebag, CPP_RADIO_ENV_TYPE_T etype, CPP_PLATFORM_T p 
+		  WHERE ip.ID = ebag.IMAGEPRODUCT 
+		    AND ebag.VALUETYPE = etype.ID
+		    AND ip.Platform = p.ID
+		  ORDER BY ip.ImgRefDT;
 
-	
-	
-	
-	
-	
+		 -->
+
+ 	<select id="selectEnvData_L1A" parameterType="hashmap" resultType="hashmap">
+		select DSTR, VALUE, TYPEID, TYPENAME, InstrumentModeStr ,InstrumentMode, PNAME
+			from DJF_RADIO_ENV_V
+		 	where IMGREF LIKE '${targetDate}%' 
+		 	and InstrumentMode=4 and PID=1 
+		  	And TYPEID=${varType} 
+ 	</select>
+
+	<!--end of LEVEL 1 A ENVironment varialbes -->
 	
 	
 	
@@ -251,12 +339,12 @@
 	<!-- LEVEL 1 B -->
 	<!-- LEVEL 1 B -->
 
-	
+	<!-- 0:FD 1:ENH 2:LSH 3:APNH 4:LA  -->
  	<select id="selectTimeSeriesData_L1B_NVL" parameterType="hashmap" resultType="hashmap">
   		SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, ROIID, COUNT
 			FROM CPP_NAVPERFO_V
 			WHERE imgref LIKE '${targetDate}%'  	 
-			AND IMGMODE = 1
+			AND IMGMODEID = 1 AND PID=1
 			AND RoiID IN (1,2,3,4,5) 
 			ORDER BY DSTR, RoiID
  	</select>
@@ -265,9 +353,56 @@
 	  	SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, ROIID, AverageEW, AverageNS
 			FROM CPP_NAVPERFO_V
 			WHERE imgref LIKE '${targetDate}%'  	 
-			AND IMGMODE = 1
+			AND IMGMODEID = 1  AND PID=1
 			AND RoiID IN (1,2,3,4,5) 
 			ORDER BY DSTR, RoiID
+ 	</select>
+
+	<!-- JUNE 2016, DJFREEMAN -->
+	<!-- JUNE 2016, DJFREEMAN -->
+ 	<select id="selectTimeSeriesData_L1B_STDDEV" parameterType="hashmap" resultType="hashmap">
+	  	SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, ROIID, STDDEVEW, STDDEVNS
+			FROM CPP_NAVPERFO_V
+			WHERE imgref LIKE '${targetDate}%'  	 
+			AND IMGMODEID = 1 AND  PID=1
+			AND RoiID IN (1,2,3,4,5) 
+			ORDER BY DSTR, RoiID
+ 	</select>
+ 	<select id="selectTimeSeriesData_L1B_QUADDIST" parameterType="hashmap" resultType="hashmap">
+	  	SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, ROIID, QUADDIST
+			FROM CPP_NAVPERFO_V
+			WHERE imgref LIKE '${targetDate}%'  	 
+			AND IMGMODEID = 1 AND PID=1
+			AND RoiID IN (1,2,3,4,5) 
+			ORDER BY DSTR, RoiID
+ 	</select>
+ 	
+ 	
+ 	<select id="haha                                                      _L1B_IMC" parameterType="hashmap" resultType="hashmap">
+	  	SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, ROIID, AverageEW, AverageNS
+			FROM CPP_NAVPERFO_V
+			WHERE imgref LIKE '${targetDate}%'  	 
+			AND IMGMODEID = 1 AND PID=1
+			AND RoiID IN (1,2,3,4,5) 
+			ORDER BY DSTR, RoiID
+ 	</select>
+
+	<!-- L1B ENV Spacecraft Position -->
+ 	<select id="selectTimeSeriesData_L1B_SCPOS" parameterType="hashmap" resultType="hashmap">
+	  	SELECT TO_CHAR(IMGREF, 'YYYY-MM-DD HH24:MI:SS')as DSTR, CENTERX
+			FROM CPP_SCPOS_V
+			WHERE TO_CHAR(IMGREF, 'YYYY-MM-DD') LIKE '${targetDate}%'  	 
+			AND PID=1
+			ORDER BY DSTR
+ 	</select>
+ 	
+	<!-- L1B ENV Spacecraft Attitude -->
+ 	<select id="selectTimeSeriesData_L1B_SCATT" parameterType="hashmap" resultType="hashmap">
+	  	SELECT TO_CHAR(IMGREF, 'YYYY-MM-DD HH24:MI:SS')as DSTR, VALUEX, VALUEY, VALUEZ
+			FROM CPP_SCATT_V
+			WHERE TO_CHAR(IMGREF, 'YYYY-MM-DD') LIKE '${targetDate}%'  	 
+			AND PID=1
+			ORDER BY DSTR
  	</select>
 
 

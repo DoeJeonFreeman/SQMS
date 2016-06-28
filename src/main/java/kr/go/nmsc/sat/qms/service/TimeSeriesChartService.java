@@ -31,9 +31,19 @@ public interface TimeSeriesChartService {
 	//Level 1 A IR_NEDT   
 	ArrayList<HashMap<String,Object>> getSeriesRetrieval_L1A_IRNEDT (String targetDate, String detector) throws Exception;
 	
-	//Level 1 B
+	//Level 1 A ENV
+	ArrayList<HashMap<String,Object>> getSeriesRetrieval_L1A_ENV (String targetDate, String varType) throws Exception;
+	
+	//Level 1 B QI
 	ArrayList<HashMap<String,Object>> getSeriesRetrieval_L1B_NVL (String targetDate) throws Exception;
 	ArrayList<HashMap<String,Object>> getSeriesRetrieval_L1B_RAVG (String targetDate) throws Exception;
+	
+	ArrayList<HashMap<String,Object>> getSeriesRetrieval_L1B_STDDEV (String targetDate) throws Exception;
+	ArrayList<HashMap<String,Object>> getSeriesRetrieval_L1B_QUADDIST (String targetDate) throws Exception;
+	
+	//Level 1 B ENV
+	ArrayList<HashMap<String,Object>> getSeriesRetrieval_L1B_SCPOS (String targetDate) throws Exception;
+	ArrayList<HashMap<String,Object>> getSeriesRetrieval_L1B_SCATT (String targetDate) throws Exception;
 	
 //	MostRecentStuffVO retrievingIfArcticDataExists() throws Exception;
 //	MostRecentStuffVO findMatchingArcticData (String selectedDate) throws Exception;

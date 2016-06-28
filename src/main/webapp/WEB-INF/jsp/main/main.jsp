@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     
-	<title>위성품질통합관리시스템</title>
+	<title>위성통합품질관리시스템</title>
 	
 	<script src="${pageContext.request.contextPath}/js/jquery/jquery-1.9.1.js"></script>	
     <script src="${pageContext.request.contextPath}/resource/js/bootstrap.min.js"></script>
@@ -97,6 +97,9 @@
                 	
                 	<div class="col-md-7">
 	                	<div class="">
+	                		<iframe 	 
+	                			 width="800" height="500"
+	                			 src="http://2csolution.iptime.org:2131/nimrGlowEos/nationWideService/et/et_timeseries.jsp"> 이 브라우저는 iframe을 지원하지 않습니다.</iframe>
 							<!-- 
 							<div align="center" class=""> 
 								<div><h4 style="white-space: nowrap;"></h4></div>

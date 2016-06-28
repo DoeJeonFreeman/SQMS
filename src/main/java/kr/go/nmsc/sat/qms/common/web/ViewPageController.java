@@ -52,6 +52,23 @@ public class ViewPageController {
 	//testOnly
 	//=============================================================================================================
 	//=============================================================================================================
+	/** alternative/a.do */
+	@RequestMapping(value = "alternative/a.do")
+	public String alt0(HttpServletRequest request, ModelMap model) throws Exception{
+//		UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1A("CPP_RADIODETPARAM_V");
+		//2015.11.17데이터는 L1A만있어ㅠ 모든 변수 공통적으로 데이터 존재하는 날짜는 2013-08-09 임!!! L1A 환경정보는 2015년 11-17데이터밖에 없음ㅠ
+		UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1B("CPP_NAVPERFO_V");		
+		
+		model.addAttribute("extSeries", mostRecent);
+		return "_alternatives/alternative01";
+	}
+	/** alternative/b.do*/
+	@RequestMapping(value = "alternative/b.do")
+	public String alt1(HttpServletRequest request, ModelMap model) throws Exception{
+		UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1A("CPP_RADIODETPARAM_V");
+		model.addAttribute("extSeries", mostRecent);
+		return "_alternatives/alternative02";
+	}
 	//=============================================================================================================
 	//=============================================================================================================
 	/** test/snippet1.do */
@@ -83,6 +100,7 @@ public class ViewPageController {
 	public String test_5(HttpServletRequest request, ModelMap model) throws Exception{
 		return "_codeSnippet/snippet5";
 	}
+	
 	//=============================================================================================================
 	//=============================================================================================================
 	//=============================================================================================================
