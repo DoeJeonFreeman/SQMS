@@ -203,10 +203,10 @@
                  
                  
                  <li>
-                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('51','alternative/a.do')" >Alternative 1</a>
+                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('51','alternative/a.do')" >품질정보</a>
                  </li>
-                 <li>
-                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('61','alternative/b.do')" >Alternative 2</a>
+                 <li class="">
+                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('61','alternative/b.do')" >품질정보 2</a>
                  </li>
   
              </ul>

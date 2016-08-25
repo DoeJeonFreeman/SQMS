@@ -17,6 +17,33 @@
 	
 	
 	
+			<!-- 
+			WHERE ImgRef like '${targetDate}%'  	 
+			&lt; <
+			&gt; >
+					WHERE IMGREFDT BETWEEN TO_DATE('2013-08-03', 'YYYY-MM-DD') AND TO_DATE('2013-08-09', 'YYYY-MM-DD')
+			 -->
+	<select id="selectTimeSeriesData_L1A_VSNR_Alternative" parameterType="hashmap" resultType="hashmap">
+	    SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR,     
+	    	max(case when Detector=0 then Value else null end) as DT_0, 
+	    	max(case when Detector=1 then Value else null end) as DT_1, 
+	    	max(case when Detector=2 then Value else null end) as DT_2, 
+	    	max(case when Detector=3 then Value else null end) as DT_3, 
+	    	max(case when Detector=4 then Value else null end) as DT_4, 
+	    	max(case when Detector=5 then Value else null end) as DT_5, 
+	    	max(case when Detector=6 then Value else null end) as DT_6, 
+	    	max(case when Detector=7 then Value else null end) as DT_7 
+			FROM CPP_RADIODETPARAM_V 
+			WHERE Channel=1 AND Name='SNR' 
+			AND Detector IN (0,1,2,3,4,5,6,7) 
+			AND PID=1 
+			AND INSTRUMENTMODE='LA' 
+		    		AND IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+			GROUP BY IMGREFDT 
+			ORDER BY DSTR
+ 	</select>
+ 	<!-- 
 	<select id="selectTimeSeriesData_L1A_VSNR_Alternative" parameterType="hashmap" resultType="hashmap">
 	    SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR,     
 	    	max(case when Detector=0 then Value else null end) as DT_0, 
@@ -36,6 +63,7 @@
 			GROUP BY IMGREFDT 
 			ORDER BY DSTR
  	</select>
+ 	 -->
  	
 	<select id="selectTimeSeriesData_L1A_VSNR" parameterType="hashmap" resultType="hashmap">
 	    SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, VALUE, DETECTOR
@@ -57,7 +85,8 @@
 	      		max(case when Name = 'RadianceMedian' then Value else null end) as Median, 
 	      		max(case when Name = 'RadianceSTD' then Value else null end) as STD 
 	          FROM CPP_RADIODETPARAM_V
-	          WHERE ImgRef like '${targetDate}%'       
+	          WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')     
 	          AND Detector=#{detector}
 	          AND Channel=1
 	          AND Name IN ('RadianceMin', 'RadianceMax','RadianceMean','RadianceMedian', 'RadianceSTD')
@@ -71,7 +100,21 @@
  	<select id="selectTimeSeriesData_L1A_VR" parameterType="hashmap" resultType="hashmap">
 	    SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, VALUE ,NAME
 			FROM CPP_RADIODETPARAM_V 
-			WHERE ImgRef like '${targetDate}%'  	 
+			WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			AND Detector=#{detector} 
+			AND Channel=1 
+			AND Name IN ('RadianceMin', 'RadianceMax','RadianceMean','RadianceMedian', 'RadianceSTD') 
+			AND PID=1 
+			AND INSTRUMENTMODE='LA'  and INSTRUMENT='V'
+			ORDER BY dStr, name
+ 	</select>
+  
+ 	<select id="selectTimeSeriesData_L1A_VR ___dRange" parameterType="hashmap" resultType="hashmap">
+	    SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, VALUE ,NAME
+			FROM CPP_RADIODETPARAM_V 
+				  WHERE IMGREFDT &gt;= TO_DATE('2013-07-09', 'YYYY-MM-DD') 
+		    		AND IMGREFDT &lt;= TO_DATE('2013-08-09 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 			AND Detector=#{detector} 
 			AND Channel=1 
 			AND Name IN ('RadianceMin', 'RadianceMax','RadianceMean','RadianceMedian', 'RadianceSTD') 
@@ -90,11 +133,27 @@
   <!--2 Visible PRNU-->
   <!--2 Visible PRNU-->
   <!--2 Visible PRNU-->
+  <select id="selectTimeSeriesData_L1A_VisPRNU    _bk_ori" parameterType="hashmap" resultType="hashmap">
+      SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, detector,
+	   		max(case when TID = 25 then Value else null end) as VALUE 
+	       FROM CPP_RADIODETPARAM_V
+	       WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+    		 AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')     
+	       AND Detector=${detector}
+	       AND PID=1
+	       AND INSTRUMENTMODE='LA'
+	       AND INSTRUMENT='V'
+	       AND Channel=1
+	       AND TID IN (25)
+	       GROUP BY IMGREFDT,detector
+	       ORDER BY DSTR	
+  </select>
   <select id="selectTimeSeriesData_L1A_VisPRNU" parameterType="hashmap" resultType="hashmap">
       SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, detector,
 	   		max(case when TID = 25 then Value else null end) as VALUE 
 	       FROM CPP_RADIODETPARAM_V
-	       WHERE ImgRef like '${targetDate}%'      
+			       WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 	       AND Detector=${detector}
 	       AND PID=1
 	       AND INSTRUMENTMODE='LA'
@@ -112,7 +171,8 @@
       SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, detector, 		
       		max(case when TID = 31 then Value else null end) as VALUE 
           FROM CPP_RADIODETPARAM_V
-          WHERE ImgRef like '${targetDate}%'      
+          WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')      
 	      AND Detector=${detector}
           AND INSTRUMENT='I'
 	      AND PID=1
@@ -138,7 +198,8 @@
         SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, Channel, 		
        		max(case when TID = 36 then Value else null end) as VALUE 
            FROM CPP_RADIODETPARAM_V
-           WHERE ImgRef like '${targetDate}%'      
+           WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')      
            AND Detector = ${detector}
            AND INSTRUMENT='I'
 		   AND PID=1
@@ -195,7 +256,8 @@
 				cpp_img_product_t ipt, 
 				cpp_radio_param_type_t ptype
 					WHERE ipt.id = bag.imageproduct AND bag.paramtype = ptype.id
-					AND imgref LIKE '${targetDate}%'  	 
+					AND IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 					AND bag.paramtype in (7,8,28,30,31) 
 					AND ipt.instrumentmode=4 
 					AND bag.channel=4 
@@ -208,7 +270,8 @@
   <select id="selectTimeSeriesData_L1A_IR_alternative" parameterType="hashmap" resultType="hashmap">
   	SELECT p.imgref , b.paramvalue, c.paramvalue
 		FROM cpp_img_product_t p, CPP_RADIO_PARAM_BAG_T b, CPP_RADIO_PARAM_BAG_T c
-		WHERE imgref LIKE '${targetDate}%'  	 
+		WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+   		  AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
 		AND b.paramtype=7 and c.paramtype=30
 		AND p.instrumentmode=4 and  p.platform=1 
 		AND b.detector =1  and b.channel=4 
@@ -223,7 +286,8 @@
     	(Select paramvalue from cpp_radio_param_bag_t T7 where T7.imageproduct = p.id and T7.paramtype=7 and T7.channel=4 and T7.detector=1) as "PTYPE(7)",
         (Select paramvalue from cpp_radio_param_bag_t T30 where T30.imageproduct = p.id and T30.paramtype=30 and T30.channel=4 and T30.detector=1) as "PTYPE(30)"
     FROM cpp_img_product_t p
-	WHERE imgref LIKE '${targetDate}%'  	 
+	WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+	  AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
 	AND p.instrumentmode=4 
 	AND  p.platform=1 
 	ORDER BY p.imgref 
@@ -234,7 +298,8 @@
     	(Select paramvalue from cpp_radio_param_bag_t T8 where T8.imageproduct = p.id and T8.paramtype=8 and T8.channel=4 and T8.detector=1) as "PTYPE(8)",
         (Select paramvalue from cpp_radio_param_bag_t T28 where T28.imageproduct = p.id and T28.paramtype=28 and T28.channel=4 and T28.detector=1) as "PTYPE(28)"
     FROM cpp_img_product_t p
-	WHERE imgref LIKE '${targetDate}%'  	 
+	WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+	  AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
 	AND p.instrumentmode=4 
 	AND  p.platform=1 
 	ORDER BY p.imgref 
@@ -245,7 +310,8 @@
     	(Select paramvalue from cpp_radio_param_bag_t T8 where T8.imageproduct = p.id and T8.paramtype=8 and T8.channel=4 and T8.detector=1) as "PTYPE(8)",
         (Select paramvalue from cpp_radio_param_bag_t T31 where T31.imageproduct = p.id and T31.paramtype=31 and T31.channel=4 and T31.detector=1) as "PTYPE(31)"
     FROM cpp_img_product_t p
-	WHERE imgref LIKE '${targetDate}%'  	 
+	WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+      AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS') 	 
 	AND p.instrumentmode=4 
 	AND  p.platform=1 
 	ORDER BY p.imgref 
@@ -318,12 +384,31 @@
 
 		 -->
 
- 	<select id="selectEnvData_L1A" parameterType="hashmap" resultType="hashmap">
+ 	<select id="selectEnvData_L1A_DJFLocal" parameterType="hashmap" resultType="hashmap">
 		select DSTR, VALUE, TYPEID, TYPENAME, InstrumentModeStr ,InstrumentMode, PNAME
 			from DJF_RADIO_ENV_V
-		 	where IMGREF LIKE '${targetDate}%' 
+		 	where IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		      AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS') 
 		 	and InstrumentMode=4 and PID=1 
 		  	And TYPEID=${varType} 
+ 	</select>
+ 	
+ 	<!-- NMSC -->
+ 	<select id="selectEnvData_L1A" parameterType="hashmap" resultType="hashmap">
+ 		select TO_CHAR(ip.IMGREFDT, 'YYYY-MM-DD HH24:MI:SS' )as DSTR,
+  			ebag.AVGVALUE as VALUE, 
+  			ebag.VALUETYPE as TYPEID, 
+  			etype.name as TYPENAME, 
+  			FC_ToModeStr(ip.InstrumentMode) AS InstrumentModeStr,
+  			ip.INSTRUMENTMODE,
+  			p.name as PNAME
+				from CPP_IMG_PRODUCT_T ip, CPP_RADIO_ENV_BAG_T ebag, CPP_RADIO_ENV_TYPE_T etype, CPP_PLATFORM_T p
+			  		where ip.ID = ebag.IMAGEPRODUCT and ebag.VALUETYPE = etype.ID and ip.PLATFORM = p.ID
+				  		and  ip.ImgRefDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+				  		and  ip.ImgRefDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  
+				  		and ebag.VALUETYPE=${varType} 
+				  		and p.ID=1 and ip.InstrumentMode=4
+ 	
  	</select>
 
 	<!--end of LEVEL 1 A ENVironment varialbes -->
@@ -343,7 +428,8 @@
  	<select id="selectTimeSeriesData_L1B_NVL" parameterType="hashmap" resultType="hashmap">
   		SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, ROIID, COUNT
 			FROM CPP_NAVPERFO_V
-			WHERE imgref LIKE '${targetDate}%'  	 
+			WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		      AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS') 	 
 			AND IMGMODEID = 1 AND PID=1
 			AND RoiID IN (1,2,3,4,5) 
 			ORDER BY DSTR, RoiID
@@ -352,7 +438,8 @@
  	<select id="selectTimeSeriesData_L1B_RAVG" parameterType="hashmap" resultType="hashmap">
 	  	SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, ROIID, AverageEW, AverageNS
 			FROM CPP_NAVPERFO_V
-			WHERE imgref LIKE '${targetDate}%'  	 
+			WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		      AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
 			AND IMGMODEID = 1  AND PID=1
 			AND RoiID IN (1,2,3,4,5) 
 			ORDER BY DSTR, RoiID
@@ -363,7 +450,8 @@
  	<select id="selectTimeSeriesData_L1B_STDDEV" parameterType="hashmap" resultType="hashmap">
 	  	SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, ROIID, STDDEVEW, STDDEVNS
 			FROM CPP_NAVPERFO_V
-			WHERE imgref LIKE '${targetDate}%'  	 
+			WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		      AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')	 
 			AND IMGMODEID = 1 AND  PID=1
 			AND RoiID IN (1,2,3,4,5) 
 			ORDER BY DSTR, RoiID
@@ -371,7 +459,8 @@
  	<select id="selectTimeSeriesData_L1B_QUADDIST" parameterType="hashmap" resultType="hashmap">
 	  	SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, ROIID, QUADDIST
 			FROM CPP_NAVPERFO_V
-			WHERE imgref LIKE '${targetDate}%'  	 
+			WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		      AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS') 
 			AND IMGMODEID = 1 AND PID=1
 			AND RoiID IN (1,2,3,4,5) 
 			ORDER BY DSTR, RoiID
@@ -381,17 +470,31 @@
  	<select id="haha                                                      _L1B_IMC" parameterType="hashmap" resultType="hashmap">
 	  	SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, ROIID, AverageEW, AverageNS
 			FROM CPP_NAVPERFO_V
-			WHERE imgref LIKE '${targetDate}%'  	 
+			WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		      AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
 			AND IMGMODEID = 1 AND PID=1
 			AND RoiID IN (1,2,3,4,5) 
 			ORDER BY DSTR, RoiID
  	</select>
 
 	<!-- L1B ENV Spacecraft Position -->
- 	<select id="selectTimeSeriesData_L1B_SCPOS" parameterType="hashmap" resultType="hashmap">
+	<!-- 
+		SpaceCraft Position, Attitude, Velocity는 IMGREF가 timestamp임!!!! 
+		 CPP_SCPOS_V 
+		 CPP_SCATT_V 
+		 
 	  	SELECT TO_CHAR(IMGREF, 'YYYY-MM-DD HH24:MI:SS')as DSTR, CENTERX
 			FROM CPP_SCPOS_V
 			WHERE TO_CHAR(IMGREF, 'YYYY-MM-DD') LIKE '${targetDate}%'  	 
+			AND PID=1
+			ORDER BY DSTR
+	-->
+	<!-- SpaceCraft Position, Attitude, Velocity는 IMGREF가 timestamp임. IMGREFDT 컬럼 없음 -->
+ 	<select id="selectTimeSeriesData_L1B_SCPOS" parameterType="hashmap" resultType="hashmap">
+	  	SELECT TO_CHAR(IMGREF, 'YYYY-MM-DD HH24:MI:SS')as DSTR, CENTERX
+			FROM CPP_SCPOS_V
+			WHERE IMGREF &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		      AND IMGREF &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 	 
 			AND PID=1
 			ORDER BY DSTR
  	</select>
@@ -400,7 +503,8 @@
  	<select id="selectTimeSeriesData_L1B_SCATT" parameterType="hashmap" resultType="hashmap">
 	  	SELECT TO_CHAR(IMGREF, 'YYYY-MM-DD HH24:MI:SS')as DSTR, VALUEX, VALUEY, VALUEZ
 			FROM CPP_SCATT_V
-			WHERE TO_CHAR(IMGREF, 'YYYY-MM-DD') LIKE '${targetDate}%'  	 
+			WHERE IMGREF &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		      AND IMGREF &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 			AND PID=1
 			ORDER BY DSTR
  	</select>

@@ -12,58 +12,68 @@
     <meta name="description" content="">
     <meta name="author" content="">
     
-	<title>품질지표 Level 1 A</title>
+	<title>품질정보</title>
 	
  
-	<script src="<c:url value="/js/jquery/jquery-1.9.1.js"/>"></script>	
-    <script src="<c:url value="/resource/js/bootstrap.min.js"/>"></script>
-    
-<!-- 
- -->
-<link href="<c:url value="/css/sidebar.css"/>" rel="stylesheet">
+	<script src="${pageContext.request.contextPath}/js/jquery/jquery-1.9.1.js"></script>	
+    <script src="${pageContext.request.contextPath}/resource/js/bootstrap.min.js"></script>
+  	<!-- FuelUX 
+	    <script src="//www.fuelcdn.com/fuelux/3.13.0/js/fuelux.min.js"></script>
+		<script src="${pageContext.request.contextPath}/js/meFuel/treeStaticDataSource.js"></script>	
+  	-->  
+ 
+	<link href="${pageContext.request.contextPath}/css/sidebar.css" rel="stylesheet">
 
     <!-- JQuery UI -->
-    <link href="<c:url value="/js/jquery/ui/jquery-ui.css"/>" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/js/jquery/ui/jquery-ui.css" rel="stylesheet">
     <!-- Bootstrap Core CSS -->
-    <link href="<c:url value="/resource/css/bootstrap.min.css"/>" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resource/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="<c:url value="/resource/css/modern-business.css"/>" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resource/css/modern-business.css" rel="stylesheet">
     <!-- Custom Fonts -->
-    <link href="<c:url value="/resource/font-awesome/css/font-awesome.min.css"/>" rel="stylesheet" type="text/css">	
+    <link href="${pageContext.request.contextPath}/resource/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">	
+  	<!-- FuelUX
+	    <link href="//www.fuelcdn.com/fuelux/3.13.0/css/fuelux.min.css" rel="stylesheet">
+  	-->  
 	
 
 	<!-- datePicker -->
-	<link href="<c:url value="/js/daterangepicker/daterangepicker.css"/>" rel="stylesheet" type="text/css">	
-	<script type="text/javascript" src="<c:url value="/js/daterangepicker/moment.js"/>"></script>
-	<script type="text/javascript" src="<c:url value="/js/daterangepicker/daterangepicker.js"/>"></script>
+	<link href="${pageContext.request.contextPath}/js/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/daterangepicker/moment.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/daterangepicker/daterangepicker.js"></script>
     <!-- dateJS -->
-	<script type="text/javascript" src="<c:url value="/js/jquery/date.js"/>"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery/date.js"></script>
     <!-- JQuery UI -->
-	<script type="text/javascript" src="<c:url value="/js/jquery/ui/jquery-ui-1111.js"/>"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery/ui/jquery-ui-1111.js"></script>
+    <!-- spinner.js -->
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/meSpinner/spin.min.js"></script>
 	
 	
 <!-- 쓰잘 모조리 제거됨 ㅎㅎ -->
 <!-- 쓰잘 모조리 제거됨 ㅎㅎ -->
 <!-- 쓰잘 모조리 제거됨 ㅎㅎ -->
-<link href="<c:url value="/css/style_v2.css"/>" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/style_v2.css" rel="stylesheet">
     
 
 	
 <!-- 차트드로잉 관련 펑션 분리 -->
 <!-- 차트드로잉 관련 펑션 분리 -->
-<script src="<c:url value="/js/meDrawTimeseriesChart.js"/>"></script>
+<script src="${pageContext.request.contextPath}/js/meDrawTimeseriesChart.js"></script>
     
 	<!-- 2c.doe.hicharts-->
-	<script src="<c:url value="/js/highchart/highcharts.js"/>"></script>
-	<script src="<c:url value="/js/highchart/highcharts-more.js"/>"></script>
-	<script src="<c:url value="/js/highchart/modules/exporting.js"/>"></script>
-	<script src="<c:url value="/js/highchart/boost.js"/>"></script>
+	
+	<script src="${pageContext.request.contextPath}/js/highchart/highcharts.js"></script>
+	<script src="${pageContext.request.contextPath}/js/highchart/highcharts-more.js"></script>
+	<script src="${pageContext.request.contextPath}/js/highchart/modules/boost.src.djf.custom.js"></script>
+	<script src="${pageContext.request.contextPath}/js/highchart/modules/exporting.js"></script>
+	<script src="<c:url value="/js/highchart/modules/offline-exporting.js"/>"></script>
+	
 	
 	<!-- minimal ajax loading spinner -->
-	<script src="<c:url value="/js/preloader/jquery.pleaseWait.js"/>"></script>
+	<script src="${pageContext.request.contextPath}/js/preloader/jquery.pleaseWait.js"></script>
 	
 	<!-- slimScroll -->
-	<script src="<c:url value="/js/slimScroll/jquery.slimscroll.min.js"/>"></script>
+	<script src="${pageContext.request.contextPath}/js/slimScroll/jquery.slimscroll.min.js"></script>
 	
 
 
@@ -134,14 +144,15 @@
 		function getSelectedVarialbes(idx){
 			var selected = [];
 			$('#OPT_'+idx+' .checkboxes input:checked').each(function() {
-				//console.log($(this).attr('name'));
+//		sysout("getSelectedVarialbes(" + idx + ")");
+//		sysout($(this).attr('name'));
 			    selected.push($(this).attr('name'));
 			}); 
 			return selected;			
 		}
 	
 		
-		var charts = [];
+//		var charts = [];
 
 		  function syncTooltip(container, p) {
 		    var  data;
@@ -151,7 +162,7 @@
 		              data = chartObj.series[0].data;
 		              for(var j=0; j<data.length; j++){
 		                  if (data[j].x === p){
-		                	  //console.log(chartObj.container.id + ' :: selected point p is: ' + moment.utc(p).format("YYYY-MM-DD HH:mm:ss"))
+		                	  //sysout(chartObj.container.id + ' :: selected point p is: ' + moment.utc(p).format("YYYY-MM-DD HH:mm:ss"))
 		                	  var point = chartObj.series[0].data[j];
 		                	  chartObj.xAxis[0].drawCrosshair({ chartX: point.plotX, chartY: point.plotY}, point);
 							  if(chartObj.tooltip.shared) {
@@ -174,20 +185,51 @@
 		                  }        
 		              }
 		          }
-//		      }
 			  }); 
 		  }
 	
 	
 		/**
 		 * */
-		function showUpPreloader(targetDiv){
-			$('#'+targetDiv).pleaseWait({
+		function pleaseWait(targetDiv){
+			
+			sysout('pleaseWait(targetDiv):: #'+targetDiv);
+			
+			var opts = {
+					  lines: 13 // The number of lines to draw
+					, length:  18//38 // The length of each line
+					, width: 8 // The line thickness
+					, radius: 42 // The radius of the inner circle
+					, scale: 0.5 // Scales overall size of the spinner
+					, corners: 1 // Corner roundness (0..1)
+					, color: '#003366' // #rgb or #rrggbb or array of colors
+					, opacity: 0.25 // Opacity of the lines
+					, rotate: 0 // The rotation offset
+					, direction: 1 // 1: clockwise, -1: counterclockwise
+					, speed: 1 // Rounds per second
+					, trail: 81 // Afterglow percentage
+					, fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+					, zIndex: 2e9 // The z-index (defaults to 2000000000)
+					, className: 'spinner' // The CSS class to assign to the spinner
+					, top: '50%' // Top position relative to parent
+					, left: '50%' // Left position relative to parent
+					, shadow: false // Whether to render a shadow
+					, hwaccel: false // Whether to use hardware acceleration
+					, position: 'absolute' // Element positioning
+					}
+			
+//			var target = document.getElementById(targetDiv);
+//			var spinner = new Spinner(opts).spin(target);
+			var meSpinner = new Spinner(opts).spin();
+			$('#'+targetDiv).append(meSpinner.el);
+
+
+			/* $('#'+targetDiv).pleaseWait({
 				  crazy:false,
 				  speed:0,
 				  increment: 0,
 				  image:'${pageContext.request.contextPath}/resource/assets/preloader.gif',
-			}); 
+			});  */
 		} 
 		 
 		
@@ -196,72 +238,77 @@
 		리팩터링 시급ㅋㅋㅋㅋㅋㅋ 
 		리팩터링 시급ㅋㅋㅋㅋㅋㅋ 
 		*/ 
-		function drawTimeseries(targetDivId, varSelected,dStr){
-			charts.length = 0; //init chart refs
+		function drawTimeseries(targetDivId, varSelected, dStr){
+sysout('=============================================================================');			
+sysout('drawTimeseries(...) targetDivId is ' + targetDivId + ' varSelected :: ');
+sysout(varSelected);
+			//charts.length = 0; //init chart refs
 			if(varSelected.length==0) return;
 			//if(tabIndex==0){ 
+				//chartingPeriod 게산여기서
+				//chartingPeriod 게산여기서
+				var chartingPeriod =  $('#chartingPeriodSelector .selected').attr('value'); 
+				var d_xDaysAgo = moment(dStr, 'YYYY-MM-DD').toDate(); //use .toDate() to transform a moment object into a js date obj haha
+				d_xDaysAgo = moment(calcXDaysAgo(d_xDaysAgo, chartingPeriod)).format('YYYY-MM-DD');
+				sysout("chartingPeriod: " + chartingPeriod + " [" +  d_xDaysAgo + " ~ " +dStr +"]");
+				
 				$.each (varSelected, function(i,itm){ //itm == cb name attr
-					
-				//	console.log('['+i+'] ' + itm);
 					
 					var detectorNum = itm.substring(itm.lastIndexOf('_')+1,itm.length);
 					var typeOfChart = itm.split('_')[0]; //VR01		
 					
+					var meItem = 't' + $("#tabs").tabs('option', 'active') + '_ts_' + itm;
+					
 					if(typeOfChart=='L1A-QI01'){
 						var vsnrHTML =  getDraggableContainerHTML(itm, 'Visible SNR ',detectorNum);
 						$(targetDivId).append(vsnrHTML);
-						showUpPreloader('ts_'+itm);
+						pleaseWait(meItem);
 						var url_VSNR = '<c:url value='/' />timeseries/retrieval/L_1_A_VSNR';
-						addChart_VSNR(url_VSNR,dStr,'tabidxdoesntneedanymore', detectorNum, 'ts_'+itm);					
+						addChart_VSNR(url_VSNR,dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					}else if(typeOfChart=='L1A-QI02'){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Visible Radiance ',detectorNum);
 						$(targetDivId).append(radianceHTML);
-						showUpPreloader('ts_'+itm);
+						pleaseWait(meItem);
 						var url_VR = '<c:url value='/' />timeseries/retrieval/L_1_A_VR';
-						addChart_VRadiance(url_VR, dStr,'tabidxdoesntneedanymore', detectorNum, 'ts_'+itm);					
+						addChart_VRadiance(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					}else if(typeOfChart=='L1A-QI03'){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Visible PRNU ',detectorNum);
 						$(targetDivId).append(radianceHTML);
-						showUpPreloader('ts_'+itm);
+						pleaseWait(meItem);
 						var url_VPRNU = '<c:url value='/' />timeseries/retrieval/L_1_A_VisblePRNU';
-						addChart_VisiblePRNU(url_VPRNU, dStr,'tabidxdoesntneedanymore', detectorNum, 'ts_'+itm);					
+						addChart_VisiblePRNU(url_VPRNU, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					}else if(typeOfChart=='L1A-QI04'){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'IR Radiance',detectorNum);
 						$(targetDivId).append(radianceHTML);
-						showUpPreloader('ts_'+itm);
+						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_A_IRRS';
-						addChart_IRRS(url, dStr,'tabidxdoesntneedanymore', detectorNum, 'ts_'+itm);					
+						addChart_IRRS(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					}else if(typeOfChart=='L1A-QI05'){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'IR NEDT',detectorNum);
 						$(targetDivId).append(radianceHTML);
-						showUpPreloader('ts_'+itm);
+						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_A_IRNEDT';
-						addChart_IR_NEDT(url, dStr,'tabidxdoesntneedanymore', detectorNum, 'ts_'+itm);					
+						addChart_IR_NEDT(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					}else if(typeOfChart=='L1A-QI06'){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'IR PRNU',detectorNum);
 						$(targetDivId).append(radianceHTML);
-						showUpPreloader('ts_'+itm);
+						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_A_IRPRNU';
-						addChart_IR_PRNU(url, dStr,'tabidxdoesntneedanymore', detectorNum, 'ts_'+itm);					
-				//Level 1 A Environment Variables	
-				//Level 1 A Environment Variables	
+						addChart_IR_PRNU(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 				//Level 1 A Environment Variables	
 					}else if(typeOfChart.startsWith("L1A-EV")){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Level 1 A ENV','nodet');
 						$(targetDivId).append(radianceHTML);
-						showUpPreloader('ts_'+itm);
+						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_A_ENV';
-						addChart_L1A_ENV(url, dStr,'tabidxdoesntneedanymore', detectorNum, 'ts_'+itm);					
-				//Level 1 A Environment Variables	
-				//Level 1 A Environment Variables	
+						addChart_L1A_ENV(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 				//Level 1 A Environment Variables	
 						
-				
 				
 					//Level 1 B QI	
 					//Level 1 B QI	
@@ -270,30 +317,30 @@
 					}else if(typeOfChart=='L1B-QI02'){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Number of Valid Landmarks','nodet');
 						$(targetDivId).append(radianceHTML);
-						showUpPreloader('ts_'+itm);
+						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_B_NVL';
-						addChart_LV1B_QI_NumOfLandmarks(url, dStr,'tabidxdoesntneedanymore', detectorNum, 'ts_'+itm);					
+						addChart_LV1B_QI_NumOfLandmarks(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					}else if(typeOfChart=='L1B-QI03'){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Landmark Residual - Average (EW/NS)','nodet');
 						$(targetDivId).append(radianceHTML);
-						showUpPreloader('ts_'+itm);
+						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_B_RAVG';
-						addChart_LV1B_QI_ResidualAvg(url, dStr,'tabidxdoesntneedanymore', detectorNum, 'ts_'+itm);					
+						addChart_LV1B_QI_ResidualAvg(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 					//Residual Standard Deviation (EW/NS)	
 					}else if(typeOfChart=='L1B-QI04'){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Residual Standard Deviation','nodet');
 						$(targetDivId).append(radianceHTML);
-						showUpPreloader('ts_'+itm);
+						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_B_STDDEV';
-						addChart_LV1B_QI_ResidualStdDev(url, dStr,'tabidxdoesntneedanymore', detectorNum, 'ts_'+itm);					
+						addChart_LV1B_QI_ResidualStdDev(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 					//Residual Quadratic Distance 	
 					}else if(typeOfChart=='L1B-QI05'){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Residual Quadratic Distance','nodet');
 						$(targetDivId).append(radianceHTML);
-						showUpPreloader('ts_'+itm);
+						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_B_QUADDIST';
-						addChart_LV1B_QI_ResidualQuadraticDistance(url, dStr,'tabidxdoesntneedanymore', detectorNum, 'ts_'+itm);					
+						addChart_LV1B_QI_ResidualQuadraticDistance(url, dStr, d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					//Level 1 B ENV	
 					//Level 1 B ENV		
@@ -301,40 +348,35 @@
 					}else if(typeOfChart=='L1B-EV01'){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Spacecraft Position','nodet');
 						$(targetDivId).append(radianceHTML);
-						showUpPreloader('ts_'+itm);
+						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_B_SCPOS';
-						addChart_LV1B_EV_SCPOS(url, dStr,'tabidxdoesntneedanymore', detectorNum, 'ts_'+itm);					
+						addChart_LV1B_EV_SCPOS(url, dStr, d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 					//Spacecraft Attitude	
 					}else if(typeOfChart=='L1B-EV02'){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Spacecraft Attitude','nodet');
 						$(targetDivId).append(radianceHTML);
-						showUpPreloader('ts_'+itm);
+						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_B_SCATT';
-						addChart_LV1B_EV_SCATT(url, dStr,'tabidxdoesntneedanymore', detectorNum, 'ts_'+itm);					
+						addChart_LV1B_EV_SCATT(url, dStr, d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 					}
 					
 				});
 			//}
 			WinMove();
 		
-			
-			/* $.each( map.keys(), function( index, keyStr ){
-			    //console.log(keyStr);
-		        charts.push(map.get(keyStr));
-			}); */
-	//		//console.log(map.values());
-	//		//console.log(map.keys());
-	//		//console.log(map.get("ts_QI0_IR01_1"));
-	//		//console.log(charts[0].highcharts());
-			//										//console.log(charts[0]);
-	//		//console.log(map.values());
+	//		//sysout(map.values());
+	//		//sysout(map.keys());
+	//		//sysout(map.get("ts_QI0_IR01_1"));
+	//		//sysout(charts[0].highcharts());
+			//										//sysout(charts[0]);
+	//		//sysout(map.values());
 	//=============================================================					
 		/* 	$.each( map.keys(), function( index, keyStr ){
-			    //console.log(keyStr);
+			    //sysout(keyStr);
 			    var chartCont = map.get(keyStr);
 		        charts.push(chartCont.highcharts());
 			});
-			//console.log(charts[0]); */
+			//sysout(charts[0]); */
 	/* 			$.each(charts, function (index, content){
 				
 			}); */
@@ -349,19 +391,19 @@
 		/** pannel_dateRetrieval begin*/
 		/** pannel_dateRetrieval begin*/
 		function meRequest(meDateObj){
-			var idx = $("#optionPanel").tabs('option', 'active');
+			var idx = $("#tabs").tabs('option', 'active');
 			var targetTab = '#TSCWrapper' + idx;
 			drawTimeseries(targetTab,getSelectedVarialbes(idx), meDateObj.format('YYYY-MM-DD'));
-//			//console.log('[charts.length after drawTimesereis() ] ' + charts.length);
+//			//sysout('[charts.length after drawTimesereis() ] ' + charts.length);
 		}
 		
 		
-		var minDate = new Date(2007,0,01);
+		var minDate = new Date(2013,3,01);
 		var recentStuffArr = "${extSeries.compbegindate4Cal}".split('-');
-//		var mostRecentDate = new Date(recentStuffArr[0],recentStuffArr[1]-1,recentStuffArr[2]); 
+		var mostRecentDate = new Date(recentStuffArr[0],recentStuffArr[1]-1,recentStuffArr[2]); 
 		//L1A 환경정보 표출땜에 ㅎ
-		var mostRecentDate = new Date(2015,10,17);
-		/* //console.log(mostRecentDate instanceof Date && !isNaN(mostRecentDate.valueOf())) */
+//		var mostRecentDate = new Date(2015,10,17);
+		/* //sysout(mostRecentDate instanceof Date && !isNaN(mostRecentDate.valueOf())) */
 		
 		function getDateCalculated(whichOperator){
 			var dStrArr =  $("#meNMSCDemo").val().split('-');		
@@ -370,13 +412,13 @@
 			var dateTarget = getRetrievalInterval(whichOperator,currDate);
 			
 			if(dateTarget.getTime() < minDate.getTime()){
-				alert("자료 제공 범위는 2007-01-01 부터  ${extSeries.compbegindate4Cal}까지 입니다.");
+				alert("자료 제공 범위는 2013-04-01 부터  ${extSeries.compbegindate4Cal}까지 입니다.");
 				$('#meNMSCDemo').data('daterangepicker').setStartDate(moment(minDate).format('YYYY-MM-DD'));
 				$('#meNMSCDemo').data('daterangepicker').setEndDate(moment(minDate).format('YYYY-MM-DD'));
 				$('#meNMSCDemo').val(moment(minDate).format('YYYY-MM-DD'));
 				meRequest(moment(minDate));
 			}else if(dateTarget.getTime() > mostRecentDate.getTime()){
-				alert("자료 제공 범위는 2007-01-01 부터  ${extSeries.compbegindate4Cal}까지 입니다.");
+				alert("자료 제공 범위는 2013-04-01 부터  ${extSeries.compbegindate4Cal}까지 입니다.");
 				$("#btn_getMostRecentOne").trigger( "click" );
 			}else{
 				$('#meNMSCDemo').data('daterangepicker').setStartDate(moment(dateTarget).format('YYYY-MM-DD'));
@@ -454,39 +496,28 @@
 					// var range = $('#dataRangeChooser').find(":selected").val()+'';
 			        // requestData( $("#datepicker").val().split('-').join(''),  range, ui.newTab.index());
 			        
-	//				$('#checkboxes input:checked').each(function() {
-	//				    selected.push($(this).attr('name'));
-	//				});
-					
-	//				var str2print='';
-	//				$.each (selected, function(i,val){
-	//					str2print += val+'\n';	
-	//				});
-	//				drawTimeseries(ui.newTab.index()*1, selected);
-					////console.log(ui.newTab.index()*1);
-					
+					sysout('tab activated: ' + ui.newTab.index()*1 )
+				/* 	
 					 $('.classySnob').each(function(){
 						 $(this).pleaseWait('stop');	
 					 });
-			
-					
+			 */
 					var idx = ui.newTab.index()*1;
 					var targetTab = '#TSCWrapper' + idx;
-					//alert(getSelectedVarialbes().length);
 					
-if(idx==2){
-	$('#meNMSCDemo').data('daterangepicker').setStartDate('2013-08-09');
-	$('#meNMSCDemo').data('daterangepicker').setEndDate('2013-08-09');
-	$('#meNMSCDemo').val('2013-08-09');	
-}					
 					drawTimeseries(targetTab, getSelectedVarialbes(idx),$("#meNMSCDemo").val());
-					//console.log('[charts.length after drawTimesereis() ] ' + charts.length);
+					sysout('[map.keys after #tabs'+idx +' activation ] ');
+					$.each( map.keys(), function( i, key){
+						sysout(i +' : '+ key)
+					}); 
 					
-/* 					
-		        	$('.classySnob').each(function() {  
+		        	$(targetTab+' .classySnob').each(function() {  
 			        	$(this).highcharts().reflow();
 		        	});
-	 */
+		        	
+		        	
+		        	
+		        	
 		        },active:0	
 		    });
 			$('#optionPanel').tabs({
@@ -497,7 +528,7 @@ if(idx==2){
 			 $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
 			        var currentTab = $(e.target).text(); 
 			        var previousTab = $(e.relatedTarget).text(); 
-		//	        //console.log($("#tabs").tabs('option', 'active') + ' / ' + currentTab);
+		//	        //sysout($("#tabs").tabs('option', 'active') + ' / ' + currentTab);
 			        var idx = $("#tabs").tabs('option', 'active')       //getter
 			        $("#optionPanel").tabs('option', 'active', idx*1)   //setter
 		    });
@@ -505,14 +536,17 @@ if(idx==2){
 	
 		 
 		    $("#menu-toggle-2").click(function(e) {
-		        e.preventDefault();
+		        //e.preventDefault();
 		        $("#wrapper").toggleClass("toggled-2");
 		        //$('.highcharts-container').each(function() { $(this).resize();});
 		        //$('.classySnob').each(function() {  $(this).highcharts().reflow();});
-		        $('.classySnob').each(function() {  
-//		        	//console.log($(this));
-//		        	//console.log('reflow()');
-		        	$(this).highcharts().reflow();
+//		        $('.classySnob').each(function() {  
+		        $('.meDraggableItem').each(function() {  
+//		        	sysout($(this));
+//		        	sysout('#menu-toggle-2.click function(e) reflow()');
+	//	        	$(this).resize(); //it doesnt work
+//		        	$(this).trigger("resize"); //it doesnt work
+//		        	$(this).highcharts().reflow();  //it doesnt work
 	        	});
 		        $('#menu ul').hide();
 		    });
@@ -524,14 +558,14 @@ if(idx==2){
  			$(".checkboxes :checkbox").change(function(e){
 				if ($(this).is(":checked")){
 					
-					var idx = $("#optionPanel").tabs('option', 'active');
+					var idx = $("#tabs").tabs('option', 'active');
 					var targetTab = '#TSCWrapper' + idx;
 
 					var selected = [];
 				    selected.push($(this).attr('name'));
 					
 					drawTimeseries(targetTab, selected,$("#meNMSCDemo").val());
-					//console.log('[charts.length after drawTimesereis() ] ' + charts.length);
+					//sysout('[charts.length after drawTimesereis() ] ' + charts.length);
 					///////////////////////////////////////////
 					/* 
 					var vsnrHTML =  getDraggableContainerHTML('vsnr_det_', 'Visible SNR ',$(this).attr('name'));
@@ -542,17 +576,23 @@ if(idx==2){
 					
 					// meCombineDroppables(divId);
 					// scroll down transition effect? 
+							
+//					$.each( map.keys(), function( i, key){
+//						sysout(i +' : '+ key)
+//					}); 		
+							
 				}else{
-					var idx = $("#optionPanel").tabs('option', 'active');
+					var idx = 't' + $("#tabs").tabs('option', 'active') + '_';
 					var targetTab = '#TSCWrapper' + idx;
-					$('#'+$(this).attr('name')).remove();
 					
-					var chartId = 'ts_'+$(this).attr('name')
-					map.remove(chartId);
-					
-				/* 	$.each( map.keys(), function( i, key){
-						console.log(i +' : '+ key)
-					}); */
+					$('#'+idx+$(this).attr('name')).remove();
+					var chartId4map = idx+  'ts_'+$(this).attr('name')
+					map.remove(chartId4map);
+					sysout("unchecked.remove() " + idx+$(this).attr('name'));
+					sysout('==> remove [' + chartId4map + '] from maps');
+//			$.each( map.keys(), function( i, key){
+//				sysout(i +' : '+ key)
+//			}); 
 				} 
 				WinMove();
 			});
@@ -564,10 +604,10 @@ if(idx==2){
  			$('#OPT_'+idx+' .checkboxes input:checked').each(function() {
 			    selected.push($(this).attr('name'));
 			});  */
-			var idx = $("#optionPanel").tabs('option', 'active');
+			var idx = $("#tabs").tabs('option', 'active');
 			var targetTab = '#TSCWrapper' + idx;
 			drawTimeseries(targetTab, getSelectedVarialbes(idx),$("#meNMSCDemo").val());
-			//console.log('[charts.length after drawTimesereis() ] ' + charts.length);
+			//sysout('[charts.length after drawTimesereis() ] ' + charts.length);
 			//resize draggableITem
 			//resize draggableITem
 			var itemSize=6;
@@ -590,10 +630,15 @@ if(idx==2){
 				itemSize = size;
 				//resize div and reflow!!!
 				//$('#ts_vsnr_det_0').highcharts().reflow(); //test only
-				$('.classySnob').each(function() { $(this).highcharts().reflow();});
+				$('.classySnob').each(function() { 
+					$(this).highcharts().reflow();
+					
+				});
 			}; 
 			//resize draggableITem
 			//resize draggableITem
+			
+
 			
 		});
 	</script>
@@ -604,7 +649,7 @@ if(idx==2){
 	<script src="<c:url value="/js/meEssential.js"/>"></script>
 </head>
 
-<body id="fabulousbdtc">
+<body id="fabulousbdtc"  >
 	<noscript>자바스크립트를 지원하지 않는 브라우저에서는 일부 기능을 사용하실 수 없습니다.</noscript>	
 	<!-- 전체 레이어 시작 -->
 	
@@ -631,6 +676,8 @@ if(idx==2){
 		            <input type="text" id="meNMSCDemo" class="form-control" readonly="readonly">
 		            <i class="fa fa-calendar"></i>	
 		          </div>
+		          
+		          
 		          
 	             <div class="vcenter">
 	            	<div class="pull-left" style="margin-right: 15px;">
@@ -685,13 +732,33 @@ if(idx==2){
 					 -->
 					</div>
 	            	
+	            		
+	            	<div id="chartingPeriodSelector" class="dropdown select pull-left" style="margin-left: 3px;margin-right: 3px">&nbsp;&nbsp;&nbsp;Charting Periods: &nbsp;
+					    <button class="  btn-small dropdown-toggle " type="button" id="menu1" data-toggle="dropdown" style="margin-top:6px;">
+					    	<span class="selected" id="1" value="DAILY">Daily</span><span class="caret"></span>
+				    	</button>
+					    <ul class="dropdown-menu option" role="menu" >
+					      <li id="1" role="presentation" value="DAILY"><a role="menuitem" tabindex="-1" >Daily</a></li>
+					      <li id="2" role="presentation" value="WEEKLY"><a role="menuitem" tabindex="-1" >Weekly</a></li>
+					      <li id="3" role="presentation" value="MONTHLY"><a role="menuitem" tabindex="-1" >Monthly</a></li>
+					      <li id="4" role="presentation" value="QUARTERLY"><a role="menuitem" tabindex="-1" >Quarterly</a></li>
+					      <li id="5" role="presentation" value="BIANNUALLY"><a role="menuitem" tabindex="-1" >Biannually</a></li>
+					      <!-- 
+					      <li role="presentation" class="divider"></li>
+					       -->
+					    </ul>
+				    </div>
+				    
+	            	<div class="pull-left" style="margin-right: 15px;">
+	            		<button  type="button" class="meBtn meBtn-primary meBtn-lg outline " style="margin-top:2px;" id="btn_enableRangePicker">Custom-range</button>
+	            	</div>
 					
 	            </div>	
             
             
            		<div class="pull-right" style="padding-right:50px;"> 
 	            	<ul id="breadcrumbs-one" class="pull-right vcenter" >
-						<li><a href="<c:url value='/cmm/main/mainPage.do'/>">Home</a></li>
+						<li><a href="${pageContext.request.contextPath}/cmm/main/mainPage.do">Home</a></li>
 						<li><a>Level 1 A</a></li>
 						<li><a>품질지표</a></li>
 					</ul>
@@ -711,18 +778,44 @@ if(idx==2){
 	        		$('#'+i+' .selected').attr('value',valStr);
 	        		//var haha = $('#retrievalRangeSelector .selected').attr('value');
 	        	});
+	        	
+	        	$('#chartingPeriodSelector').on('click','.option li',function(){
+	        		var i = $(this).parents('.select').attr('id');
+	        		var v = $(this).children().text();
+	        		var o = $(this).attr('id');
+	        		var valStr = $(this).attr('value'); // (WEEK || MONTH || YEAR)
+	        		$('#'+i+' .selected').attr('id',o);
+	        		$('#'+i+' .selected').text(v);
+	        		$('#'+i+' .selected').attr('value',valStr);
+	        		//var haha = $('#retrievalRangeSelector .selected').attr('value');
+					var selectedDateObj= moment($("#meNMSCDemo").val(), 'YYYY-MM-DD'); //.toDate(); //use .toDate() to transform a moment object into a js date obj haha
+					meRequest(selectedDateObj);					
+	        	});
         	
         		$('#btn_getMostRecentOne').click(function(){
         			//change the selected date range of that picker
         			$('#meNMSCDemo').data('daterangepicker').setStartDate('<c:out value="${extSeries.compbegindate4Cal}" />');
-//        			$('#meNMSCDemo').data('daterangepicker').setEndDate('<c:out value="${extSeries.compbegindate4Cal}" />');
-//        			$('#meNMSCDemo').val('<c:out value="${extSeries.compbegindate4Cal}" />');
-        			$('#meNMSCDemo').data('daterangepicker').setEndDate('2015-11-17');
-        			$('#meNMSCDemo').val('2015-11-17');
+        			$('#meNMSCDemo').data('daterangepicker').setEndDate('<c:out value="${extSeries.compbegindate4Cal}" />');
+        			$('#meNMSCDemo').val('<c:out value="${extSeries.compbegindate4Cal}" />');
+//        			$('#meNMSCDemo').data('daterangepicker').setEndDate('2015-11-17');
+//        			$('#meNMSCDemo').val('2015-11-17');
 					//click event는 발생안하네        			
         			meRequest(moment(mostRecentDate));
         		});
         	
+        		$('#btn_enableRangePicker').click(function(){
+/*         			$('#meNMSCDemo').daterangepicker({
+        				  locale: { singleDatePicker: true????? }  
+        			});
+ */        			sysout('#btn_enableRangePicker.click.function()');
+        			$('#meNMSCDemo').daterangepicker({ 
+        				singleDatePicker: false
+        				, timePicker: true
+        			    , timePicker24Hour: true
+					});
+ 					
+        		});
+        		
         		
         		$('#meNMSCDemo').daterangepicker({
         			locale: {
@@ -738,11 +831,11 @@ if(idx==2){
 //        		    "endDate" : "2013-08-09",
         		    "maxDate": "<c:out value="${extSeries.compbegindate4Cal}" />"     //today
         			}, function(start, end, label) {
-        				var idx = $("#optionPanel").tabs('option', 'active');
+        				var idx = $("#tabs").tabs('option', 'active');
         				var targetTab = '#TSCWrapper' + idx;
         				
         				drawTimeseries(targetTab, getSelectedVarialbes(idx), start.format('YYYY-MM-DD'));
-        				//console.log('[charts.length after drawTimesereis() ] ' + charts.length);
+        				//sysout('[charts.length after drawTimesereis() ] ' + charts.length);
            		});
 		        	
 		    </script>    
@@ -763,12 +856,17 @@ if(idx==2){
         
         	<div id="optionPanel" >
             	<!-- tab menus begin-->
-            	<ul class="hidden">    
-					<li><a href="#OPT_0" data-toggle="tab">Level 1 A 품질지표</a></li>    
-					<li><a href="#OPT_1" data-toggle="tab">Level 1 A 환경정보</a></li>    
-					<li><a href="#OPT_2" data-toggle="tab">Level 1 B 품질지표</a></li>    
-					<li><a href="#OPT_3" data-toggle="tab">Level 1 B 환경정보</a></li>    
-					<li><a href="#OPT_4" data-toggle="tab">Level 2 품질지표</a></li>    
+            	<ul class="hidden"> 
+					<li><a href="#OPT_0" data-toggle="tab">same old sht</a></li>    
+					<li><a href="#OPT_1" data-toggle="tab">same old sht</a></li>    
+					<li><a href="#OPT_2" data-toggle="tab">same old sht</a></li>    
+					<!-- 
+						<li><a href="#OPT_0" data-toggle="tab">Level 1 A 품질지표</a></li>    
+						<li><a href="#OPT_1" data-toggle="tab">Level 1 A 환경정보</a></li>    
+						<li><a href="#OPT_2" data-toggle="tab">Level 1 B 품질지표</a></li>    
+						<li><a href="#OPT_3" data-toggle="tab">Level 1 B 환경정보</a></li>    
+						<li><a href="#OPT_4" data-toggle="tab">Level 2 품질지표</a></li>    
+					 -->
 				</ul> 
             	<!--tab menus end-->
             	<!-- tab body    row가 패딩속성땜에 250넘어서 hscrollbar 생김 ㅎㅎ-->
@@ -778,17 +876,19 @@ if(idx==2){
 			        	<c:import url="/mePageLink.do?link=_alternatives/WHOLE_CONDITIONS" />
                		</div>
                		<div id="OPT_1" >
-			        	<c:import url="/mePageLink.do?link=QI/QI_LV1A_EI_conditions" />
+			        	<c:import url="/mePageLink.do?link=_alternatives/WHOLE_CONDITIONS" />
                		</div>
                		<div id="OPT_2" >
-			        	<c:import url="/mePageLink.do?link=QI/QI_LV1B_conditions" />
+			        	<c:import url="/mePageLink.do?link=_alternatives/WHOLE_CONDITIONS" />
                		</div>
-               		<div id="OPT_3" >
-			        	<c:import url="/mePageLink.do?link=QI/QI_LV1B_EI_conditions" />
-               		</div>
-               		<div id="OPT_4" >
-			        	<c:import url="/mePageLink.do?link=QI/QI_LV2_conditions" />
-               		</div>
+               		<!-- 
+	               		<div id="OPT_3" >
+				        	<c 		import url="/mePageLink.do?link=QI/QI_LV1B_EI_conditions" />
+	               		</div>
+	               		<div id="OPT_4" >
+				        	<c 		import url="/mePageLink.do?link=QI/QI_LV2_conditions" />
+	               		</div>
+               		 -->
         
        			</div>		 
  			</div>       
@@ -800,30 +900,36 @@ if(idx==2){
         <div id="page-content-wrapper">
             <div id="tabs" class=""><!-- class="container-fluid xyz" -->
             	<!-- tab menus begin-->
-            	<ul class="hidden">    
-					<li><a href="#TSCWrapper0" data-toggle="tab">Level 1 A 품질지표</a></li>    
-					<li><a href="#TSCWrapper1" data-toggle="tab">Level 1 A 환경정보</a></li>    
-					<li><a href="#TSCWrapper2" data-toggle="tab">Level 1 B 품질지표</a></li>    
-					<li><a href="#TSCWrapper3" data-toggle="tab">Level 1 B 환경정보</a></li>    
-					<li><a href="#TSCWrapper4" data-toggle="tab">Level 2 품질지표</a></li>    
+            	<ul> <!--ul class="hidden" -->  
+					<li><a href="#TSCWrapper0" data-toggle="tab"> Tab 1 </a></li>    
+					<li><a href="#TSCWrapper1" data-toggle="tab"> Tab 2 </a></li>    
+					<li><a href="#TSCWrapper2" data-toggle="tab"> Tab 3 </a></li>    
+					<!-- 
+					<li><a href="#TSCWrapper0" data-toggle="tab"> TAB Menu-always visible </a></li>    
+					<li><a href="#TSCWrapper1" data-toggle="tab"> Create new tabs dynamically </a></li>    
+					<li><a href="#TSCWrapper2" data-toggle="tab"> Store USER_SELECTED_CONDITIONS into cookie </a></li>    
+					 -->
 				</ul> 
             	<!--tab menus end-->
             	<!-- tab body-->   
                 <div class="row">
              		<!--FIRST TAB-->
-               		<div id="TSCWrapper0" ></div>
+               		<div id="TSCWrapper0" > 
+               			<!--  
+               			-->
+               			
+					  
+               			
+             		</div>
                		   
 					<!--SECOND TAB-->
-					<div id="TSCWrapper1"></div>
+					<div id="TSCWrapper1">	
+						<!-- <div class="loader" data-initialize="loader" id="myLoader"></div>-->
+					</div>
 					
 					<!--THIRD TAB-->
 					<div id="TSCWrapper2"></div>
 					
-					<!--4th TAB-->
-					<div id="TSCWrapper3"></div>
-					
-					<!--5th TAB-->
-					<div id="TSCWrapper4"></div>
                 </div>
             </div>
             

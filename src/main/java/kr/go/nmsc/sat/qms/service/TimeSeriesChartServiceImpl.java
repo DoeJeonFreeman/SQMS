@@ -72,62 +72,68 @@ public class TimeSeriesChartServiceImpl  implements TimeSeriesChartService{
 
 	
 	//LEVEL 1 A Visible SNR
-	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1A_VSNR(String targetDate) throws Exception {
+	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1A_VSNR(String targetDate, String period) throws Exception {
 		System.out.println("TimeSeriesChartServiceImpl.getSeriesRetrieval_L1A_VSNr(targetDate) targetDate: " + targetDate);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put("targetDate", targetDate);
-//		return seriesDataMapper.selectTimeSeriesData_L1A_VSNR(hashmap);
+		hashmap.put("dBegin", period);
 		return seriesDataMapper.selectTimeSeriesData_L1A_VSNR_Alternative(hashmap);
 	}
 	
 	//LEVEL 1 A Visible Radiance
-	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1A_VR(String targetDate, String detector) throws Exception {
+	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1A_VR(String targetDate, String period, String detector) throws Exception {
 		System.out.println("TimeSeriesChartServiceImpl.getSeriesRetrieval_L1A_VR(targetDate) targetDate: " + targetDate);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", period);
 		hashmap.put("detector", detector);
 		return seriesDataMapper.selectTimeSeriesData_L1A_VR(hashmap);
 	}
 	
 	//LEVEL 1 A IR Radiance Statistics
-	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1A_IRRS(String targetDate, String detector) throws Exception {
+	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1A_IRRS(String targetDate, String period, String detector) throws Exception {
 		System.out.println("TimeSeriesChartServiceImpl.getSeriesRetrieval_L1A_IRRS(targetDate) targetDate: " + targetDate);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", period);
 		hashmap.put("detector", detector);
 		return seriesDataMapper.selectTimeSeriesData_L1A_IRRS(hashmap);
 	}
 	
 	//LEVEL 1 A Visible PRNU
-	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1A_VisPRNU(String targetDate, String detector) throws Exception {
+	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1A_VisPRNU(String targetDate, String period, String detector) throws Exception {
 		System.out.println("TimeSeriesChartServiceImpl.getSeriesRetrieval_L1A_VisPRNU(targetDate) targetDate: " + targetDate);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", period);
 		hashmap.put("detector", detector);
 		return seriesDataMapper.selectTimeSeriesData_L1A_VisPRNU(hashmap);
 	}
 	
 	//LEVEL 1 A IR PRNU
-	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1A_IRPRNU(String targetDate, String detector) throws Exception {
+	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1A_IRPRNU(String targetDate, String period, String detector) throws Exception {
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", period);
 		hashmap.put("detector", detector);
 		return seriesDataMapper.selectTimeSeriesData_L1A_IRPRNU(hashmap);
 	}
 	
 	//LEVEL 1 A IR NEDT
-	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1A_IRNEDT(String targetDate, String detector) throws Exception {
+	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1A_IRNEDT(String targetDate, String period, String detector) throws Exception {
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", period);
 		hashmap.put("detector", detector);
 		return seriesDataMapper.selectTimeSeriesData_L1A_IRNEDT(hashmap);
 	}
 	
 	
 	//LEVEL 1 A ENV
-	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1A_ENV(String targetDate, String varType) throws Exception {
+	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1A_ENV(String targetDate, String period, String varType) throws Exception {
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", period);
 		hashmap.put("varType", varType);
 		return seriesDataMapper.selectEnvData_L1A(hashmap);
 	}
@@ -137,50 +143,56 @@ public class TimeSeriesChartServiceImpl  implements TimeSeriesChartService{
 	
 	
 	//LEVEL 1 B number of valid landmarks (onLoadComplete)
-	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1B_NVL(String targetDate) throws Exception {
+	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1B_NVL(String targetDate, String period) throws Exception {
 		System.out.println("TimeSeriesChartServiceImpl.getSeriesRetrieval_L1B_VNL(targetDate) targetDate: " + targetDate);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", period);
 		return seriesDataMapper.selectTimeSeriesData_L1B_NVL(hashmap);
 	}
 	
 	//LEVEL 1 B Residual Avg (onLoadComplete)
-	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1B_RAVG(String targetDate) throws Exception {
+	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1B_RAVG(String targetDate, String period) throws Exception {
 		System.out.println("TimeSeriesChartServiceImpl.getSeriesRetrieval_L1B_RAVG(targetDate) targetDate: " + targetDate);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", period);
 		return seriesDataMapper.selectTimeSeriesData_L1B_RAVG(hashmap);
 	}
 	
 	//LEVEL 1 B QI Residual Standard Deviation
-	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1B_STDDEV(String targetDate) throws Exception {
+	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1B_STDDEV(String targetDate, String period) throws Exception {
 		System.out.println("TimeSeriesChartServiceImpl.getSeriesRetrieval_L1B_STDDEV(targetDate) targetDate: " + targetDate);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", period);
 		return seriesDataMapper.selectTimeSeriesData_L1B_STDDEV(hashmap);
 	}
 	
 	//LEVEL 1 B QI Residual Quadratic 
-	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1B_QUADDIST(String targetDate) throws Exception {
+	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1B_QUADDIST(String targetDate, String period) throws Exception {
 		System.out.println("TimeSeriesChartServiceImpl.getSeriesRetrieval_L1B_QUADDIST(targetDate) targetDate: " + targetDate);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", period);
 		return seriesDataMapper.selectTimeSeriesData_L1B_QUADDIST(hashmap);
 	}
 	
 	//LEVEL 1 B EV Spacecraft Position
-	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1B_SCPOS(String targetDate) throws Exception {
+	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1B_SCPOS(String targetDate, String period) throws Exception {
 		System.out.println("TimeSeriesChartServiceImpl.getSeriesRetrieval_L1B_SCPOS(targetDate) targetDate: " + targetDate);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", period);
 		return seriesDataMapper.selectTimeSeriesData_L1B_SCPOS(hashmap);
 	}
 	
 	//LEVEL 1 B EV Spacecraft Attitude
-	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1B_SCATT(String targetDate) throws Exception {
+	public ArrayList<HashMap<String, Object>> getSeriesRetrieval_L1B_SCATT(String targetDate, String period) throws Exception {
 		System.out.println("TimeSeriesChartServiceImpl.getSeriesRetrieval_L1B_SCATT(targetDate) targetDate: " + targetDate);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", period);
 		return seriesDataMapper.selectTimeSeriesData_L1B_SCATT(hashmap);
 	}
 /*	//LEVEL 1 B number of valid landmarks (onLoadComplete)

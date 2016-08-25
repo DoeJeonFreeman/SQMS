@@ -7,6 +7,19 @@
 	Doe Jeon Freeman
 ---------------------------------------------*/
 
+var isVERBOSE = true; 
+
+function sysout(str) {
+	if(!isVERBOSE) return;
+	if(window['console']!='undefined') console.log(str);
+}
+
+function systime(str, flag) {
+	if(!isVERBOSE) return;
+	if(window['console']!='undefined' &&flag=='begin') console.time(str);
+	if(window['console']!='undefined' &&flag=='end') console.timeEnd(str);
+}
+
 
 	/**
 	 * 
@@ -74,21 +87,6 @@
 
 
 
-
-
-function LoadAjaxContentWrapper(meIdx){
-	var meUrl = "";
-//	if(meUrl.toLowerCase() =='lelvel 1 a'){
-	if(meIdx*1 == 0){
-		meUrl = "nmsc/VSNR.html";
-	}else if(meIdx*1 == 1){
-		meUrl = "nmsc/VSNR_LVL1B.html";
-	}else if(meIdx*1 == 2){
-		meUrl = "nmsc/VSNR_LVL2.html";
-	}
-//	console.log(meIdx + ' : ' + meUrl);
-	LoadAjaxContent(meUrl);
-}
 
 
 //
@@ -159,8 +157,8 @@ function WinMove(){
 //
 ////doejeon
 //function meCombineDroppables(divId){
-//	console.log(divId);
-//	console.log('combine two or more droppables in div when me drops them on each other haha ');
+//	sysout(divId);
+//	sysout('combine two or more droppables in div when me drops them on each other haha ');
 //	$( "#"+divId).not('.no-drop')
 //		.draggable({
 //			revert: true,
@@ -169,7 +167,7 @@ function WinMove(){
 //			handle: '.box-name',
 //			opacity: 0.8,
 //			stop:function(e){
-//				console.log('haha STOP!!!');
+//				sysout('haha STOP!!!');
 ////				$(this).remove();
 //			}
 //		}).droppable({
@@ -412,8 +410,6 @@ function DrawFullCalendar(){
 
 
 
-
-
 function toggleFullScreen() {
 	  if ((document.fullScreenElement && document.fullScreenElement !== null) ||    
 	   (!document.mozFullScreen && !document.webkitIsFullScreen)) {
@@ -578,10 +574,22 @@ $(document).ready(function () {//doejeon
 	 * */
 	$('[id^=TSCWrapper]').on('click', '.close-window', function (e) {
 		e.preventDefault();
-		var cbName = $(this).closest('div.meDraggableItem').attr('id');
-		$("input[name='" + cbName + "']").prop('checked',false); //	or .removeAttr('checked');
-		$('#'+cbName).remove();
-		map.remove( 'ts_'+cbName);
+		
+		var tabIndex = $("#tabs").tabs('option', 'active') ;
+		
+		var cbName = $(this).closest('div.meDraggableItem').attr('id'); //t0_L1A-QI01_0
+		$("#OPT_"+tabIndex +" input[name='" + cbName.substr(cbName.indexOf("_")+1) + "']").prop('checked',false); //	or .removeAttr('checked');
+		$('#'+cbName).remove(); //remove chartWrapperHTML
+		//tabIndexIdentifierStr 't0_' + '_ts_'
+		var leadingStr = 't' + tabIndex + '_ts_';
+		map.remove(leadingStr  + cbName.substr(cbName.indexOf("_")+1)); //remove chart from maps 
+		
+		sysout("#OPT_"+tabIndex +" input[name='" + cbName.substr(cbName.indexOf("_")+1) + "']")
+		sysout("==>close-window.remove() " + cbName); 
+		sysout("====>cb.removeAttr(checked) "   + cbName.substr(cbName.indexOf("_")+1) ); 
+		sysout('======> remove [' +leadingStr  + cbName.substr(cbName.indexOf("_")+1) + '] from maps'); 
+		
+		
 	});
 	
 	
@@ -606,7 +614,7 @@ $(document).ready(function () {//doejeon
 		var highchartWrapper = $(this).closest('div.meDraggableItem').attr('id');
 		var box = $(this).closest('div.box');
 		var source = box.find('div.classySnob');
-//console.log(source.highcharts());
+//sysout(source.highcharts());
         $('#'+highchartWrapper).toggleClass('modal1');
 //      $('#ts_'+highchartWrapper+'.highcharts-container', source).highcharts().reflow();
 //      $('#ts_'+highchartWrapper, source).highcharts().reflow();
@@ -615,64 +623,7 @@ $(document).ready(function () {//doejeon
 	
 	
 	
-	$(function () {
-		/*
-	    $('#container').highcharts({
-	        chart: {
-	            type: 'column'        
-	        },
-	        title: {
-	            text: 'Stacked column chart'
-	        },
-	        xAxis: {
-	            categories: ['Lazada', 'Competitor 1', 'Competitor 2', 'Competitor 3', 'Competitor 4']
-	        },
-	        yAxis: {
-	            min: 0,
-	            title: {
-	                text: 'Price Range'
-	            }
-	        },
-	        tooltip: {
-	            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
-	            shared: true
-	        },
-	        plotOptions: {
-	            column: {
-	                stacking: 'percent'
-	            }
-	        },
-	        series: [{
-	            name: '100 - 300',
-	            data: [5, 3, 4, 7, 2]
-	        }, {
-	            name: '301 - 500',
-	            data: [2, 2, 3, 2, 1]
-	        }, {
-	            name: '501 - 1000',
-	            data: [3, 4, 4, 2, 5]
-	        }, {
-	            name: '1001 - 3000',
-	            data: [3, 4, 4, 2, 5]
-	        }, {
-	            name: '3001 - 5000',
-	            data: [3, 4, 4, 2, 5]
-	        }, {
-	            name: '5001 - 10000',
-	            data: [3, 4, 4, 2, 5]
-	        }]
-	    });
-	    
-	    */
-	  /*  var chart = $('#container').highcharts();
-	    $('#chart-modal').on('show.bs.modal', function() {
-	        $('#container').css('visibility', 'hidden');
-	    });
-	    $('#chart-modal').on('shown.bs.modal', function() {
-	        $('#container').css('visibility', 'initial');
-	        chart.reflow();
-	    });   */
-	});
+	
 
 	
 	

@@ -7,11 +7,6 @@
 	
 	<typeAliases>
 		<!--
-		<typeAlias type="kr.go.seaice.arctic.board.AttachFile" alias="AttachFile" />
-		<typeAlias type="kr.go.seaice.arctic.board.Comment" alias="Comment" />
-		<typeAlias type="kr.go.seaice.arctic.board.Board" alias="Board" />
-		<typeAlias type="kr.go.seaice.arctic.board.Article" alias="Article" />
-		<typeAlias type="kr.go.seaice.common.LoginVO" alias="User" />
 			-->
 		<typeAlias type="kr.go.nmsc.sat.qms.domain.UpToDateStuffVO" alias="UpToDateStuff" />
 		<!-- 

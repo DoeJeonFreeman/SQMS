@@ -78,7 +78,8 @@
 		 
 		.sidebar-nav li a:hover {
 		    text-decoration: none;
-		    color: #fff;
+/* 		    color: #fff; */
+		    color: #eb8f00;
 		    background: rgba(255,255,255,0.2);
 		    border-left: red 2px solid;
 		}
@@ -89,17 +90,22 @@
 		}
 		 
 		.sidebar-nav > .sidebar-brand {
-		    height: 65px;
 		    font-size: 18px;
-		    line-height: 60px;
+		    /*  height: 65px; */ 
+		     line-height: 38px; 
 		}
 		 
 		.sidebar-nav > .sidebar-brand a {
 		    color: #999999;
+		    font-size: 13px;
+		    cursor: default;
+		 /*     border-bottom: 1px solid #cccccc; */
+		     /* left: 0; */
+		/* 	  width: 100px;  */
 		}
 		 
 		.sidebar-nav > .sidebar-brand a:hover {
-		    color: #fff;
+		    color: #999999;
 		    background: none;
 		}
 		.no-margin{
@@ -126,7 +132,7 @@
 		    }
 		    /** 50 --> 45*/ /*doejeon*/
 		    #wrapper.toggled-2 #sidebar-wrapper {
-		        width: 45px;
+		        width: 10px;
 		    }
 		    #wrapper.toggled-2 #sidebar-wrapper:hover {
 		        width: 260px;

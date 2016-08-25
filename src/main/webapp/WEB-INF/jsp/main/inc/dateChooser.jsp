@@ -2,9 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- datePicker -->
-    <link href="<c:url value="/js/daterangepicker/daterangepicker.css"/>" rel="stylesheet" type="text/css">	
-	<script type="text/javascript" src="<c:url value="/js/daterangepicker/moment.js"/>"></script>
-	<script type="text/javascript" src="<c:url value="/js/daterangepicker/daterangepicker.js"/>"></script>
+    <link href="${pageContext.request.contextPath}/js/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/daterangepicker/moment.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/daterangepicker/daterangepicker.js"></script>
 
 
 <style>
@@ -165,7 +165,7 @@
 			            	
 			            	<div class="pull-right" style="padding-right:50px;"> 
 				            	<ul id="breadcrumbs-one" class="pull-right vcenter" >
-									<li><a href="<c:url value='/cmm/main/mainPage.do'/>">Home</a></li>
+									<li><a href='${pageContext.request.contextPath}/cmm/main/mainPage.do'>Home</a></li>
 									<li><a href="#">해빙감시</a></li>
 									<li><a href="#">SSMIS</a></li>
 								</ul>
@@ -203,7 +203,7 @@
 				            		  
 				            		  $.ajax({
 				            			  type: "get",
-				            			  url: "<c:url value='/' />arctic/findMatchingStuff",
+				            			  url: "${pageContext.request.contextPath}/arctic/findMatchingStuff",
 				            			  cache: false,    
 				            			  data: "selectedDate="+start.format('YYYY-MM-DD'),
 				            			  success: function(response){

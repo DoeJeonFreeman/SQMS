@@ -1,20 +1,26 @@
 /**
- * @license  Highcharts JS v4.1.7 (2015-06-26)
+ * @license  Highcharts JS v4.2.5 (2016-05-06)
  * Solid angular gauge module
  *
- * (c) 2010-2014 Torstein Honsi
+ * (c) 2010-2016 Torstein Honsi
  *
  * License: www.highcharts.com/license
  */
 
-/*global Highcharts, HighchartsAdapter*/
-(function (H) {
-	"use strict";
+(function (factory) {
+	if (typeof module === 'object' && module.exports) {
+		module.exports = factory;
+	} else {
+		factory(Highcharts);
+	}
+}(function (H) {
+	'use strict';
 
 	var defaultPlotOptions = H.getOptions().plotOptions,
 		pInt = H.pInt,
 		pick = H.pick,
 		each = H.each,
+		isNumber = H.isNumber,
 		colorAxisMethods,
 		UNDEFINED;
 
@@ -132,7 +138,7 @@
 
 			// Unsupported color, return to-color (#3920)
 			if (!to.rgba.length || !from.rgba.length) {
-				ret = to.raw || 'none';
+				ret = to.input || 'none';
 
 			// Interpolate
 			} else {
@@ -153,9 +159,9 @@
 	 * Handle animation of the color attributes directly
 	 */
 	each(['fill', 'stroke'], function (prop) {
-		HighchartsAdapter.addAnimSetter(prop, function (fx) {
-			fx.elem.attr(prop, colorAxisMethods.tweenColors(H.Color(fx.start), H.Color(fx.end), fx.pos));
-		});
+		H.Fx.prototype[prop + 'Setter'] = function () {
+			this.elem.attr(prop, colorAxisMethods.tweenColors(H.Color(this.start), H.Color(this.end), this.pos));
+		};
 	});
 
 	// The series prototype
@@ -186,7 +192,7 @@
 				options = series.options,
 				renderer = series.chart.renderer,
 				overshoot = options.overshoot,
-				overshootVal = overshoot && typeof overshoot === 'number' ? overshoot / 180 * Math.PI : 0;
+				overshootVal = isNumber(overshoot) ? overshoot / 180 * Math.PI : 0;
 
 			H.each(series.points, function (point) {
 				var graphic = point.graphic,
@@ -196,29 +202,29 @@
 					shapeArgs,
 					d,
 					toColor = yAxis.toColor(point.y, point),
-					fromColor;
+					axisMinAngle = Math.min(yAxis.startAngleRad, yAxis.endAngleRad),
+					axisMaxAngle = Math.max(yAxis.startAngleRad, yAxis.endAngleRad),
+					minAngle,
+					maxAngle,
+					attribs;
 
 				if (toColor === 'none') { // #3708
 					toColor = point.color || series.color || 'none';
 				}
 				if (toColor !== 'none') {
-					fromColor = point.color;
 					point.color = toColor;
 				}
 
 				// Handle overshoot and clipping to axis max/min
-				rotation = Math.max(yAxis.startAngleRad - overshootVal, Math.min(yAxis.endAngleRad + overshootVal, rotation));
+				rotation = Math.max(axisMinAngle - overshootVal, Math.min(axisMaxAngle + overshootVal, rotation));
 
 				// Handle the wrap option
 				if (options.wrap === false) {
-					rotation = Math.max(yAxis.startAngleRad, Math.min(yAxis.endAngleRad, rotation));
+					rotation = Math.max(axisMinAngle, Math.min(axisMaxAngle, rotation));
 				}
-				rotation = rotation * 180 / Math.PI;
 
-				var angle1 = rotation / (180 / Math.PI),
-					angle2 = yAxis.startAngleRad,
-					minAngle = Math.min(angle1, angle2),
-					maxAngle = Math.max(angle1, angle2);
+				minAngle = Math.min(rotation, yAxis.startAngleRad);
+				maxAngle = Math.max(rotation, yAxis.startAngleRad);
 
 				if (maxAngle - minAngle > 2 * Math.PI) {
 					maxAngle = minAngle + 2 * Math.PI;
@@ -241,14 +247,18 @@
 					if (d) {
 						shapeArgs.d = d; // animate alters it
 					}
-				} else {					
+				} else {
+					attribs = {
+						stroke: options.borderColor || 'none',
+						'stroke-width': options.borderWidth || 0,
+						fill: toColor,
+						'sweep-flag': 0
+					};
+					if (options.linecap !== 'square') {
+						attribs['stroke-linecap'] = attribs['stroke-linejoin'] = 'round';
+					}
 					point.graphic = renderer.arc(shapeArgs)
-						.attr({
-							stroke: options.borderColor || 'none',
-							'stroke-width': options.borderWidth || 0,
-							fill: toColor,
-							'sweep-flag': 0
-						})
+						.attr(attribs)
 						.add(series.group);
 				}
 			});
@@ -266,4 +276,4 @@
 		}
 	});
 
-}(Highcharts));
+}));

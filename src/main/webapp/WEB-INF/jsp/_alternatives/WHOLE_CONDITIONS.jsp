@@ -5,7 +5,7 @@
 <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
 
 	<!-- LV1A QI -->
-	<li class="sidebar-brand"> <a href="#" style="font-size: 14px">LV1A 품질지표</a> </li>
+	<li class="sidebar-brand"> <a href="#">LV1A 품질지표</a> </li>
 	<!-- 1. Visible SNR -->
 	<!-- 1. Visible SNR -->
 	<li class=""><!--doejeon active blue --> 
@@ -34,7 +34,7 @@
 						</label>
 					</div>
 					<div class="checkbox">
-						<label> <input type="checkbox" name="L1A-QI01_5" checked>Detector&nbsp;5
+						<label> <input type="checkbox" name="L1A-QI01_5"  >Detector&nbsp;5
 						</label>
 					</div>
 					<div class="checkbox">
@@ -58,7 +58,7 @@
 			<li>
 				<div class="checkboxes" id="CB_L1A-QI_02">
 					<div class="checkbox">
-						<label> <input type="checkbox" name="L1A-QI02_0" checked   >Detector&nbsp;0
+						<label> <input type="checkbox" name="L1A-QI02_0"     >Detector&nbsp;0
 						</label>
 					</div>
 					<div class="checkbox">
@@ -148,7 +148,7 @@
 						</label>
 					</div>
 					<div class="checkbox">
-						<label> <input type="checkbox" name="L1A-QI04_1"  checked>Detector&nbsp;1
+						<label> <input type="checkbox" name="L1A-QI04_1"   >Detector&nbsp;1
 						</label>
 					</div>
 				</div>
@@ -167,7 +167,7 @@
 						</label>
 					</div>
 					<div class="checkbox">
-						<label> <input type="checkbox" name="L1A-QI05_1"  checked>Detector&nbsp;1
+						<label> <input type="checkbox" name="L1A-QI05_1"   >Detector&nbsp;1
 						</label>
 					</div>
 				</div>
@@ -196,7 +196,7 @@
 	</li>
 
 	<!-- LV1A EI -->
-	<li class="sidebar-brand"> <a href="#" style="font-size: 14px">LV1A 환경정보</a> </li>
+	<li class="sidebar-brand"> <a href="#" >LV1A 환경정보</a> </li>
 	<!-- 1. telescope primary temp -->
 	<!-- 1. telescope primary temp -->
 	<li class=""><!--doejeon active blue --> 
@@ -312,7 +312,7 @@
 	
 	
 	<!-- LV1B QI -->
-	<li class="sidebar-brand"> <a href="#" style="font-size: 14px">LV1B 품질지표</a> </li>
+	<li class="sidebar-brand"> <a href="#">LV1B 품질지표</a> </li>
 	<li class=""><!--doejeon active blue --> 
 		<!-- 1. n-s residual -->
 		<!-- 1. Visible Radiance -->
@@ -356,7 +356,7 @@
 			<li>
 				<div class="checkboxes" id="CB_L1B.QI_03">
 					<div class="checkbox">
-						<label> <input type="checkbox" name="L1B-QI03_0"  checked>AVG.
+						<label> <input type="checkbox" name="L1B-QI03_0"   >AVG.
 						</label>
 					</div>
 				</div>
@@ -373,7 +373,7 @@
 			<li>
 				<div class="checkboxes" id="CB_L1B.QI_04">
 					<div class="checkbox">
-						<label> <input type="checkbox" name="L1B-QI04_0" checked>E-W
+						<label> <input type="checkbox" name="L1B-QI04_0"  >E-W
 						</label>
 					</div>
 					<div class="checkbox">
@@ -438,7 +438,7 @@
 	
 	
 	<!-- LV1B EI -->
-	<li class="sidebar-brand"> <a href="#" style="font-size: 14px">LV1B 환경정보</a> </li>
+	<li class="sidebar-brand"> <a href="#" >LV1B 환경정보</a> </li>
 	<li class=""><!--doejeon active blue --> 
 		<!-- 1. Spacecraft Position( at Image Center)  -->
 		<!-- 1. Spacecraft Position( at Image Center)  -->

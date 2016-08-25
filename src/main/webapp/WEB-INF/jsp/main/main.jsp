@@ -97,9 +97,13 @@
                 	
                 	<div class="col-md-7">
 	                	<div class="">
-	                		<iframe 	 
-	                			 width="800" height="500"
-	                			 src="http://2csolution.iptime.org:2131/nimrGlowEos/nationWideService/et/et_timeseries.jsp"> 이 브라우저는 iframe을 지원하지 않습니다.</iframe>
+	                	
+	                	<!-- 
+	                		<iframe style="border:0 none;"	 
+	                			 width="850" height="500"
+	                			 src="http://2csolution.iptime.org:2131/seaice/et/coms/obs.do"> 이 브라우저는 iframe을 지원하지 않습니다.</iframe>
+	                	-->
+	                	 
 							<!-- 
 							<div align="center" class=""> 
 								<div><h4 style="white-space: nowrap;"></h4></div>

@@ -1,12 +1,22 @@
 
-				
+				                          //leadingStr L1A-QI01_0
 		function getDraggableContainerHTML(leadingStr,meTitle,detNum){
-		 	var divId = leadingStr ;//+detNum;
+			
+			var idx = $("#tabs").tabs('option', 'active');
+			
+		 	var divId = 't'+idx+'_'+ leadingStr ;//+detNum;
 			var divTitle = (detNum!='nodet')? meTitle +' (Detector ' + detNum + ')' : meTitle;
-			var chartId = 'ts_'+divId;
+			
+			
+			var chartId = 't'+idx+'_ts_'+leadingStr;
+			
 			if($('#'+divId).length){
+//				sysout('if chartWrapperHTML [#' +divId+'] is already exiests ')
+//				sysout('then RETURN;')
 				return;
 			}
+			
+			
 			var draggableDiv = '';
 //			draggableDiv +=	"<div class='meDraggableItem col-xs-"+itemSize+" col-md-"+itemSize+" col-lg-"+itemSize+"+ ' id='" + divId + "'>";
 			draggableDiv +=	"<div class='meDraggableItem col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
@@ -57,7 +67,7 @@
 //		    return count;
 //		}
 //		
-		
+	/*	
 		var options_singleSeries = {
 			    plotOptions: {
 			        series: {
@@ -121,27 +131,34 @@
 	                	fontWeight:'normal'
 	                }
 	            }
-		};
+		};*/
 		
 		// 'fake' scatter plot for multiple series haha 
 		var options_multipleSeries = {
+				chart : {
+					type : 'line',
+//					renderTo : chartId,  								
+					defaultSeriesType : 'line',  //this is a 'fake' scatter plot						
+					animation: false,
+					events:{
+					},
+					plotBorderWidth : 1,
+					plotBorderColor : '#346691', // '#346691',
+					zoomType : 'xy',
+				},
 				plotOptions: {
 					line: {
+						lineWidth: 0, //make the lines disappear
 						marker : {
 							enabled : true,
-							radius : 3
-						},
-				        lineWidth: 0, //make the lines disappear
-//				        marker : {
-//							radius : 3,
-//							// "circle", "square", "diamond", "triangle" and "triangle-down".
-//							symbol:'circle',
-//							states : {
+							radius : 2,
+							symbol:'square' // "circle", "square", "diamond", "triangle" and "triangle-down".
+//							,states : {
 //								hover : {
 //									enabled : true,
 //								}
 //							}
-//						}
+						}
 				    },
 					
 					series: {
@@ -167,9 +184,20 @@
 					},
 //					
 				},
+				
 				exporting: {
-					enabled:true
-				},
+		            chartOptions: { // specific options for the exported image
+		                plotOptions: {
+		                    series: {
+		                        dataLabels: {
+		                            enabled: false// canDropLabels==true
+		                        }
+		                    }
+		                }
+		            },
+		            scale: 3,
+		            fallbackToExportServer: false
+		        },
 				
 				credits: {
 					enabled: false
@@ -189,215 +217,230 @@
 					itemStyle: {
 						fontWeight:'normal'
 					}
+				}, 
+		        xAxis : {
+					type : 'datetime',
+					tickColor: '#346691',
+					labels : {
+						formatter : function() {
+							var myDate = new Date(this.value);
+							var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth(), myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
+							return Highcharts.dateFormat("%e. %b %H:%M",newDateMs);
+						}
+					},
+					//remove leading n trailling padding?space from the series of the timeseries chart haha
+					startOnTick: true,
+					endOnTick: false,				
+					minPadding:0,
+					maxPadding:0,
+					lineColor : '#346691',
+					lineWidth : 1,
 				}
 		};
 
-/*		
-		function addChart_VSNR(url, dStr,tabIndex,detector,chartId){
-
-			var selectedDetector = [];
-			var curr=[];
-			
-			
-			$.ajax({
-				type: 'GET',
-				dataType:'json',
-				url: url,
-				data:'targetDate=' + dStr + '&channel=1&detector='+ detector,
-		        success: function(jsonData) {
-		        	if(jsonData.length==0){
-		        		//$('#'+chartId).append("<div style='float:left'><h4>No data available.</h4><div>");
-		        		//$('#'+chartId).append("<span class='pull-left'><h4>No data available.</h4></span>");
-		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
-		        		return;
-		        	}
-					var _vsnrChart = $('#'+chartId).highcharts(); 
-					selectedDetector = jsonData[detector];				
-					for (var i = 0; i < selectedDetector.length; i++) {
-							var dateString = selectedDetector[i].DSTR;
-							var arr = dateString.split(" ");
-							var dStr = arr[0].split("-");
-							var tStr = arr[1].split(":");
-							var d = Date.UTC(dStr[0],dStr[1]*1-1,dStr[2],tStr[0],tStr[1],tStr[2]);
-							curr.push([d,parseNumericVal(selectedDetector[i].VALUE)]);
-					}
-					
-		        	
-		        	//chart goes here
-					var _chartInstance;    				
-					_chartInstance = new Highcharts.Chart($.extend(true, {}, options_multipleSeries,{
-						chart : {
-							type : 'line',
-							renderTo : chartId,  								
-							defaultSeriesType : 'line',  //this is a 'fake' scatter plot						
-							events:{
-								 
-								redraw: function () {
-				                    var label = this.renderer.label('The chart was just redrawn', 80, 65)
-				                        .attr({
-				                            fill: Highcharts.getOptions().colors[0],
-				                            padding: 10,
-				                            r: 5,
-				                            zIndex: 8
-				                        })
-				                        .css({
-				                            color: '#FFFFFF'
-				                        })
-				                        .add();
 		
-				                    setTimeout(function () {
-				                        label.fadeOut();
-				                    }, 1500);
-				                } 
+		var options_multipleSeries_scatter = {
+				chart : {
+					type : 'scatter',
+//					renderTo : chartId,  								
+					defaultSeriesType : 'scatter',  	
+					animation: false,
+					events:{
+					},
+					plotBorderWidth : 1,
+					plotBorderColor : '#346691', // '#346691',
+					zoomType : 'xy',
+				},
+				plotOptions: {
+					scatter : {
+						marker : {
+							radius : 1.5,
+							// "circle", "square", "diamond", "triangle" and "triangle-down".
+							symbol:'square'
+//							,states : {
+//								hover : {
+//									enabled : true,
+//								}
+//							}
+						}
+					},
 					
-							},
-							defaultSeriesType : 'line',
-							plotBorderWidth : 1,
-							plotBorderColor : '#346691', // '#346691',
-							zoomType : 'xy',
-						},
-						title: {
-				            text: 'Visible SNR (Image Pixel-to-Pixel Non-Uniformity)',
-				            align: 'center',
-				            style:{
-				            	font:'bold 16px NanumGothic'
-				            }
-				        },
-				        subtitle: {
-				            text: '(Reference Detector: Visible Detector ' + detector + ')',
-				            align: 'center',
-				            style:{
-				            	font:'normal 13px Dotum'
-				            }
-				        },
-				        xAxis : {
-							type : 'datetime',
-							tickColor: '#346691',
-							labels : {
-								formatter : function() {
-									var myDate = new Date(this.value);
-									var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth(), myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
-									// return Highcharts.dateFormat("%l%p",newDateMs);
-									return Highcharts.dateFormat("%e. %b %H:%M",newDateMs);
+					series: {
+						point: {
+							events: {
+								mouseOver: function () {
+//									syncTooltip(this.series.chart.container, this.x);
 								}
-							},
-							//remove leading n trailling padding?space from the series of the timeseries chart haha
-							startOnTick: true,
-							endOnTick: false,				
-							minPadding:0,
-							maxPadding:0,
-							lineColor : '#346691',
-							lineWidth : 1,
-						},
-				        yAxis: {
-			    			//get rid of horizontal grid lines haha
-			    			//gridLineWidth: 0,
-			    	        tickColor: '#346691',
-			    	        tickLength: 5,
-			    	        tickWidth: 1,
-			    	        tickPosition: 'inside',
-			    	        labels: {
-			    	            align: 'right',
-			    	            x:-10,
-			    	            y:5
-			    	        },
-			    	        lineWidth:0,
-			    	
-				            title: {
-				                text: 'Value',
-			                	style : {
-			                		font:'normal 12px Dotum'
-			                	}	
-				            },
-				            labels:{
-					            style : {
-				            		font:'normal 11px Dotum'
-					            },
-					            formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-					            	return Highcharts.numberFormat(this.value, 2, '.', ',');
-					            }
-			            	}
-				        }
-					
-						
-					})); //haha
-		        	
-		        	//chart goes here
-		        	
-					$.each (Object.keys(jsonData), function(idx,val){
-			        	var eachData = [];
-		        		var vrDataObj = jsonData[val];
-		        		if( val.substr(-1) ===  detector) {
-		        			//_chartInstance.series[idx*1].update({ showInLegend: false }, false);
-//		        			_chartInstance.series[idx*1].options.showInLegend = false;
-		        			return;
-	        			}
-		        		/////////////////////////////////////////////////////////////////////
-						 for (var j = 0; j < curr.length; j++) {
-								for (var k = 0; k < vrDataObj.length; k++) {
-									var dateString = vrDataObj[k].DSTR;
-									var arr = dateString.split(" ");
-									var dStr = arr[0].split("-");
-									var tStr = arr[1].split(":");
-									var d = Date.UTC(dStr[0],dStr[1]*1-1,dStr[2],tStr[0],tStr[1],tStr[2]);
-									 if (curr[j][0] == d) {
-						        		if(curr[j][1]!=null && parseNumericVal(vrDataObj[k].VALUE)!=null){
-											eachData.push([d, curr[j][1] - parseNumericVal(vrDataObj[k].VALUE)]);
-										}	
-									}
-								}
-						 }	
-						 _chartInstance.addSeries({
-			        			name: 'Deteoctor ' + idx*1,
-			        			data: eachData
-	        			});
-	//					 _chartInstance.series[idx*1].setData(eachData); 
-					});
-		        	
-		        	
-		      		$('#'+chartId).pleaseWait('stop');	
-		      		charts.push(_chartInstance);
-		      		map.put(chartId, _chartInstance);
+							}
+						}
+					,states: {
+						hover: {
+							enabled: false,
+							lineWidthPlus:0
+						}
+					}
+					,animation: false
+//					    ,events: {
+//			                renderedCanvas: function () {
+//			                    console.timeEnd('asyncRender');
+//			                }
+//			            }
+					},
+//					
+				},
+				exporting: {
+		            chartOptions: { // specific options for the exported image
+		                plotOptions: {
+		                    series: {
+		                        dataLabels: {
+		                            enabled: false
+		                        }
+		                    }
+		                }
+		            },
+		            scale: 3,
+		            fallbackToExportServer: false
+		        },
+		        
+				credits: {
+					enabled: false
 				},
 				
-		        cache: false,
-		        
-			});	
-			
+				tooltip : {
+					shared : false,
+					crosshairs:true,
+					formatter : function() {
+						var myDate = new Date(this.x);
+						var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth(), myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
+						return '<b>' + this.series.name + '</b><br/>' + Highcharts .dateFormat('%e. %b %H:%M:%S', newDateMs) + ' <br>' + this.y;
+					}
+			      
+				},
+				
+				legend: {
+					layout: 'horizontal',
+					y: 0,
+					borderColor: '#aaa', //grayBlue
+					borderWidth: 1,
+					itemStyle: {
+						fontWeight:'normal'
+					}
+				},
+		        xAxis : {
+					type : 'datetime',
+					tickColor: '#346691',
+					labels : {
+						formatter : function() {
+							var myDate = new Date(this.value);
+							var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth(), myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
+							return Highcharts.dateFormat("%e. %b %H:%M",newDateMs);
+						}
+					},
+					//remove leading n trailling padding?space from the series of the timeseries chart haha
+					startOnTick: true,
+					endOnTick: false,				
+					minPadding:0,
+					maxPadding:0,
+					lineColor : '#346691',
+					lineWidth : 1,
+				}
+		};
+		
+		
+	/*	
+		function addChartTester(url, dStr, tabIndex,detector, chartId){
+			function getData(n) {
+		        var arr = [],
+		            i,
+		            a,
+		            b,
+		            c,
+		            spike;
+		        for (i = 0; i < n; i = i + 1) {
+		            if (i % 100 === 0) {
+		                a = 2 * Math.random();
+		            }
+		            if (i % 1000 === 0) {
+		                b = 2 * Math.random();
+		            }
+		            if (i % 10000 === 0) {
+		                c = 2 * Math.random();
+		            }
+		            if (i % 50000 === 0) {
+		                spike = 10;
+		            } else {
+		                spike = 0;
+		            }
+		            arr.push([
+		                i,
+		                2 * Math.sin(i / 100) + a + b + c + spike + Math.random()
+		            ]);
+		        }
+		        return arr;
+		    }
+		    var n = 500000,
+		        data = getData(n);
+
+
+		    $('#container').highcharts({
+
+		        chart: {
+		            zoomType: 'x'
+		        },
+
+		        title: {
+		            text: 'Trimmed Highcharts drawing ' + n + ' points'
+		        },
+
+		        subtitle: {
+		            text: 'Using the experimental Highcharts Boost module'
+		        },
+
+		        tooltip: {
+		            valueDecimals: 2
+		        },
+
+		        series: [{
+		            data: data,
+		            lineWidth: 0.5
+		        }]
+
+		    });
 		}
 		*/
 		
-		
-		function addChart_VSNR(url, dStr,tabIndex,detector,chartId){
-//			console.time('addChart_VSNR()');
-			
+		function addChart_VSNR(url, dStr, dBegin, tabIndex,detector,chartId,chartingPeriod){
+			systime('addChart_VSNR()','begin');
 			$.ajax({
 				type: 'GET',
 				dataType:'json',
 				url: url,
-				data:'targetDate=' + dStr + '&channel=1&detector='+ detector,
+				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 		        success: function(jsonData) {
-//		        	console.time('addChart_VSNR() rendering Chart and Data');
 		        	if(jsonData.length==0){
 		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
 		        		return;
 		        	}
 					var _vsnrChart = $('#'+chartId).highcharts(); 
 					
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					chartingPeriod = chartingPeriod.toUpperCase();
+					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+						
 		        	//chart goes here
 					var _chartInstance;    				
-					_chartInstance = new Highcharts.Chart($.extend(true, {}, options_multipleSeries,{
+					_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
-							type : 'line',
+//							type : 'scatter',
 							renderTo : chartId,  								
-							defaultSeriesType : 'line',  //this is a 'fake' scatter plot						
-							animation: false,
-							events:{
-							},
-							defaultSeriesType : 'line',
-							plotBorderWidth : 1,
-							plotBorderColor : '#346691', // '#346691',
-							zoomType : 'xy',
+//							defaultSeriesType : 'scatter',  //this is a 'fake' scatter plot						
+//							animation: false,
+//							events:{
+//							},
+//							plotBorderWidth : 1,
+//							plotBorderColor : '#346691', // '#346691',
+//							zoomType : 'xy',
 						},
 						title: {
 				            text: 'Visible SNR (Image Pixel-to-Pixel Non-Uniformity)',
@@ -410,28 +453,9 @@
 				            text: '(Reference Detector: Visible Detector ' + detector + ')',
 				            align: 'center',
 				            style:{
-				            	font:'normal 13px Dotum'
+				            	font:'normal 13px NanumGothic'
 				            }
 				        },
-				        xAxis : {
-							type : 'datetime',
-							tickColor: '#346691',
-							labels : {
-								formatter : function() {
-									var myDate = new Date(this.value);
-									var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth(), myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
-									// return Highcharts.dateFormat("%l%p",newDateMs);
-									return Highcharts.dateFormat("%e. %b %H:%M",newDateMs);
-								}
-							},
-							//remove leading n trailling padding?space from the series of the timeseries chart haha
-							startOnTick: true,
-							endOnTick: false,				
-							minPadding:0,
-							maxPadding:0,
-							lineColor : '#346691',
-							lineWidth : 1,
-						},
 				        yAxis: {
 			    			//get rid of horizontal grid lines haha
 			    			//gridLineWidth: 0,
@@ -449,12 +473,12 @@
 				            title: {
 				                text: 'Value',
 			                	style : {
-			                		font:'normal 12px Dotum'
+			                		font:'normal 12px NanumGothic'
 			                	}	
 				            },
 				            labels:{
 					            style : {
-				            		font:'normal 11px Dotum'
+				            		font:'normal 11px NanumGothic'
 					            },
 					            formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
 					            	return Highcharts.numberFormat(this.value, 2, '.', ',');
@@ -471,7 +495,7 @@
 			        	var eachData = [];
 		        		var vrDataObj = jsonData[val];
 		        		if( val.substr(-1) ===  detector) {
-//		        			console.log('detNum is ' + detector + '  if( val.substr(-1) ===  detector) { return; }');
+//		        			sysout('detNum is ' + detector + '  if( val.substr(-1) ===  detector) { return; }');
 		        			return;
 	        			}
 		        		/////////////////////////////////////////////////////////////////////
@@ -489,10 +513,12 @@
 //					console.timeEnd('addChart_VSNR() rendering Chart and Data');
 		        	
 		        	
-		      		$('#'+chartId).pleaseWait('stop');	
-		      		charts.push(_chartInstance);
+		      		//$('#'+chartId).pleaseWait('stop');	
+		      		//charts.push(_chartInstance);
+		      		
+//		      		var idx = 't' + $("#tabs").tabs('option', 'active') + '_';
 		      		map.put(chartId, _chartInstance);
-//		      		console.timeEnd('addChart_VSNR()');
+		      		systime('addChart_VSNR()', 'end');
 				},
 				
 		        cache: false,
@@ -501,30 +527,36 @@
 		}
 		
 		
-		function addChart_VRadiance(url,dStr,tabIndex,detector,chartId){
-			
+		function addChart_VRadiance(url,dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
+			systime('addChart_VRadiance()', 'begin');
 			$.ajax({
 				type: 'GET',
 				dataType:'json',
 //				url: '<c:url value='/' />timeseries/retrieval/L_1_A_VR',
 				url: url,
-				data:'targetDate=' + dStr + '&channel=1&detector='+ detector,
+				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 		        success: function(jsonData) {
 		        	if(jsonData.length==0){
 		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
 		        		return;
 		        	}
+
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					chartingPeriod = chartingPeriod.toUpperCase();
+					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+						
 		        	//chart goes here
 //					var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_singleSeries,{
-						var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_multipleSeries,{
+						var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
-							type : 'line',
+//							type : 'line',
 							renderTo : chartId,  								
-							defaultSeriesType : 'line',
-							animation: false,
-							plotBorderWidth : 1,
-							plotBorderColor : '#346691', // '#346691',
-							zoomType : 'xy',
+//							defaultSeriesType : 'line',
+//							animation: false,
+//							plotBorderWidth : 1,
+//							plotBorderColor : '#346691', // '#346691',
+//							zoomType : 'xy',
 						},
 						title: {
 							text: 'Visible Radiance',
@@ -537,27 +569,8 @@
 							text: '(Detector ' + detector + ')',
 							align: 'center',
 							style:{
-								font:'normal 13px Dotum'
+								font:'normal 13px NanumGothic'
 							}
-						},
-						xAxis : {
-							type : 'datetime',
-							tickColor: '#346691',
-							labels : {
-								formatter : function() {
-									var myDate = new Date(this.value);
-									var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth(), myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
-									// return Highcharts.dateFormat("%l%p",newDateMs);
-									return Highcharts.dateFormat("%e. %b %H:%M",newDateMs);
-								}
-							},
-							//remove leading n trailling padding?space from the series of the timeseries chart haha
-							startOnTick: true,
-							endOnTick: false,				
-							minPadding:0,
-							maxPadding:0,
-							lineColor : '#346691',
-							lineWidth : 1,
 						},
 						yAxis: {
 							//get rid of horizontal grid lines haha
@@ -577,12 +590,12 @@
 							 	title: {
 								text: 'Value',
 								style : {
-									font:'normal 12px Dotum'
+									font:'normal 12px NanumGothic'
 								}	
 							},
 							labels:{
 								style : {
-									font:'normal 11px Dotum'
+									font:'normal 11px NanumGothic'
 								},
 								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
 					            	return Highcharts.numberFormat(this.value, 0, '.', ',');
@@ -590,7 +603,7 @@
 							},	
 						},
 					 	series: [
-							{name: 'Min',	type:'line',
+							{name: 'Min',	
 							  color: '#003399' ,
 							  connectNulls:false, data: []}
 							  ,{name:'Max',
@@ -627,9 +640,11 @@
 						_chartInstance.series[idx].setData(eachData); 
 					});
 					
- 		        	$('#'+chartId).pleaseWait('stop');	
- 		        	charts.push(_chartInstance);
+ 		        	//$('#'+chartId).pleaseWait('stop');	
+ 		        	//charts.push(_chartInstance);
  		        	map.put(chartId, _chartInstance);
+// 		        	sysout('checked:: ' +chartId);
+ 		        	systime('addChart_VRadiance()', 'end');
 				},
 		        cache: false,
 		        
@@ -639,28 +654,36 @@
 		
 		
 		
-		function addChart_VisiblePRNU(url,dStr,tabIndex,detector,chartId){
+		function addChart_VisiblePRNU(url,dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
+			systime('addChart_VisiblePRNU()', 'begin');
 			$.ajax({
 				type: 'GET',
 				dataType:'json',
 				url: url,	
 //				url: '<c:url value='/' />timeseries/retrieval/L_1_A_VisblePRNU',
-				data:'targetDate=' + dStr + '&channel=1&detector='+ detector,
+				data:'targetDate=' + dStr +'&dBegin=' + dBegin +  '&channel=1&detector='+ detector,
 		        success: function(jsonData) {
 		        	if(jsonData.length==0){
 		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
 		        		return;
 		        	}
+
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					chartingPeriod = chartingPeriod.toUpperCase();
+					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+						
+		        	
 		        	//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_singleSeries,{
+					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
-							type : 'scatter',
+//							type : 'scatter',
 							renderTo : chartId,  								
-							defaultSeriesType : 'line',
-							animation: false,
-							plotBorderWidth : 1,
-							plotBorderColor : '#346691', // '#346691',
-							zoomType : 'xy',
+//							defaultSeriesType : 'line',
+//							animation: false,
+//							plotBorderWidth : 1,
+//							plotBorderColor : '#346691', // '#346691',
+//							zoomType : 'xy',
 						},
 						title: {
 							text: 'Visible PRNU',
@@ -673,27 +696,8 @@
 							text: '(Detector ' + detector + ')',
 							align: 'center',
 							style:{
-								font:'normal 13px Dotum'
+								font:'normal 13px NanumGothic'
 							}
-						},
-						xAxis : {
-							type : 'datetime',
-							tickColor: '#346691',
-							labels : {
-								formatter : function() {
-									var myDate = new Date(this.value);
-									var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth(), myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
-									// return Highcharts.dateFormat("%l%p",newDateMs);
-									return Highcharts.dateFormat("%e. %b %H:%M",newDateMs);
-								}
-							},
-							//remove leading n trailling padding?space from the series of the timeseries chart haha
-							startOnTick: true,
-							endOnTick: false,				
-							minPadding:0,
-							maxPadding:0,
-							lineColor : '#346691',
-							lineWidth : 1,
 						},
 						yAxis: {
 							//get rid of horizontal grid lines haha
@@ -713,12 +717,12 @@
 							 	title: {
 								text: 'Value',
 								style : {
-									font:'normal 12px Dotum'
+									font:'normal 12px NanumGothic'
 								}	
 							},
 							labels:{
 								style : {
-									font:'normal 11px Dotum'
+									font:'normal 11px NanumGothic'
 								},
 								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
 					            	return Highcharts.numberFormat(this.value, 2, '.', ',');
@@ -747,9 +751,10 @@
 	        			}); 
 					});
 					
- 		        	$('#'+chartId).pleaseWait('stop');	
- 		        	charts.push(_chartInstance);
+ 		        	//$('#'+chartId).pleaseWait('stop');	
+ 		        	//charts.push(_chartInstance);
  		        	map.put(chartId, _chartInstance);
+ 		        	systime('addChart_VisiblePRNU()', 'end');
 				},
 		        cache: false,
 		        
@@ -758,28 +763,35 @@
 		
 		
 		
-		function addChart_IRRS(url, dStr,tabIndex,detector,chartId){
+		function addChart_IRRS(url, dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
+			systime('addChart_IRRS()', 'begin');
 			$.ajax({
 				type: 'GET',
 				dataType:'json',
 			//	url: '<c:url value='/' />timeseries/retrieval/L_1_A_IRRS',
 				url:url,
-				data:'targetDate=' + dStr + '&channel=1&detector='+ detector,
+				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 		        success: function(jsonData) {
 		        	if(jsonData.length==0){
 		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
 		        		return;
 		        	}
+
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					chartingPeriod = chartingPeriod.toUpperCase();
+					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+							        	
 		        	//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_multipleSeries,{
+					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
-							type : 'line',
+//							type : 'line',
 							renderTo : chartId,  								
-							defaultSeriesType : 'line',
-							animation: false,
-							plotBorderWidth : 1,
-							plotBorderColor : '#346691', // '#346691',
-							zoomType : 'xy',
+//							defaultSeriesType : 'line',
+//							animation: false,
+//							plotBorderWidth : 1,
+//							plotBorderColor : '#346691', // '#346691',
+//							zoomType : 'xy',
 						},
 						title: {
 							text: 'IR Radiance',
@@ -792,27 +804,8 @@
 							text: '(Detector ' + detector + ')',
 							align: 'center',
 							style:{
-								font:'normal 13px Dotum'
+								font:'normal 13px NanumGothic'
 							}
-						},
-						xAxis : {
-							type : 'datetime',
-							tickColor: '#346691',
-							labels : {
-								formatter : function() {
-									var myDate = new Date(this.value);
-									var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth(), myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
-									// return Highcharts.dateFormat("%l%p",newDateMs);
-									return Highcharts.dateFormat("%e. %b %H:%M",newDateMs);
-								}
-							},
-							//remove leading n trailling padding?space from the series of the timeseries chart haha
-							startOnTick: true,
-							endOnTick: false,				
-							minPadding:0,
-							maxPadding:0,
-							lineColor : '#346691',
-							lineWidth : 1,
 						},
 						yAxis: {
 							//get rid of horizontal grid lines haha
@@ -832,12 +825,12 @@
 							 	title: {
 								text: 'Value',
 								style : {
-									font:'normal 12px Dotum'
+									font:'normal 12px NanumGothic'
 								}	
 							},
 							labels:{
 								style : {
-									font:'normal 11px Dotum'
+									font:'normal 11px NanumGothic'
 								},
 								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
 					            	return Highcharts.numberFormat(this.value, 0, '.', ',');
@@ -845,26 +838,6 @@
 							},	
 						}
 					 	
-					   /* 
-					   series: [
-							{name: 'Min',
-							  color: '#003399' ,
-							  connectNulls:false, data: []}
-							  ,{name:'Max',
-							  	color: '#f15c80' ,
-							  	connectNulls:false, data: []}
-							  ,{name:'Mean',
-							  	color: '#CCCC00' ,
-							  	connectNulls:false, data: []}
-							  ,{name:'Median',
-							  	color: '#cc66cc' ,
-							  	connectNulls:false, data: []}
-							  ,{name:'stdev',
-							  	color: '#0099CC' ,
-							  	connectNulls:false, data: []}
-							  
-					  ],
-					   */
 					})); //haha
 		        	
 		        	//chart goes here
@@ -886,9 +859,10 @@
 	        			}); 
 					});
 					
- 		        	$('#'+chartId).pleaseWait('stop');	
- 		        	charts.push(_chartInstance);
+ 		        	//$('#'+chartId).pleaseWait('stop');	
+ 		        	//charts.push(_chartInstance);
  		        	map.put(chartId, _chartInstance);
+ 		        	systime('addChart_IRRS()', 'end');
 				},
 		        cache: false,
 		        
@@ -897,33 +871,35 @@
 		
 		
 		
-		
-		
-		
-		
-		
-		function addChart_IR_NEDT(url, dStr,tabIndex,detector,chartId){
+		function addChart_IR_NEDT(url, dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
+			systime('addChart_IR_NEDT()', 'begin');
 			$.ajax({
 				type: 'GET',
 				dataType:'json',
 //				url: '<c:url value='/' />timeseries/retrieval/L_1_A_IRNEDT',
 				url: url,
-				data:'targetDate=' + dStr + '&channel=1&detector='+ detector,
+				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 		        success: function(jsonData) {
 		        	if(jsonData.length==0){
 		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
 		        		return;
 		        	}
+
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					chartingPeriod = chartingPeriod.toUpperCase();
+					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					
 		        	//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_multipleSeries,{
+					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
-							type : 'line',
+//							type : 'line',
 							renderTo : chartId,  								
-							defaultSeriesType : 'line',
-							animation: false,
-							plotBorderWidth : 1,
-							plotBorderColor : '#346691', // '#346691',
-							zoomType : 'xy',
+//							defaultSeriesType : 'line',
+//							animation: false,
+//							plotBorderWidth : 1,
+//							plotBorderColor : '#346691', // '#346691',
+//							zoomType : 'xy',
 						},
 						title: {
 							text: 'IR NEDT (220K)',
@@ -936,29 +912,10 @@
 							text: '(Detector ' + detector + ')',
 							align: 'center',
 							style:{
-								font:'normal 13px Dotum'
+								font:'normal 13px NanumGothic'
 							}
 						},
-						xAxis : {
-							type : 'datetime',
-							tickColor: '#346691',
-							labels : {
-								formatter : function() {
-									var myDate = new Date(this.value);
-									var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth(), myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
-									// return Highcharts.dateFormat("%l%p",newDateMs);
-									return Highcharts.dateFormat("%e. %b %H:%M",newDateMs);
-								}
-							},
-							//remove leading n trailling padding?space from the series of the timeseries chart haha
-							startOnTick: true,
-							endOnTick: false,				
-							minPadding:0,
-							maxPadding:0,
-							lineColor : '#346691',
-							lineWidth : 1,
-						}
-						,yAxis: {
+						yAxis: {
 							//get rid of horizontal grid lines haha
 							//gridLineWidth: 0,
 							tickColor: '#346691',
@@ -976,12 +933,12 @@
 							 	title: {
 								text: 'Value',
 								style : {
-									font:'normal 12px Dotum'
+									font:'normal 12px NanumGothic'
 								}	
 							},
 							labels:{
 								style : {
-									font:'normal 11px Dotum'
+									font:'normal 11px NanumGothic'
 								},
 								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
 					            	return Highcharts.numberFormat(this.value, 0, '.', ',');
@@ -1010,17 +967,17 @@
 	        			}); 
 					});
 					
- 		        	$('#'+chartId).pleaseWait('stop');	
- 		        	charts.push(_chartInstance);
+ 		        	//$('#'+chartId).pleaseWait('stop');	
+ 		        	//charts.push(_chartInstance);
  		        	map.put(chartId, _chartInstance);
  		        	/*
- 		        	console.log('===>charts.push : ' + chartId + ' instance reference..');
-		        	console.log(_chartInstance);
-		        	console.log('charts.length is ');
-		        	console.log(charts.length);*/
+ 		        	sysout('===>//charts.push : ' + chartId + ' instance reference..');
+		        	sysout(_chartInstance);
+		        	sysout('charts.length is ');
+		        	sysout(charts.length);*/
+ 		        	systime('addChart_IR_NEDT()', 'end');
 				},
 		        cache: false,
-		        
 			});	
 		}
 		
@@ -1028,31 +985,35 @@
 		
 		
 		
-		
-		
-		
-		function addChart_IR_PRNU(url,dStr,tabIndex,detector,chartId){
+		function addChart_IR_PRNU(url,dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
+			systime('addChart_IR_PRNU()', 'begin');
 			$.ajax({
 				type: 'GET',
 				dataType:'json',
 				//url: '<c:url value='/' />timeseries/retrieval/L_1_A_IRPRNU',
 				url: url,
-				data:'targetDate=' + dStr + '&channel=1&detector='+ detector,
+				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 		        success: function(jsonData) {
 		        	if(jsonData.length==0){
 		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
 		        		return;
 		        	}
+
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					chartingPeriod = chartingPeriod.toUpperCase();
+					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					
 		        	//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_singleSeries,{
+					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
-							type : 'scatter',
+//							type : 'scatter',
 							renderTo : chartId,  								
-							defaultSeriesType : 'line',
-							animation: false,
-							plotBorderWidth : 1,
-							plotBorderColor : '#346691', // '#346691',
-							zoomType : 'xy',
+//							defaultSeriesType : 'line',
+//							animation: false,
+//							plotBorderWidth : 1,
+//							plotBorderColor : '#346691', // '#346691',
+//							zoomType : 'xy',
 						},
 						title: {
 							text: 'IR PRNU',
@@ -1065,27 +1026,8 @@
 							text: '(Detector ' + detector + ')',
 							align: 'center',
 							style:{
-								font:'normal 13px Dotum'
+								font:'normal 13px NanumGothic'
 							}
-						},
-						xAxis : {
-							type : 'datetime',
-							tickColor: '#346691',
-							labels : {
-								formatter : function() {
-									var myDate = new Date(this.value);
-									var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth(), myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
-									// return Highcharts.dateFormat("%l%p",newDateMs);
-									return Highcharts.dateFormat("%e. %b %H:%M",newDateMs);
-								}
-							},
-							//remove leading n trailling padding?space from the series of the timeseries chart haha
-							startOnTick: true,
-							endOnTick: false,				
-							minPadding:0,
-							maxPadding:0,
-							lineColor : '#346691',
-							lineWidth : 1,
 						},
 						yAxis: {
 							//get rid of horizontal grid lines haha
@@ -1105,12 +1047,12 @@
 							 	title: {
 								text: 'Value',
 								style : {
-									font:'normal 12px Dotum'
+									font:'normal 12px NanumGothic'
 								}	
 							},
 							labels:{
 								style : {
-									font:'normal 11px Dotum'
+									font:'normal 11px NanumGothic'
 								},
 								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
 					            	return Highcharts.numberFormat(this.value, 4, '.', ',');
@@ -1143,9 +1085,10 @@
 	        			}); */
 					});
 					
- 		        	$('#'+chartId).pleaseWait('stop');	
- 		        	charts.push(_chartInstance);
+ 		        	//$('#'+chartId).pleaseWait('stop');	
+ 		        	//charts.push(_chartInstance);
  		        	map.put(chartId, _chartInstance);
+ 		        	systime('addChart_IR_PRNU()', 'end');
 				},
 		        cache: false,
 		        
@@ -1157,28 +1100,37 @@
 		
 		
 		
-		function addChart_L1A_ENV(url,dStr,tabIndex,ENVTypeCode,chartId){
+		function addChart_L1A_ENV(url,dStr, dBegin, tabIndex,ENVTypeCode,chartId,chartingPeriod){
+			systime('addChart_L1A_ENV()', 'begin');
+			sysout("ENV_CODE :: " + ENVTypeCode)
 			$.ajax({
 				type: 'GET',
 				dataType:'json',
 				//url: '<c:url value='/' />timeseries/retrieval/L_1_A_IRPRNU',
 				url: url,
-				data:'targetDate=' + dStr + '&ENVType='+ ENVTypeCode,
+				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&ENVType='+ ENVTypeCode,
 				success: function(jsonData) {
 					if(jsonData.length==0){
 						$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//						$('#'+chartId).append("<div class='loader' data-initialize='loader' data-frame='7' id='myFxxkingLoader'></div>");
 						return;
 					}
+
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					chartingPeriod = chartingPeriod.toUpperCase();
+					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+							        	
 					//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_singleSeries,{
+					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
-							type : 'scatter',
+//							type : 'scatter',
 							renderTo : chartId,  								
-							defaultSeriesType : 'line',
-							animation: false,
-							plotBorderWidth : 1,
-							plotBorderColor : '#346691', // '#346691',
-							zoomType : 'xy',
+//							defaultSeriesType : 'line',
+//							animation: false,
+//							plotBorderWidth : 1,
+//							plotBorderColor : '#346691', // '#346691',
+//							zoomType : 'xy',
 						},
 						title: {
 							text: 'LEVEL 1 A EV',
@@ -1192,27 +1144,8 @@
 							text: ' ',
 							align: 'center',
 							style:{
-								font:'normal 13px Dotum'
+								font:'normal 13px NanumGothic'
 							}
-						},
-						xAxis : {
-							type : 'datetime',
-							tickColor: '#346691',
-							labels : {
-								formatter : function() {
-									var myDate = new Date(this.value);
-									var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth(), myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
-									// return Highcharts.dateFormat("%l%p",newDateMs);
-									return Highcharts.dateFormat("%e. %b %H:%M",newDateMs);
-								}
-							},
-							//remove leading n trailling padding?space from the series of the timeseries chart haha
-							startOnTick: true,
-							endOnTick: false,				
-							minPadding:0,
-							maxPadding:0,
-							lineColor : '#346691',
-							lineWidth : 1,
 						},
 						yAxis: {
 							//get rid of horizontal grid lines haha
@@ -1232,12 +1165,12 @@
 							title: {
 								text: 'Temperature(K)',
 								style : {
-									font:'normal 12px Dotum'
+									font:'normal 12px NanumGothic'
 								}	
 							},
 							labels:{
 								style : {
-									font:'normal 11px Dotum'
+									font:'normal 11px NanumGothic'
 								},
 								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
 									return Highcharts.numberFormat(this.value, 3, '.', ',');
@@ -1281,9 +1214,10 @@
 					_chartInstance.redraw();
 					
 					
-					$('#'+chartId).pleaseWait('stop');	
-					charts.push(_chartInstance);
+					//$('#'+chartId).pleaseWait('stop');	
+					//charts.push(_chartInstance);
 					map.put(chartId, _chartInstance);
+					systime('addChart_L1A_ENV()', 'end');
 				},
 				cache: false,
 				
@@ -1317,28 +1251,35 @@
 		}
 		
 				
-		function addChart_LV1B_QI_NumOfLandmarks(url,dStr,tabIndex,detector,chartId){
+		function addChart_LV1B_QI_NumOfLandmarks(url,dStr, dBegin, tabIndex,detector,chartId,chartingPeriod){
+			systime('addChart_LV1B_QI_NumOfLandmarks()', 'begin');
 			$.ajax({
 				type: 'GET',
 				dataType:'json',
 				//url: '<c url value='/' />timeseries/retrieval/L_1_B_NVL',
 				url: url,
-				data: 'targetDate=' + dStr + '&imgMode=1&menuId=l1b&submenuId=nVL',
+				data: 'targetDate=' + dStr +'&dBegin=' + dBegin +  '&imgMode=1&menuId=l1b&submenuId=nVL',
 		        success: function(jsonData) {
 					if(jsonData.length==0){
 		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
 		        		return;
 		        	}
+
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					chartingPeriod = chartingPeriod.toUpperCase();
+					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+						
 		        	//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_multipleSeries,{
+					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
-							type : 'line',
+//							type : 'line',
 							renderTo : chartId,  							
-							defaultSeriesType : 'line',
-							animation: false,
-							plotBorderWidth : 1,
-							plotBorderColor : '#346691', // '#346691',
-							zoomType : 'xy',
+//							defaultSeriesType : 'line',
+//							animation: false,
+//							plotBorderWidth : 1,
+//							plotBorderColor : '#346691', // '#346691',
+//							zoomType : 'xy',
 						},
 						title: {
 				            text: 'Number of Valid Landmarks',
@@ -1351,30 +1292,9 @@
 				            text: null,
 				            align: 'center',
 				            style:{
-				            	font:'normal 13px Dotum'
+				            	font:'normal 13px NanumGothic'
 				            }
 				        },
-				        xAxis : {
-							type : 'datetime',
-							tickColor: '#346691',
-							labels : {
-								formatter : function() {
-									//console.log(this.value);
-									var myDate = new Date(this.value);
-									//console.log(myDate);
-									var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth(), myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
-									// return Highcharts.dateFormat("%l%p",newDateMs);
-									return Highcharts.dateFormat("%e. %b %H:%M",newDateMs);
-								}
-							},
-							//remove leading n trailling padding?space from the series of the timeseries chart haha
-							startOnTick: true,
-							endOnTick: false,				
-							minPadding:0,
-							maxPadding:0,
-							lineColor : '#346691',
-							lineWidth : 1,
-						},
 				        yAxis: {
 			    			//get rid of horizontal grid lines haha
 			    			//gridLineWidth: 0,
@@ -1392,12 +1312,12 @@
 				            title: {
 				                text: 'Number',
 			                	style : {
-			                		font:'normal 12px Dotum'
+			                		font:'normal 12px NanumGothic'
 			                	}	
 				            },
 				            labels:{
 					            style : {
-				            		font:'normal 11px Dotum'
+				            		font:'normal 11px NanumGothic'
 					            },
 					            formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
 					            	return Highcharts.numberFormat(this.value, 0, '.', ',');
@@ -1441,9 +1361,10 @@
 						}
 						_chartInstance.series[idx*1].setData(eachData); 
 					});
-		        	$('#'+chartId).pleaseWait('stop');
-		        	charts.push(_chartInstance);
+		        	//$('#'+chartId).pleaseWait('stop');
+		        	//charts.push(_chartInstance);
 		        	map.put(chartId, _chartInstance);
+		        	systime('addChart_LV1B_QI_NumOfLandmarks()', 'end');
 				},
 		        cache: false	
 			});	
@@ -1451,29 +1372,36 @@
 		
 		
 		
-		function addChart_LV1B_QI_ResidualStdDev(url,dStr,tabIndex,detector,chartId){
+		function addChart_LV1B_QI_ResidualStdDev(url,dStr, dBegin, tabIndex,detector,chartId,chartingPeriod){
+			systime('addChart_LV1B_QI_ResidualStdDev()', 'begin');
 			var whichSide = (detector*1==1)?'NS':'EW';
 			$.ajax({
 				type: 'GET',
 				dataType:'json',
 				//url: '<c url value='/' />timeseries/retrieval/L_1_B_NVL',
 				url: url,
-				data: 'targetDate=' + dStr + '&imgMode=1&menuId=l1b&submenuId=nVL',
+				data: 'targetDate=' + dStr + '&dBegin=' + dBegin + '&imgMode=1&menuId=l1b&submenuId=nVL',
 				success: function(jsonData) {
 					if(jsonData.length==0){
 						$('#'+chartId).append("<span class='clear'>No data available.</span>");
 						return;
 					}
+
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					chartingPeriod = chartingPeriod.toUpperCase();
+					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+						
 					//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_multipleSeries,{
+					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
-							type : 'line',
+//							type : 'line',
 							renderTo : chartId,  							
-							defaultSeriesType : 'line',
-							animation: false,
-							plotBorderWidth : 1,
-							plotBorderColor : '#346691', // '#346691',
-							zoomType : 'xy',
+//							defaultSeriesType : 'line',
+//							animation: false,
+//							plotBorderWidth : 1,
+//							plotBorderColor : '#346691', // '#346691',
+//							zoomType : 'xy',
 						},
 						title: {
 							text: 'Residual Standard Deviation('+whichSide+')',
@@ -1486,29 +1414,8 @@
 							text: null,
 							align: 'center',
 							style:{
-								font:'normal 13px Dotum'
+								font:'normal 13px NanumGothic'
 							}
-						},
-						xAxis : {
-							type : 'datetime',
-							tickColor: '#346691',
-							labels : {
-								formatter : function() {
-									//console.log(this.value);
-									var myDate = new Date(this.value);
-									//console.log(myDate);
-									var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth(), myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
-									// return Highcharts.dateFormat("%l%p",newDateMs);
-									return Highcharts.dateFormat("%e. %b %H:%M",newDateMs);
-								}
-							},
-							//remove leading n trailling padding?space from the series of the timeseries chart haha
-							startOnTick: true,
-							endOnTick: false,				
-							minPadding:0,
-							maxPadding:0,
-							lineColor : '#346691',
-							lineWidth : 1,
 						},
 						yAxis: {
 							//get rid of horizontal grid lines haha
@@ -1527,12 +1434,12 @@
 							title: {
 								text: 'Number',
 								style : {
-									font:'normal 12px Dotum'
+									font:'normal 12px NanumGothic'
 								}	
 							},
 							labels:{
 								style : {
-									font:'normal 11px Dotum'
+									font:'normal 11px NanumGothic'
 								},
 								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
 									return Highcharts.numberFormat(this.value, 5, '.', ',');
@@ -1575,9 +1482,10 @@
 						}
 						_chartInstance.series[idx*1].setData(eachData); 
 					});
-					$('#'+chartId).pleaseWait('stop');
-					charts.push(_chartInstance);
+					//$('#'+chartId).pleaseWait('stop');
+					//charts.push(_chartInstance);
 					map.put(chartId, _chartInstance);
+					systime('addChart_LV1B_QI_ResidualStdDev()', 'end');
 				},
 				cache: false	
 			});	
@@ -1585,28 +1493,35 @@
 		
 		
 		
-		function addChart_LV1B_QI_ResidualQuadraticDistance(url,dStr,tabIndex,detector,chartId){
+		function addChart_LV1B_QI_ResidualQuadraticDistance(url,dStr, dBegin, tabIndex,detector,chartId,chartingPeriod){
+			systime('addChart_LV1B_QI_ResidualQuadraticDistance()', 'begin');
 			$.ajax({
 				type: 'GET',
 				dataType:'json',
 				//url: '<c url value='/' />timeseries/retrieval/L_1_B_NVL',
 				url: url,
-				data: 'targetDate=' + dStr + '&imgMode=1&menuId=l1b&submenuId=nVL',
+				data: 'targetDate=' + dStr + '&dBegin=' + dBegin + '&imgMode=1&menuId=l1b&submenuId=nVL',
 				success: function(jsonData) {
 					if(jsonData.length==0){
 						$('#'+chartId).append("<span class='clear'>No data available.</span>");
 						return;
 					}
+
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					chartingPeriod = chartingPeriod.toUpperCase();
+					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+						
 					//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_multipleSeries,{
+					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
-							type : 'line',
+//							type : 'line',
 							renderTo : chartId,  							
-							defaultSeriesType : 'line',
-							animation: false,
-							plotBorderWidth : 1,
-							plotBorderColor : '#346691', // '#346691',
-							zoomType : 'xy',
+//							defaultSeriesType : 'line',
+//							animation: false,
+//							plotBorderWidth : 1,
+//							plotBorderColor : '#346691', // '#346691',
+//							zoomType : 'xy',
 						},
 						title: {
 							text: 'Residual Quadratic Distance',
@@ -1619,29 +1534,8 @@
 							text: null,
 							align: 'center',
 							style:{
-								font:'normal 13px Dotum'
+								font:'normal 13px NanumGothic'
 							}
-						},
-						xAxis : {
-							type : 'datetime',
-							tickColor: '#346691',
-							labels : {
-								formatter : function() {
-									//console.log(this.value);
-									var myDate = new Date(this.value);
-									//console.log(myDate);
-									var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth(), myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
-									// return Highcharts.dateFormat("%l%p",newDateMs);
-									return Highcharts.dateFormat("%e. %b %H:%M",newDateMs);
-								}
-							},
-							//remove leading n trailling padding?space from the series of the timeseries chart haha
-							startOnTick: true,
-							endOnTick: false,				
-							minPadding:0,
-							maxPadding:0,
-							lineColor : '#346691',
-							lineWidth : 1,
 						},
 						yAxis: {
 							//get rid of horizontal grid lines haha
@@ -1660,12 +1554,12 @@
 							title: {
 								text: 'Number',
 								style : {
-									font:'normal 12px Dotum'
+									font:'normal 12px NanumGothic'
 								}	
 							},
 							labels:{
 								style : {
-									font:'normal 11px Dotum'
+									font:'normal 11px NanumGothic'
 								},
 								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
 									return Highcharts.numberFormat(this.value, 5, '.', ',');
@@ -1709,9 +1603,10 @@
 						}
 						_chartInstance.series[idx*1].setData(eachData); 
 					});
-					$('#'+chartId).pleaseWait('stop');
-					charts.push(_chartInstance);
+					//$('#'+chartId).pleaseWait('stop');
+					//charts.push(_chartInstance);
 					map.put(chartId, _chartInstance);
+					systime('addChart_LV1B_QI_ResidualQuadraticDistance()', 'end');
 				},
 				cache: false	
 			});	
@@ -1720,28 +1615,35 @@
 		
 		
 		
-		function addChart_LV1B_QI_ResidualAvg(url,dStr,tabIndex,detector,chartId){
+		function addChart_LV1B_QI_ResidualAvg(url,dStr, dBegin, tabIndex,detector,chartId,chartingPeriod){
+			systime('addChart_LV1B_QI_ResidualAvg()', 'begin');
 			$.ajax({
 				type: 'GET',
 				dataType:'json',
 				//url: '<c url value='/' />timeseries/retrieval/L_1_B_NVL',
 				url: url,
-				data: 'targetDate=' + dStr + '&imgMode=1&menuId=l1b&submenuId=RAVG',
+				data: 'targetDate=' + dStr + '&dBegin=' + dBegin + '&imgMode=1&menuId=l1b&submenuId=RAVG',
 				success: function(jsonData) {
 					if(jsonData.length==0){
 						$('#'+chartId).append("<span class='clear'>No data available.</span>");
 						return;
 					}
+
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					chartingPeriod = chartingPeriod.toUpperCase();
+					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+						
 					//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_multipleSeries,{
+					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
-							type : 'line',
+//							type : 'line',
 							renderTo : chartId,  							
-							defaultSeriesType : 'line',
-							animation: false,
-							plotBorderWidth : 1,
-							plotBorderColor : '#346691', // '#346691',
-							zoomType : 'xy',
+//							defaultSeriesType : 'line',
+//							animation: false,
+//							plotBorderWidth : 1,
+//							plotBorderColor : '#346691', // '#346691',
+//							zoomType : 'xy',
 						},
 						title: {
 							text: 'Landmark Residual - Average (EW/NS)',
@@ -1754,27 +1656,8 @@
 							text: null,
 							align: 'center',
 							style:{
-								font:'normal 13px Dotum'
+								font:'normal 13px NanumGothic'
 							}
-						},
-						xAxis : {
-							type : 'datetime',
-							tickColor: '#346691',
-							labels : {
-								formatter : function() {
-									var myDate = new Date(this.value);
-									var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth(), myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
-									// return Highcharts.dateFormat("%l%p",newDateMs);
-									return Highcharts.dateFormat("%e. %b %H:%M",newDateMs);
-								}
-							},
-							//remove leading n trailling padding?space from the series of the timeseries chart haha
-							startOnTick: true,
-							endOnTick: false,				
-							minPadding:0,
-							maxPadding:0,
-							lineColor : '#346691',
-							lineWidth : 1,
 						},
 						yAxis: {
 							//get rid of horizontal grid lines haha
@@ -1794,12 +1677,12 @@
 							 title: {
 								text: 'Error',
 								style : {
-									font:'normal 12px Dotum'
+									font:'normal 12px NanumGothic'
 								}	
 							},
 							labels:{
 								style : {
-									font:'normal 11px Dotum'
+									font:'normal 11px NanumGothic'
 								},
 								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
 					            	return Highcharts.numberFormat(this.value, 5, '.', ',');
@@ -1810,63 +1693,63 @@
 						,series: [
 							 {name:'FD (FULL) (EW)',
 							  	color:'#7cb5ec',
-							  	marker: {
-					                symbol: 'triangle'
-					            },   
+//							  	marker: {
+//					                symbol: 'triangle'
+//					            },   
 			     	         	connectNulls:false, data: []}
 							 ,{name:'FD (FULL) (NS)',
 							  	color:'#7cb5ec',
-							  	marker: {
-					               symbol: 'circle'
-					            },   
+//							  	marker: {
+//					               symbol: 'circle'
+//					            },   
 			     	         	connectNulls:false, data: []}
 			     	         ,{name:'APNH (FULL) (EW)',
 			     	         	color:'#434348',
-							  	marker: {
-					                symbol: 'triangle'
-					            },   
+//							  	marker: {
+//					                symbol: 'triangle'
+//					            },   
 			     	         	connectNulls:false, data: []}
 			     	         ,{name:'APNH (FULL) (NS)',
 			     	         	color:'#434348',
-							  	marker: {
-					               symbol: 'circle'
-					            },   
+//							  	marker: {
+//					               symbol: 'circle'
+//					            },   
 			     	         	connectNulls:false, data: []}
 			     	         ,{name:'ENH (FULL) (EW)',
 			     	         	color:'#f15c80',
-							  	marker: {
-					                symbol: 'triangle'
-					            },   
+//							  	marker: {
+//					                symbol: 'triangle'
+//					            },   
 			     	         	connectNulls:false, data: []}
 			     	         ,{name:'ENH (FULL) (NS)',
 			     	         	color:'#f15c80',
-							  	marker: {
-					               symbol: 'circle'
-					            },   
+//							  	marker: {
+//					               symbol: 'circle'
+//					            },   
 			     	         	connectNulls:false, data: []}
 			     	         ,{name:'LSH (FULL) (EW)',
 			     	         	color:'#f7a35c',
-							  	marker: {
-					                symbol: 'triangle'
-					            },   
+//							  	marker: {
+//					                symbol: 'triangle'
+//					            },   
 			     	         	connectNulls:false, data: []}
 			     	         ,{name:'LSH (FULL) (NS)',
 			     	         	color:'#f7a35c',
-							  	marker: {
-					               symbol: 'circle'
-					            },   
+//							  	marker: {
+//					               symbol: 'circle'
+//					            },   
 			     	         	connectNulls:false, data: []}
 			     	         ,{name:'LA (FULL) (EW)',
 			     	         	color:'#8085e8',
-							  	marker: {
-					                symbol: 'triangle'
-					            },   
+//							  	marker: {
+//					                symbol: 'triangle'
+//					            },   
 			     	         	connectNulls:false, data: []}
 			     	         ,{name:'LA (FULL) (NS)',
 			     	         	color:'#8085e8',
-							  	marker: {
-					               symbol: 'circle'
-					            },   
+//							  	marker: {
+//					               symbol: 'circle'
+//					            },   
 			     	         	connectNulls:false, data: []}
 					  ]
 					   
@@ -1887,9 +1770,10 @@
 						_chartInstance.series[idx*2+1].setData(eachData2);// 1 3 ..
 					});
 					
-					$('#'+chartId).pleaseWait('stop');
-					charts.push(_chartInstance);
+					//$('#'+chartId).pleaseWait('stop');
+					//charts.push(_chartInstance);
 					map.put(chartId, _chartInstance);
+					systime('addChart_LV1B_QI_ResidualAvg()', 'end');
 				},
 				cache: false	
 			});	
@@ -1899,28 +1783,35 @@
 		
 		
 		
-		function addChart_LV1B_EV_SCPOS(url,dStr,tabIndex,detector,chartId){
+		function addChart_LV1B_EV_SCPOS(url,dStr, dBegin, tabIndex,detector,chartId,chartingPeriod){
+			systime('addChart_LV1B_EV_SCPOS()', 'begin');
 			$.ajax({
 				type: 'GET',
 				dataType:'json',
 				url: url,	
 //				url: '<c:url value='/' />timeseries/retrieval/L_1_A_VisblePRNU',
-				data:'targetDate=' + dStr + '&channel=1&detector='+ detector,
+				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 		        success: function(jsonData) {
 		        	if(jsonData.length==0){
 		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
 		        		return;
 		        	}
+
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					chartingPeriod = chartingPeriod.toUpperCase();
+					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+						
 		        	//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_singleSeries,{
+					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
-							type : 'scatter',
+//							type : 'scatter',
 							renderTo : chartId,  								
-							defaultSeriesType : 'line',
-							animation: false,
-							plotBorderWidth : 1,
-							plotBorderColor : '#346691', // '#346691',
-							zoomType : 'xy',
+//							defaultSeriesType : 'line',
+//							animation: false,
+//							plotBorderWidth : 1,
+//							plotBorderColor : '#346691', // '#346691',
+//							zoomType : 'xy',
 						},
 						title: {
 							text: 'Spacecraft Position R(m)',
@@ -1933,27 +1824,8 @@
 							text: 'at Image Center',
 							align: 'center',
 							style:{
-								font:'normal 13px Dotum'
+								font:'normal 13px NanumGothic'
 							}
-						},
-						xAxis : {
-							type : 'datetime',
-							tickColor: '#346691',
-							labels : {
-								formatter : function() {
-									var myDate = new Date(this.value);
-									var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth(), myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
-									// return Highcharts.dateFormat("%l%p",newDateMs);
-									return Highcharts.dateFormat("%e. %b %H:%M",newDateMs);
-								}
-							},
-							//remove leading n trailling padding?space from the series of the timeseries chart haha
-							startOnTick: true,
-							endOnTick: false,				
-							minPadding:0,
-							maxPadding:0,
-							lineColor : '#346691',
-							lineWidth : 1,
 						},
 						yAxis: {
 							//get rid of horizontal grid lines haha
@@ -1973,12 +1845,12 @@
 							 	title: {
 								text: 'R(m)',
 								style : {
-									font:'normal 12px Dotum'
+									font:'normal 12px NanumGothic'
 								}	
 							},
 							labels:{
 								style : {
-									font:'normal 11px Dotum'
+									font:'normal 11px NanumGothic'
 								},
 								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
 					            	return Highcharts.numberFormat(this.value, 0, '.', ',');
@@ -2008,9 +1880,10 @@
 	        			}); 
 					});
 					
- 		        	$('#'+chartId).pleaseWait('stop');	
- 		        	charts.push(_chartInstance);
+ 		        	//$('#'+chartId).pleaseWait('stop');	
+ 		        	//charts.push(_chartInstance);
  		        	map.put(chartId, _chartInstance);
+ 		        	systime('addChart_LV1B_EV_SCPOS()', 'end');
 				},
 		        cache: false,
 		        
@@ -2018,28 +1891,35 @@
 		}
 		
 		
-		function addChart_LV1B_EV_SCATT(url,dStr,tabIndex,detector,chartId){
+		function addChart_LV1B_EV_SCATT(url,dStr, dBegin, tabIndex,detector,chartId,chartingPeriod){
+			systime('addChart_LV1B_EV_SCATT()', 'begin');
 			$.ajax({
 				type: 'GET',
 				dataType:'json',
 				url: url,	
 //				url: '<c:url value='/' />timeseries/retrieval/L_1_A_VisblePRNU',
-				data:'targetDate=' + dStr + '&channel=1&detector='+ detector,
+				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 				success: function(jsonData) {
 					if(jsonData.length==0){
 						$('#'+chartId).append("<span class='clear'>No data available.</span>");
 						return;
 					}
+
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					chartingPeriod = chartingPeriod.toUpperCase();
+					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+						
 					//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_multipleSeries,{
+					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
-							type : 'line',
+//							type : 'line',
 							renderTo : chartId,  								
-							defaultSeriesType : 'line',
-							animation: false,
-							plotBorderWidth : 1,
-							plotBorderColor : '#346691', // '#346691',
-							zoomType : 'xy',
+//							defaultSeriesType : 'line',
+//							animation: false,
+//							plotBorderWidth : 1,
+//							plotBorderColor : '#346691', // '#346691',
+//							zoomType : 'xy',
 						},
 						title: {
 							text: 'Spacecraft Attitude',
@@ -2052,27 +1932,8 @@
 							text: '(AOCS Local Orbital Frame)',
 							align: 'center',
 							style:{
-								font:'normal 13px Dotum'
+								font:'normal 13px NanumGothic'
 							}
-						},
-						xAxis : {
-							type : 'datetime',
-							tickColor: '#346691',
-							labels : {
-								formatter : function() {
-									var myDate = new Date(this.value);
-									var newDateMs = Date.UTC(myDate.getUTCFullYear(), myDate.getUTCMonth(), myDate.getUTCDate(), myDate.getUTCHours(), myDate.getUTCMinutes(), myDate.getUTCSeconds());
-									// return Highcharts.dateFormat("%l%p",newDateMs);
-									return Highcharts.dateFormat("%e. %b %H:%M",newDateMs);
-								}
-							},
-							//remove leading n trailling padding?space from the series of the timeseries chart haha
-							startOnTick: true,
-							endOnTick: false,				
-							minPadding:0,
-							maxPadding:0,
-							lineColor : '#346691',
-							lineWidth : 1,
 						},
 						yAxis: {
 							//get rid of horizontal grid lines haha
@@ -2092,12 +1953,12 @@
 							title: {
 								text: 'Value',
 								style : {
-									font:'normal 12px Dotum'
+									font:'normal 12px NanumGothic'
 								}	
 							},
 							labels:{
 								style : {
-									font:'normal 11px Dotum'
+									font:'normal 11px NanumGothic'
 								},
 								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
 									return Highcharts.numberFormat(this.value, 2, '.', ',');
@@ -2148,9 +2009,10 @@
 //						}); 
 					});
 					
-					$('#'+chartId).pleaseWait('stop');	
-					charts.push(_chartInstance);
+					//$('#'+chartId).pleaseWait('stop');	
+					//charts.push(_chartInstance);
 					map.put(chartId, _chartInstance);
+					systime('addChart_LV1B_EV_SCATT()', 'end');
 				},
 				cache: false,
 				
@@ -2158,7 +2020,22 @@
 		}
 		
 		
-		
+		function calcXDaysAgo(currDate, period){
+			var dateCalculated = currDate;
+			
+	 		if(period.toUpperCase()=='DAILY'){
+//	 			do nothing
+			}else if(period.toUpperCase()=='WEEKLY'){
+				dateCalculated = new Date(dateCalculated).add(-7).day(); //date.js
+			}else if(period.toUpperCase()=='MONTHLY'){
+				dateCalculated = new Date(dateCalculated).add(-1).month();
+			}else if(period.toUpperCase()=='QUARTERLY'){
+				dateCalculated = new Date(dateCalculated).add(-3).month();
+			}else if(period.toUpperCase()=='BIANNUALLY'){
+				dateCalculated = new Date(dateCalculated).add(-6).month();
+			}
+			return dateCalculated;
+		}
 		
 		String.prototype.endsWith = function(suffix) {
 	   		return this.indexOf(suffix, this.length - suffix.length) !== -1;

@@ -44,11 +44,11 @@ public class TimeSeriesChartController {
 	//Level 1 A Visible SNR
 	@RequestMapping(value = "timeseries/retrieval/L_1_A_VSNR", method=RequestMethod.GET)
 	@ResponseBody
-	public ArrayList<Vector> selectMatchingData_VsibleSNR(@RequestParam("targetDate") String targetDate,String channel, String detector,  ModelMap model) throws Exception{
+	public ArrayList<Vector> selectMatchingData_VsibleSNR(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
 //	public Vector<HashMap<String,Object>> selectMatchingData_VsibleSNR(@RequestParam("targetDate") String targetDate,String channel, String detector,  ModelMap model) throws Exception{
 		System.out.println("TimeSeriesChartController.selectMatchingData_VsibleSNR()");
-		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1A_VSNR(targetDate);
-		
+		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1A_VSNR(targetDate, dBegin);
+		System.out.println("TimeSeriesChartController.selectMatchingData_VsibleSNR():: queryResult.size() " + results.size());
 		ArrayList<Vector> arr = new ArrayList<Vector>();
 		Vector<HashMap<String, Object>> vec = new Vector<HashMap<String,Object>>();
 		
@@ -66,6 +66,7 @@ public class TimeSeriesChartController {
 			
 			HashMap<String,Object> vMap = new HashMap<String,Object> (); 
 			String currDate= row.get("DSTR").toString();
+			if(row.get("DT_"+detector)==null){ continue; }
 			double currVal = Double.parseDouble(row.get("DT_"+detector).toString());
 //			vMap.put("DSTR", currDate);
 //			vMap.put("D_0", currVal - Double.parseDouble(row.get("DT_0").toString()));
@@ -78,45 +79,61 @@ public class TimeSeriesChartController {
 //			vMap.put("D_7", currVal - Double.parseDouble(row.get("DT_7").toString()));
 //			vec.add(vMap);
 			
-			HashMap<String,Object> vMap0 = new HashMap<String,Object>();
-			vMap0.put("D", currDate);
-			vMap0.put("V", currVal - Double.parseDouble(row.get("DT_0").toString()));
-			vec0.add(vMap0);
+			if(row.get("DT_0")!=null){
+				HashMap<String,Object> vMap0 = new HashMap<String,Object>();
+				vMap0.put("D", currDate);
+				vMap0.put("V", currVal - Double.parseDouble(row.get("DT_0").toString()));
+				vec0.add(vMap0);
+			}
 			
-			HashMap<String,Object> vMap1 = new HashMap<String,Object>();
-			vMap1.put("D", currDate);
-			vMap1.put("V", currVal - Double.parseDouble(row.get("DT_1").toString()));
-			vec1.add(vMap1);
+			if(row.get("DT_1")!=null){
+				HashMap<String,Object> vMap1 = new HashMap<String,Object>();
+				vMap1.put("D", currDate);
+				vMap1.put("V", currVal - Double.parseDouble(row.get("DT_1").toString()));
+				vec1.add(vMap1);
+			}
 			
-			HashMap<String,Object> vMap2 = new HashMap<String,Object>();
-			vMap2.put("D", currDate);
-			vMap2.put("V", currVal - Double.parseDouble(row.get("DT_2").toString()));
-			vec2.add(vMap2);
+			if(row.get("DT_2")!=null){
+				HashMap<String,Object> vMap2 = new HashMap<String,Object>();
+				vMap2.put("D", currDate);
+				vMap2.put("V", currVal - Double.parseDouble(row.get("DT_2").toString()));
+				vec2.add(vMap2);
+			}
 			
-			HashMap<String,Object> vMap3 = new HashMap<String,Object>();
-			vMap3.put("D", currDate);
-			vMap3.put("V", currVal - Double.parseDouble(row.get("DT_3").toString()));
-			vec3.add(vMap3);
+			if(row.get("DT_3")!=null){
+				HashMap<String,Object> vMap3 = new HashMap<String,Object>();
+				vMap3.put("D", currDate);
+				vMap3.put("V", currVal - Double.parseDouble(row.get("DT_3").toString()));
+				vec3.add(vMap3);
+			}
 			
-			HashMap<String,Object> vMap4 = new HashMap<String,Object>();
-			vMap4.put("D", currDate);
-			vMap4.put("V", currVal - Double.parseDouble(row.get("DT_4").toString()));
-			vec4.add(vMap4);
+			if(row.get("DT_4")!=null){
+				HashMap<String,Object> vMap4 = new HashMap<String,Object>();
+				vMap4.put("D", currDate);
+				vMap4.put("V", currVal - Double.parseDouble(row.get("DT_4").toString()));
+				vec4.add(vMap4);
+			}
 			
-			HashMap<String,Object> vMap5 = new HashMap<String,Object>();
-			vMap5.put("D", currDate);
-			vMap5.put("V", currVal - Double.parseDouble(row.get("DT_5").toString()));
-			vec5.add(vMap5);
+			if(row.get("DT_5")!=null){
+				HashMap<String,Object> vMap5 = new HashMap<String,Object>();
+				vMap5.put("D", currDate);
+				vMap5.put("V", currVal - Double.parseDouble(row.get("DT_5").toString()));
+				vec5.add(vMap5);
+			}
 			
-			HashMap<String,Object> vMap6 = new HashMap<String,Object>();
-			vMap6.put("D", currDate);
-			vMap6.put("V", currVal - Double.parseDouble(row.get("DT_6").toString()));
-			vec6.add(vMap6);
+			if(row.get("DT_6")!=null){
+				HashMap<String,Object> vMap6 = new HashMap<String,Object>();
+				vMap6.put("D", currDate);
+				vMap6.put("V", currVal - Double.parseDouble(row.get("DT_6").toString()));
+				vec6.add(vMap6);
+			}
 			
-			HashMap<String,Object> vMap7 = new HashMap<String,Object>();
-			vMap7.put("D", currDate);
-			vMap7.put("V", currVal - Double.parseDouble(row.get("DT_7").toString()));
-			vec7.add(vMap7);
+			if(row.get("DT_7")!=null){
+				HashMap<String,Object> vMap7 = new HashMap<String,Object>();
+				vMap7.put("D", currDate);
+				vMap7.put("V", currVal - Double.parseDouble(row.get("DT_7").toString()));
+				vec7.add(vMap7);
+			}
 			
 		}
 		
@@ -232,8 +249,8 @@ public class TimeSeriesChartController {
 	@RequestMapping(value = "timeseries/retrieval/L_1_A_VR", method=RequestMethod.GET)
 	@ResponseBody
 //	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
-	public ArrayList<Vector> selectMatchingData_VisibleRadiance(@RequestParam("targetDate") String targetDate,String channel, String detector,  ModelMap model) throws Exception{
-		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1A_VR(targetDate, detector);
+	public ArrayList<Vector> selectMatchingData_VisibleRadiance(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1A_VR(targetDate, dBegin,  detector);
 		
 		//ㅠ 
 		ArrayList<Vector> arr = new ArrayList<Vector>();
@@ -273,8 +290,8 @@ public class TimeSeriesChartController {
 	@RequestMapping(value = "timeseries/retrieval/L_1_A_IRRS", method=RequestMethod.GET)
 	@ResponseBody
 //	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
-	public ArrayList<Vector> selectMatchingData_IRRS(@RequestParam("targetDate") String targetDate, String detector,  ModelMap model) throws Exception{
-		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1A_IRRS(targetDate, detector);
+	public ArrayList<Vector> selectMatchingData_IRRS(@RequestParam("targetDate") String targetDate, String dBegin,  String detector,  ModelMap model) throws Exception{
+		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1A_IRRS(targetDate, dBegin,  detector);
 		//ㅠ 
 //		System.out.println("selectMatchingData_IRRS() result.size == " + results.size());
 		ArrayList<Vector> arr = new ArrayList<Vector>();
@@ -322,8 +339,8 @@ public class TimeSeriesChartController {
 	@RequestMapping(value = "timeseries/retrieval/L_1_A_VisblePRNU", method=RequestMethod.GET)
 	@ResponseBody
 //	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
-	public ArrayList<Vector> selectMatchingData_VsiblePRNU(@RequestParam("targetDate") String targetDate,String channel, String detector,  ModelMap model) throws Exception{
-		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1A_VisPRNU(targetDate, detector);
+	public ArrayList<Vector> selectMatchingData_VsiblePRNU(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1A_VisPRNU(targetDate, dBegin,  detector);
 			
 		//ㅠ 
 		ArrayList<Vector> arr = new ArrayList<Vector>();
@@ -343,8 +360,8 @@ public class TimeSeriesChartController {
 	@RequestMapping(value = "timeseries/retrieval/L_1_A_IRPRNU", method=RequestMethod.GET)
 	@ResponseBody
 //	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
-	public ArrayList<Vector> selectMatchingData_IR_PRNU(@RequestParam("targetDate") String targetDate,String channel, String detector,  ModelMap model) throws Exception{
-		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1A_IRPRNU(targetDate, detector);
+	public ArrayList<Vector> selectMatchingData_IR_PRNU(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1A_IRPRNU(targetDate,  dBegin, detector);
 		
 		//ㅠ 
 		ArrayList<Vector> arr = new ArrayList<Vector>();
@@ -364,8 +381,8 @@ public class TimeSeriesChartController {
 	@RequestMapping(value = "timeseries/retrieval/L_1_A_IRNEDT", method=RequestMethod.GET)
 	@ResponseBody
 //	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
-	public ArrayList<Vector> selectMatchingData_IR_NEDT(@RequestParam("targetDate") String targetDate,String channel, String detector,  ModelMap model) throws Exception{
-		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1A_IRNEDT(targetDate, detector);
+	public ArrayList<Vector> selectMatchingData_IR_NEDT(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1A_IRNEDT(targetDate, dBegin,  detector);
 		//ㅠ 
 		ArrayList<Vector> arr = new ArrayList<Vector>();
 		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
@@ -399,8 +416,8 @@ public class TimeSeriesChartController {
 	@RequestMapping(value = "timeseries/retrieval/L_1_A_ENV", method=RequestMethod.GET)
 	@ResponseBody
 //	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
-	public ArrayList<Vector> selectMatchingData_L1A_ENV(@RequestParam("targetDate") String targetDate, String ENVType,  ModelMap model) throws Exception{
-		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1A_ENV(targetDate, ENVType);
+	public ArrayList<Vector> selectMatchingData_L1A_ENV(@RequestParam("targetDate") String targetDate, String dBegin,  String ENVType,  ModelMap model) throws Exception{
+		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1A_ENV(targetDate, dBegin,  ENVType);
 		
 		//ㅠ 
 		ArrayList<Vector> arr = new ArrayList<Vector>();
@@ -422,8 +439,8 @@ public class TimeSeriesChartController {
 	@RequestMapping(value = "timeseries/retrieval/L_1_B_NVL", method=RequestMethod.GET)
 	@ResponseBody
 //	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
-	public ArrayList<Vector> selectMatchingData_NumberOfValidLandmarks(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
-		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1B_NVL(targetDate);
+	public ArrayList<Vector> selectMatchingData_NumberOfValidLandmarks(@RequestParam("targetDate") String targetDate, String dBegin, String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
+		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1B_NVL(targetDate, dBegin);
 		
 		//ㅠ 
 		ArrayList<Vector> arr = new ArrayList<Vector>();
@@ -467,8 +484,8 @@ public class TimeSeriesChartController {
 	@RequestMapping(value = "timeseries/retrieval/L_1_B_STDDEV", method=RequestMethod.GET)
 	@ResponseBody
 //	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
-	public ArrayList<Vector> selectMatchingData_L_1_B_STDDEV(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
-		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1B_STDDEV(targetDate);
+	public ArrayList<Vector> selectMatchingData_L_1_B_STDDEV(@RequestParam("targetDate") String targetDate, String dBegin, String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
+		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1B_STDDEV(targetDate, dBegin);
 		ArrayList<Vector> arr = new ArrayList<Vector>();
 		Vector<HashMap<String, Object>> vec1 = new Vector<HashMap<String,Object>>();
 		Vector<HashMap<String, Object>> vec2 = new Vector<HashMap<String,Object>>();
@@ -505,8 +522,8 @@ public class TimeSeriesChartController {
 	@RequestMapping(value = "timeseries/retrieval/L_1_B_QUADDIST", method=RequestMethod.GET)
 	@ResponseBody
 //	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
-	public ArrayList<Vector> selectMatchingData_L_1_B_QUADDIST(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
-		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1B_QUADDIST(targetDate);
+	public ArrayList<Vector> selectMatchingData_L_1_B_QUADDIST(@RequestParam("targetDate") String targetDate, String dBegin, String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
+		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1B_QUADDIST(targetDate, dBegin);
 		
 		ArrayList<Vector> arr = new ArrayList<Vector>();
 		Vector<HashMap<String, Object>> vec1 = new Vector<HashMap<String,Object>>();
@@ -541,8 +558,8 @@ public class TimeSeriesChartController {
 	@RequestMapping(value = "timeseries/retrieval/L_1_B_RAVG", method=RequestMethod.GET)
 	@ResponseBody
 //	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
-	public ArrayList<Vector> selectMatchingData_ResidualAvg(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
-		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1B_RAVG(targetDate);
+	public ArrayList<Vector> selectMatchingData_ResidualAvg(@RequestParam("targetDate") String targetDate, String dBegin, String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
+		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1B_RAVG(targetDate, dBegin);
 		
 		//ㅠ 
 		ArrayList<Vector> arr = new ArrayList<Vector>();
@@ -586,8 +603,8 @@ public class TimeSeriesChartController {
 	@RequestMapping(value = "timeseries/retrieval/L_1_B_SCPOS", method=RequestMethod.GET)
 	@ResponseBody
 //	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
-	public ArrayList<Vector> selectMatchingData_spacecraftPosition(@RequestParam("targetDate") String targetDate,String channel, String detector,  ModelMap model) throws Exception{
-		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1B_SCPOS(targetDate);
+	public ArrayList<Vector> selectMatchingData_spacecraftPosition(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1B_SCPOS(targetDate, dBegin);
 		//ㅠ 
 		ArrayList<Vector> arr = new ArrayList<Vector>();
 		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
@@ -604,8 +621,8 @@ public class TimeSeriesChartController {
 	@RequestMapping(value = "timeseries/retrieval/L_1_B_SCATT", method=RequestMethod.GET)
 	@ResponseBody
 //	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
-	public ArrayList<Vector> selectMatchingData_spacecraftAttitude(@RequestParam("targetDate") String targetDate,String channel, String detector,  ModelMap model) throws Exception{
-		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1B_SCATT(targetDate);
+	public ArrayList<Vector> selectMatchingData_spacecraftAttitude(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+		ArrayList<HashMap<String,Object>> results = chartService.getSeriesRetrieval_L1B_SCATT(targetDate, dBegin);
 		//ㅠ 
 		ArrayList<Vector> arr = new ArrayList<Vector>();
 		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
