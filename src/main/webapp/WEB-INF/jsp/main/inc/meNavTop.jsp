@@ -98,7 +98,7 @@
          <div class="collapse navbar-collapse" id="navbar-mecollapse">
              <ul class="nav navbar-nav navbar-right">
          
-                <li class="dropdown disabled">
+                <li class="dropdown disabled hidden">
                      <a  href="#" class="dropdown-toggle" data-toggle="dropdown">Level 1 A<b class="caret"></b></a>
                      <!-- 
                      <ul class="dropdown-menu meDropkick" >
@@ -117,7 +117,7 @@
            	    <!-- mega menu 01-->
 			    <!-- mega menu 01-->
 			    <!-- mega menu 01-->
-                <li class="dropdown menu-large disabled">
+                <li class="dropdown menu-large disabled hidden">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Level 1 B<b class="caret"></b></a>				
 					<!-- 
 					<ul class="dropdown-menu megamenu row">
@@ -162,7 +162,7 @@
            	    <!-- plain menu 02-->
            	    <!-- plain menu 02-->
            	    <!-- plain menu 02-->
-                <li class="dropdown disabled">
+                <li class="dropdown disabled hidden">
                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Level 2<b class="caret"></b></a>
                      <!-- 
                      <ul class="dropdown-menu meDropkick" >
@@ -203,10 +203,10 @@
                  
                  
                  <li>
-                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('51','alternative/a.do')" >품질정보</a>
+                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('51','alternative/a.do')" >품질지표 1</a>
                  </li>
-                 <li class="">
-                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('61','alternative/b.do')" >품질정보 2</a>
+                 <li class="disabled">
+                     <a href="#LINK"  >품질지표 2</a> <!-- onclick="javascript:fn_main_headPageAction('61','alternative/b.do')" -->
                  </li>
   
              </ul>

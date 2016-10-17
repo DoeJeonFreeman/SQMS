@@ -8,6 +8,14 @@
 
   <select id="seekLatestStuff" parameterType="string" resultType="UpToDateStuff">
   	SELECT 
+  		TO_CHAR(max(IMGREFDT) ,'YYYY-MM-DD HH24:MI:SS') as lateststuff
+		FROM CPP_IMG_PRODUCT_T
+		WHERE INSTRUMENTMODE=4 
+		AND PLATFORM=1
+  </select>
+  
+  <select id="seekLatestStuff_DEPRECATED" parameterType="string" resultType="UpToDateStuff">
+  	SELECT 
   		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff
 		FROM CPP_RADIODETPARAM_V
 		WHERE  Detector=1 and Channel=1 and Name='SNR'

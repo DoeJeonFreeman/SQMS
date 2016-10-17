@@ -66,7 +66,7 @@
 	<script src="${pageContext.request.contextPath}/js/highchart/highcharts-more.js"></script>
 	<script src="${pageContext.request.contextPath}/js/highchart/modules/boost.src.djf.custom.js"></script>
 	<script src="${pageContext.request.contextPath}/js/highchart/modules/exporting.js"></script>
-	<script src="<c:url value="/js/highchart/modules/offline-exporting.js"/>"></script>
+	<script src="${pageContext.request.contextPath}/js/highchart/modules/offline-exporting.js"></script>
 	
 	
 	<!-- minimal ajax loading spinner -->
@@ -742,14 +742,17 @@ sysout(varSelected);
 					      <li id="2" role="presentation" value="WEEKLY"><a role="menuitem" tabindex="-1" >Weekly</a></li>
 					      <li id="3" role="presentation" value="MONTHLY"><a role="menuitem" tabindex="-1" >Monthly</a></li>
 					      <li id="4" role="presentation" value="QUARTERLY"><a role="menuitem" tabindex="-1" >Quarterly</a></li>
+					      <!-- 
 					      <li id="5" role="presentation" value="BIANNUALLY"><a role="menuitem" tabindex="-1" >Biannually</a></li>
+					       -->
+					       
 					      <!-- 
 					      <li role="presentation" class="divider"></li>
 					       -->
 					    </ul>
 				    </div>
 				    
-	            	<div class="pull-left" style="margin-right: 15px;">
+	            	<div class="pull-left" style="margin-right: 15px; display: none">
 	            		<button  type="button" class="meBtn meBtn-primary meBtn-lg outline " style="margin-top:2px;" id="btn_enableRangePicker">Custom-range</button>
 	            	</div>
 					
@@ -759,8 +762,8 @@ sysout(varSelected);
            		<div class="pull-right" style="padding-right:50px;"> 
 	            	<ul id="breadcrumbs-one" class="pull-right vcenter" >
 						<li><a href="${pageContext.request.contextPath}/cmm/main/mainPage.do">Home</a></li>
-						<li><a>Level 1 A</a></li>
-						<li><a>품질지표</a></li>
+						<!-- <li><a>Level 1 A</a></li> -->
+						<li><a>품질지표 1</a></li>
 					</ul>
             	</div>
             </div>
