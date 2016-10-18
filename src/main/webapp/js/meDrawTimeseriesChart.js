@@ -18,12 +18,9 @@
 			
 			
 			var draggableDiv = '';
-//			draggableDiv +=	"<div class='meDraggableItem col-xs-"+itemSize+" col-md-"+itemSize+" col-lg-"+itemSize+"+ ' id='" + divId + "'>";
-			draggableDiv +=	"<div class='meDraggableItem col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
-//			draggableDiv +=	"				<div class='preloader'>";
-//			draggableDiv +=	"               	<img src='${pageContext.request.contextPath}/resource/assets/preloader.gif' class='devoops-getdata' alt='preloader'/>";
-//			draggableDiv +=	"				</div>";
-			draggableDiv +=	"		<div class='box'>";
+//			draggableDiv +=	"<div class='meDraggableItem col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
+//			draggableDiv +=	"<div class='meDraggableItem col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
+			draggableDiv +=	"		<div class='box meDraggableItem col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
 			draggableDiv +=	"			<div class='box-header'>";
 			draggableDiv +=	"				<div class='box-name'>";
 			draggableDiv +=	"					<i class='fa fa-bar-chart'></i>";
@@ -51,7 +48,7 @@
 			draggableDiv +=	"				<div id='"+ chartId + "' class='classySnob' style='height: 330px;width: 100%;margin: 0 auto;'></div>";
 			draggableDiv +=	"			</div>";
 			draggableDiv +=	"		</div>";
-			draggableDiv +=	"	</div>";
+//			draggableDiv +=	"	</div>";
 			
 			return draggableDiv;
 		}

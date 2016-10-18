@@ -59,7 +59,7 @@
   display: block;
   /* z-index: 1999; */
   position: relative;
-  border: 1px solid #ccc;
+ /*  border: 1px solid #ccc; */
   background: transparent;
   margin-bottom: 20px;
 }
@@ -75,7 +75,7 @@
   position:relative;
   overflow: hidden;
   height: 24px;
-  border-bottom: 1px solid #ccc;
+/*   border-bottom: 1px solid #ccc; */
   background-color: #eaeaea;
   background-image: -webkit-linear-gradient(top, #eaeaea, #e0e0e0);
   background-image:    -moz-linear-gradient(top, #eaeaea, #e0e0e0);
@@ -114,6 +114,7 @@
 .box-content {
   position: relative;
   padding: 15px;
+   border: 1px solid #ccc;
 /*  background: #FBFBF0;*/
       background: #ffffff;
 }

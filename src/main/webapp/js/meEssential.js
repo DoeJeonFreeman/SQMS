@@ -128,6 +128,12 @@ function WinMove(){
 		.droppable({//change position each other haha
 			tolerance: 'pointer',
 			drop: function( event, ui ) {
+				
+//				var meDraggableId = ui.draggable.attr("id");
+//				var meDroppableId = $(this).attr("id");
+//				sysout('meDraggableId: ' + meDraggableId);
+//				sysout('meDroppableId: ' + meDroppableId);
+				
 				var draggable = ui.draggable;
 				var droppable = $(this);
 				var dragPos = draggable.position();
@@ -571,16 +577,27 @@ $(document).ready(function () {//doejeon
 	
 	/**
 	 * checkBox.name == meDraggableItem.id
+	 * 
+	 * close버튼이벤트 발생시
+	 * 
+	 * box-content classySnob 아이디받아서 체크박스 언체크하고 (얘를 암튼 맵에서 날리고)
+	 * 
+	 * 근데!!!
+	 * meDraggableItem은 id는 해당꺼를 날려야니까  그대로니까   $(this).closest('div.meDraggableItem').attr('id'); //t0_L1A-QI01_0 얘를 받아서 날려버려
+	 * 
 	 * */
 	$('[id^=TSCWrapper]').on('click', '.close-window', function (e) {
 		e.preventDefault();
 		
 		var tabIndex = $("#tabs").tabs('option', 'active') ;
-		
-		var cbName = $(this).closest('div.meDraggableItem').attr('id'); //t0_L1A-QI01_0
+		var cbName = $(this).closest('div.meDraggableItem').attr('id'); //t0_L1A-QI01_0 // 드래그드랍이벤트후 언체크_클로즈 이벤트시 최초 아이템이 날아감ㅠ
+//		var cbName = $(this).closest('div.box-header').siblings().find('.classySnob').attr('id');
+//		cbName = cbName.replace("_ts_", "_"); //차트컨테이너 .classySnobt id 받아서 _ts삭제 !!  0_[ts_]L1A-QI01_0
+		sysout('[captured] '+cbName);
 		$("#OPT_"+tabIndex +" input[name='" + cbName.substr(cbName.indexOf("_")+1) + "']").prop('checked',false); //	or .removeAttr('checked');
+		//var currContainerId = $(this).closest('div.meDraggableItem').attr('id');
 		$('#'+cbName).remove(); //remove chartWrapperHTML
-		//tabIndexIdentifierStr 't0_' + '_ts_'
+//		$('#'+currContainerId).remove(); //remove chartWrapperHTML
 		var leadingStr = 't' + tabIndex + '_ts_';
 		map.remove(leadingStr  + cbName.substr(cbName.indexOf("_")+1)); //remove chart from maps 
 		
@@ -588,7 +605,7 @@ $(document).ready(function () {//doejeon
 		sysout("==>close-window.remove() " + cbName); 
 		sysout("====>cb.removeAttr(checked) "   + cbName.substr(cbName.indexOf("_")+1) ); 
 		sysout('======> remove [' +leadingStr  + cbName.substr(cbName.indexOf("_")+1) + '] from maps'); 
-		
+		sysout(map);
 		
 	});
 	
