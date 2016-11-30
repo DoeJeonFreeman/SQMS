@@ -391,11 +391,11 @@
 .ui-tabs .ui-tabs-nav {
   padding: 0;
 }
-
+/* 
 .ui-tabs .ui-tabs-panel {
   padding: 1em 0;
 }
-
+ */
 /*doejeon*/
 .ui-widget-content {
 	border:none !important;

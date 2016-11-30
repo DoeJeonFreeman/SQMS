@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     
-	<title>품질정보</title>
+	<title>QIMS-품질지표1</title>
 	
  
 	<script src="${pageContext.request.contextPath}/js/jquery/jquery-1.9.1.js"></script>	
@@ -32,11 +32,8 @@
     <link href="${pageContext.request.contextPath}/resource/css/modern-business.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="${pageContext.request.contextPath}/resource/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">	
-  	<!-- FuelUX
-	    <link href="//www.fuelcdn.com/fuelux/3.13.0/css/fuelux.min.css" rel="stylesheet">
-  	-->  
+	<!-- Initialize the tree when page is loaded -->
 	
-
 	<!-- datePicker -->
 	<link href="${pageContext.request.contextPath}/js/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">	
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/daterangepicker/moment.js"></script>
@@ -59,9 +56,30 @@
 <!-- 차트드로잉 관련 펑션 분리 -->
 <!-- 차트드로잉 관련 펑션 분리 -->
 <script src="${pageContext.request.contextPath}/js/meDrawTimeseriesChart.js"></script>
-    
-	<!-- 2c.doe.hicharts-->
+
+
+<!-- dynamicTab n tree 
+<script src="${pageContext.request.contextPath}/js/fancytree/jquery.fancytree-all.min.js"></script>	
+<link href="${pageContext.request.contextPath}/js/fancytree/skin-bootstrap/ui.fancytree.min.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath}/js/fancytree/jquery.fancytree.glyph.js"></script>	
+<script src="${pageContext.request.contextPath}/js/fancytree/jquery.fancytree.wide.js"></script>	
+<script src="${pageContext.request.contextPath}/js/addTabsDynamically.js"></script>
+-->
+<!-- 
+ -->
+<style>
+	ul.fancytree-container{
+		font-size: 13px;
+	}
 	
+	ul.fancytree-container {
+    	background-color: transparent;
+  			border: none;
+	}
+</style>    
+    
+    
+<!-- 2c.doe.hicharts-->
 	<script src="${pageContext.request.contextPath}/js/highchart/highcharts.js"></script>
 	<script src="${pageContext.request.contextPath}/js/highchart/highcharts-more.js"></script>
 	<script src="${pageContext.request.contextPath}/js/highchart/modules/boost.src.djf.custom.js"></script>
@@ -69,15 +87,22 @@
 	<script src="${pageContext.request.contextPath}/js/highchart/modules/offline-exporting.js"></script>
 	
 	
-	<!-- minimal ajax loading spinner -->
+	<!-- minimal ajax loading spinner 
 	<script src="${pageContext.request.contextPath}/js/preloader/jquery.pleaseWait.js"></script>
+	DEPRECATED
+	-->
 	
 	<!-- slimScroll -->
 	<script src="${pageContext.request.contextPath}/js/slimScroll/jquery.slimscroll.min.js"></script>
 	
 
-
 	<script type="text/javascript">
+		
+	
+		function addJstlImportTagDynamically(){
+			//$('#TSCWrapper0').html('<c import url="/mePageLink.do?link=_alternatives/WHOLE_CONDITIONS" />');
+			alert('impossible haha');
+		}
 	
 		Map = function(){
 			 this.map = new Object();
@@ -140,14 +165,41 @@
 	
 	
 	
-	
+		function logEvent(event, data, msg){
+//	        var args = $.isArray(args) ? args.join(", ") :
+	    	msg = msg ? ": " + msg : "";
+	    	$.ui.fancytree.info("Event('" + event.type + "', node=" + data.node + ")" + msg);
+		}	
+		
+		//djf20161019
+		var treeSelected;
 		function getSelectedVarialbes(idx){
 			var selected = [];
-			$('#OPT_'+idx+' .checkboxes input:checked').each(function() {
-//		sysout("getSelectedVarialbes(" + idx + ")");
-//		sysout($(this).attr('name'));
+ 			$('#OPT_'+idx+' .checkboxes input:checked').each(function() {
 			    selected.push($(this).attr('name'));
 			}); 
+ 			sysout('_T_R_E_E_S_E_L_E_C_T_E_D_');
+ 			sysout(treeSelected);
+ 			
+ 
+			 /* var selNodes = data.tree.getSelectedNodes();
+			 // convert to title/key array
+			 var selKeys = $.map(selNodes, function(node){
+			      return "[" + node.key + "]: '" + node.title + "'";
+			   });
+			 $("#echoSelection2").text(selKeys.join(", ")); */
+			 
+	    	/*     var selNodes = $("#treeWithCheckbox").fancytree("getTree").getSelectedNodes();
+	    	    sysout(selNodes);
+				var selKeys = $.map(selNodes, function(node){
+					return "[" + node.key + "]: '" + node.title + "'";
+				});
+				var meSelKeys = $.map(selNodes, function(node){
+					return node.key;
+				});
+				sysout(meSelKeys); */
+				
+				//alert($("#echoSelection2").text(selKeys.join(", "))); 
 			return selected;			
 		}
 	
@@ -216,20 +268,10 @@
 					, shadow: false // Whether to render a shadow
 					, hwaccel: false // Whether to use hardware acceleration
 					, position: 'absolute' // Element positioning
-					}
+			}
 			
-//			var target = document.getElementById(targetDiv);
-//			var spinner = new Spinner(opts).spin(target);
 			var meSpinner = new Spinner(opts).spin();
 			$('#'+targetDiv).append(meSpinner.el);
-
-
-			/* $('#'+targetDiv).pleaseWait({
-				  crazy:false,
-				  speed:0,
-				  increment: 0,
-				  image:'${pageContext.request.contextPath}/resource/assets/preloader.gif',
-			});  */
 		} 
 		 
 		
@@ -493,10 +535,11 @@ sysout(varSelected);
 			
 			$('#tabs').tabs({
 		        activate: function(event, ui){
+					//sysout('######tabs activate()');		        	
 					// var range = $('#dataRangeChooser').find(":selected").val()+'';
 			        // requestData( $("#datepicker").val().split('-').join(''),  range, ui.newTab.index());
 			        
-					sysout('tab activated: ' + ui.newTab.index()*1 )
+					//sysout('tab activated: ' + ui.newTab.index()*1 )
 				/* 	
 					 $('.classySnob').each(function(){
 						 $(this).pleaseWait('stop');	
@@ -514,12 +557,15 @@ sysout(varSelected);
 		        	$(targetTab+' .classySnob').each(function() {  
 			        	$(this).highcharts().reflow();
 		        	});
-		        	
-		        	
-		        	
-		        	
 		        },active:0	
 		    });
+			
+			$('#tabs').tabs({
+		        load: function(event, ui){
+		        	//sysout('######tabs load()');		
+		        } 	
+		    });
+		        	
 			$('#optionPanel').tabs({
 		        activate: function(event, ui){
 		        },active:0	
@@ -537,18 +583,29 @@ sysout(varSelected);
 		 
 		    $("#menu-toggle-2").click(function(e) {
 		        //e.preventDefault();
-		        $("#wrapper").toggleClass("toggled-2");
-		        //$('.highcharts-container').each(function() { $(this).resize();});
-		        //$('.classySnob').each(function() {  $(this).highcharts().reflow();});
-//		        $('.classySnob').each(function() {  
-		        $('.meDraggableItem').each(function() {  
+		        $("#wrapper").toggleClass("toggled-2").promise().done(function(){
+		        	
+		        });
+	
+
+		        //$('#menu ul').hide();
+		        
+//		        $('.meDraggableItem').each(function() {  
+	
+//		        $('.classySnob:visible').each(function() {  
 //		        	sysout($(this));
 //		        	sysout('#menu-toggle-2.click function(e) reflow()');
-	//	        	$(this).resize(); //it doesnt work
+//		        	$(this).resize(); //it doesnt work
 //		        	$(this).trigger("resize"); //it doesnt work
 //		        	$(this).highcharts().reflow();  //it doesnt work
-	        	});
-		        $('#menu ul').hide();
+
+/////////////       $(this).highcharts().setSize(500, 200, doAnimation = true);  //it doesnt work
+//	        	});
+					setTimeout(rowItem_resizable, 300, itemSize);
+	//	            rowItem_resizable(itemSize);
+	//		        window.dispatchEvent(new Event('resize'));
+			        //fireRefreshEventOnWindow();
+		      
 		    });
 			
 		    
@@ -621,6 +678,7 @@ sysout(varSelected);
 				rowItem_resizable(12);
 			});
 			var rowItem_resizable = function(size) {
+				sysout('>>>>rowItem_resizable size=' + size);				
 				$('.meDraggableItem').removeClass('col-xs-'+itemSize);
 				$('.meDraggableItem').removeClass('col-md-'+itemSize);
 				$('.meDraggableItem').removeClass('col-lg-'+itemSize);
@@ -713,9 +771,9 @@ sysout(varSelected);
 	            	
 	            	<div id="social" class="pull-left" style="padding-left:15px;margin-top: 6px;">
 						<div class="btn-group" id='control_size'  >
-							<button type="button" class="btn btn-warning btn-xs" style="margin-bottom:0px;" id='control_resize_small' title='display 3 items per row'><span class="glyphicon glyphicon-th"></span></button>
-							<button type="button" class="btn btn-danger btn-xs" style="margin-bottom:0px;" id='control_resize_medium' title='display 2 items per row'><span class="glyphicon glyphicon-th-large"></span></button>
-							<button type="button" class="btn btn-success btn-xs" style="margin-bottom:0px;" id='control_resize_large' title='display 1 item per row'><span class="glyphicon glyphicon-picture"></span></button>
+							<button type="button" class="btn btn-warning btn-xs" style="margin-bottom:0px;" id='control_resize_small' title='Display 3 items per row'><span class="glyphicon glyphicon-th"></span></button>
+							<button type="button" class="btn btn-danger btn-xs" style="margin-bottom:0px;" id='control_resize_medium' title='Display 2 items per row'><span class="glyphicon glyphicon-th-large"></span></button>
+							<button type="button" class="btn btn-success btn-xs" style="margin-bottom:0px;" id='control_resize_large' title='Display 1 item per row'><span class="glyphicon glyphicon-picture"></span></button>
 						</div>
 					</div>
 					
@@ -873,17 +931,40 @@ sysout(varSelected);
 				</ul> 
             	<!--tab menus end-->
             	<!-- tab body    row가 패딩속성땜에 250넘어서 hscrollbar 생김 ㅎㅎ-->
-                <div class="row"  style="width:260px;">
+                <div class="row"  style="width:350px;">
              		<!--FIRST TAB-->
                		<div id="OPT_0" >
 			        	<c:import url="/mePageLink.do?link=_alternatives/WHOLE_CONDITIONS" />
                		</div>
                		<div id="OPT_1" >
 			        	<c:import url="/mePageLink.do?link=_alternatives/WHOLE_CONDITIONS" />
+               			<!-- 
+			        	<c import url="/mePageLink.do?link=_alternatives/ENTIRE_CONDITIONS">
+			        		<c param name="identifier" value="pan01"/>
+			        	</c import>
+               			 -->
                		</div>
                		<div id="OPT_2" >
 			        	<c:import url="/mePageLink.do?link=_alternatives/WHOLE_CONDITIONS" />
+	               		<!-- 
+               			<c import url="/mePageLink.do?link=_alternatives/ENTIRE_CONDITIONS">
+               				<c param name="identifier" value="pan02"/>
+			        	</c import>
+	               		 -->
+	               		 <!-- 
+	               		      <h5><a href="#" id="fxxkMe">fxxkMe</a></h5>
+      
+							  <p>
+							    <a href="#" id="btnDeselectAll">Deselect all</a> -
+							    <a href="#" id="btnToggleExpand">Toggle Expand</a>
+							  </p>
+							  <div>Selected keys: <span id="echoSelection2">-</span></div>
+							  <div id="treeWithCheckbox"></div>	 
+	               		  -->
                		</div>
+               		
+               		
+               		
                		<!-- 
 	               		<div id="OPT_3" >
 				        	<c 		import url="/mePageLink.do?link=QI/QI_LV1B_EI_conditions" />
@@ -919,10 +1000,8 @@ sysout(varSelected);
              		<!--FIRST TAB-->
                		<div id="TSCWrapper0" > 
                			<!--  
+               			<button onclick="addJstlImportTagDynamically()">bitMe</button>
                			-->
-               			
-					  
-               			
              		</div>
                		   
 					<!--SECOND TAB-->

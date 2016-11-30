@@ -4,6 +4,14 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+	<script src="${pageContext.request.contextPath}/js/html5shiv.js"></script>	
+    <script src="${pageContext.request.contextPath}/js/respond.min.js"></script>
+<![endif]-->
+
+
+
 <script type="text/javascript">
 
     function fn_main_headPageMove(menuNo, url){
@@ -203,10 +211,19 @@
                  
                  
                  <li>
-                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('51','alternative/a.do')" >품질지표 1</a>
+                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('51','alternative/a.do')" >품질지표</a>
                  </li>
-                 <li class="disabled">
-                     <a href="#LINK"  >품질지표 2</a> <!-- onclick="javascript:fn_main_headPageAction('61','alternative/b.do')" -->
+                 <li class="dropdown">
+                 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">L2 품질감시<b class="caret"></b></a>
+                 	
+                 	<ul class="dropdown-menu meDropkick" >
+		                 <li> <!-- class="disabled" -->
+		                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('61','alternative/b.do')">월검증결과</a> <!-- onclick="javascript:fn_main_headPageAction('61','alternative/b.do')" -->
+		                 </li>
+                         <li class="disabled">
+                         	<a href='##LINK'  onclick="javascript:fn_main_headPageAction('62','l_2_qi/dailyValidation.do')">일검증결과</a>
+                         </li>
+                 	</ul>
                  </li>
   
              </ul>

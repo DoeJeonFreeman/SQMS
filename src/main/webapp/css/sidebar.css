@@ -18,10 +18,10 @@
 		#sidebar-wrapper {
 		    z-index: 555;
 		    position: absolute; 
-		    left: 260px;
-		    width: 0;
+		    left: 350px;
+		    width: 20px;
 		    height: 100%;
-		    margin-left: -260px;
+		    margin-left: -350px;
 		    overflow-y: auto;
 		    background: #E0E0E0; /*doejeon*/
 		    -webkit-transition: all 0.5s ease;
@@ -30,8 +30,13 @@
 		    transition: all 0.5s ease;
 		}
 		#wrapper.toggled #sidebar-wrapper {
-		    width: 260px;
+		    width: 350px;
 		}
+		
+		
+		  	 #wrapper #sidebar-wrapper:hover {
+		        width: 350px;
+		    } 
 		 
 		#page-content-wrapper {
 		    position: absolute;
@@ -54,7 +59,7 @@
 		.sidebar-nav {
 		    position: absolute;
 		    top: 0;
-		    width: 260px; /*doejeon*/
+		    width: 350px; /*doejeon*/
 		    margin: 0;
 		    padding: 0;
 		    list-style: none;
@@ -81,7 +86,7 @@
 /* 		    color: #fff; */
 		    color: #eb8f00;
 		    background: rgba(255,255,255,0.2);
-		    border-left: red 2px solid;
+		    border-left: #eb8f00 2px solid;
 		}
 		 
 		.sidebar-nav li a:active,
@@ -112,30 +117,30 @@
 		    margin:0;
 		}
 		 
-		@media(min-width:768px) {
+		@media(min-width:768px) { /*over 768px*/
 		    #wrapper {
-		        padding-left: 260px;
+		        padding-left: 350px;
 		    }
 		    .fixed-brand{
-		        width: 260px;
+		        width: 350px;
 		    }
 		    #wrapper.toggled {
 		        padding-left: 0;
 		    }
 		 
 		    #sidebar-wrapper {
-		        width: 260px;
+		        width: 350px;
 		    }
 		 
 		    #wrapper.toggled #sidebar-wrapper {
-		        width: 260px;
+		        width: 350px;
 		    }
 		    /** 50 --> 45*/ /*doejeon*/
 		    #wrapper.toggled-2 #sidebar-wrapper {
 		        width: 10px;
 		    }
 		    #wrapper.toggled-2 #sidebar-wrapper:hover {
-		        width: 260px;
+		        width: 350px;
 		    }
 		 
 		 
@@ -151,16 +156,18 @@
 		    #wrapper.toggled #page-content-wrapper {
 		        position: relative;
 		        margin-right: 0;
-		        padding-left: 260px;
+		        padding-left: 350px;
 		    }
 		    #wrapper.toggled-2 #page-content-wrapper {
 		        position: relative;
 		        margin-right: 0;
-		        margin-left: -200px;
+		        margin-left: -350px;
+		        /* 
 		        -webkit-transition: all 0.5s ease;
 		        -moz-transition: all 0.5s ease;
 		        -o-transition: all 0.5s ease;
 		        transition: all 0.5s ease;
+		         */
 		        width: auto;
 		 
 		    }

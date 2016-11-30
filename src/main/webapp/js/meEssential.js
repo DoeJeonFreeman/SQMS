@@ -1,13 +1,13 @@
 //
 //    Main script 2016-04-21
 //
-"use strict";
+//"use strict";
 
 /*-------------------------------------------
 	Doe Jeon Freeman
 ---------------------------------------------*/
 
-var isVERBOSE = true; 
+var isVERBOSE = false; 
 
 function sysout(str) {
 	if(!isVERBOSE) return;
@@ -18,6 +18,80 @@ function systime(str, flag) {
 	if(!isVERBOSE) return;
 	if(window['console']!='undefined' &&flag=='begin') console.time(str);
 	if(window['console']!='undefined' &&flag=='end') console.timeEnd(str);
+}
+
+if (!String.prototype.startsWith) {
+    String.prototype.startsWith = function(searchString, position){
+      position = position || 0;
+      return this.substr(position, searchString.length) === searchString;
+  };
+}
+
+/**
+ * This can be helpful to refresh some libraries like highcharts.js when a panel or a div the control is contained in is expanded.
+ * window.dispatchEvent(new Event('resize')); 
+ * The above method isn’t supported by Internet explorer (failed on IE 11), therefore use below method for wider browser support.
+ * */
+var fireRefreshEventOnWindow = function () {
+    var evt = document.createEvent("HTMLEvents");
+    evt.initEvent('resize', true, false);
+    window.dispatchEvent(evt);
+    sysout('fireRefreshEventOnWindow() HTMLEvents.resize');
+    //adjustGraph.call($('#tabs'));
+    alert('fireRefreshEventOnWindow() HTMLEvents.resize');
+};
+
+
+/**
+ * Adjust size for hidden charts
+ * @param chart highcharts
+ */
+function adjustGraph(chart) {
+	alert('adjustGraph()');
+    try {
+        if (typeof (chart === 'undefined' || chart === null) && this instanceof jQuery) { // if no obj chart and the context is set
+//        	$('.classySnob').each(function() {  
+////	        	$(this).highcharts().reflow();
+//	        	console.log($(this).highcharts())
+//        	});
+        	
+/*        	$('.classySnob:visible').each(function() {// for only visible charts container in the curent context
+                $container = $(this); // context container
+                sysout($(this))
+                sysout($container);
+                $container.find('div[id^="chart-"]').each(function () { // for only chart
+                	alert('loop thruough--');
+                    $chart = $(this).highcharts(); // cast from JQuery to highcharts obj
+                    $chart.setSize($container.width(), $chart.chartHeight, doAnimation = true); // adjust chart size with animation transition
+                });
+            });*/
+            this.find('.box-content:visible').each(function () { // for only visible charts container in the curent context
+            	$container = $(this); // context container
+//            	$container.find('div[id^="chart-"]').each(function () { // for only chart
+        		$container.find('div[class^="classySnob"]').each(function () { // for only chart
+            		$chart = $(this).highcharts(); // cast from JQuery to highcharts obj
+            		//$container.width($container.parent().width());
+            		$container.width(943);
+            		sysout("box-content.parent.parent.width is");
+            		sysout($container.parent().parent().width());
+            		sysout("box-content.parent.width is");
+            		sysout($container.parent().width());
+            		alert('$container.width() is : ' + $container.width() + '\nand parent.div.width is ' + $container.parent().width()	);
+//            		alert('$container.width() is : ' + $container.width());
+//            		$chart.setSize($container.width(), $chart.chartHeight, doAnimation = true); // adjust chart size with animation transition
+            		//$container크기는 값이 안바뀜. 상위 컨테이너 box-context 크기를 받던지 해야지 젠장 아님 meDraggableItem 사이즈 체인지이벤트에 차트찾아서 크기 조절하던지!!!
+            		$chart.setSize($container.width(), $chart.chartHeight, doAnimation = true); // adjust chart size with animation transition
+            	});
+            });
+        } else {
+            chart.setSize($('.classySnob:visible').width(), chart.chartHeight, doAnimation = true); // if chart is set, adjust
+           // alert('.box-content:visible was found');
+        }
+    } catch (err) {
+    	//alert('err. see the log on console');
+    	//console.log(err)
+        // do nothing
+    }
 }
 
 
@@ -437,6 +511,36 @@ function toggleFullScreen() {
 	  }  
 	}
 
+
+function reorderDivAlphabeticallyMan(){
+	var idx = $("#tabs").tabs('option', 'active');
+	var targetTab = '#TSCWrapper' + idx;
+	
+	var $divs = $(targetTab+" .meDraggableItem");
+	
+	
+	var alphabeticallyOrderedDivs = $divs.sort(function (a, b) {
+		return $(a).attr('id') > $(b).attr('id');
+	});
+	$(targetTab).html(alphabeticallyOrderedDivs);
+	
+	WinMove();
+	
+//	$('#alphBnt').on('click', function () {
+//	    var alphabeticallyOrderedDivs = $divs.sort(function (a, b) {
+//	        return $(a).find("h1").text() > $(b).find("h1").text();
+//	    });
+//	    $("#container").html(alphabeticallyOrderedDivs);
+//	});
+
+//	$('#numBnt').on('click', function () {
+//	    var numericallyOrderedDivs = $divs.sort(function (a, b) {
+//	        return $(a).find("h2").text() > $(b).find("h2").text();
+//	    });
+//	    $("#container").html(numericallyOrderedDivs);
+//	});
+	
+}
 	
 //////////////////////////////////////////////////////
 //////////////////////////////////////////////////////
@@ -632,9 +736,13 @@ $(document).ready(function () {//doejeon
 		var box = $(this).closest('div.box');
 		var source = box.find('div.classySnob');
 //sysout(source.highcharts());
+		
+		sysout('highchartWrapper'); //t0_L1A-QI01_0
+		sysout(highchartWrapper);   //t0_ts_L1A-QI01_0
+		
+		
+        $('#'+highchartWrapper).removeClass('box');
         $('#'+highchartWrapper).toggleClass('modal1');
-//      $('#ts_'+highchartWrapper+'.highcharts-container', source).highcharts().reflow();
-//      $('#ts_'+highchartWrapper, source).highcharts().reflow();
         source.highcharts().reflow();
 	});
 	

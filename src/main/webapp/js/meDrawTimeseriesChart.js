@@ -1,12 +1,12 @@
 
 				                          //leadingStr L1A-QI01_0
-		function getDraggableContainerHTML(leadingStr,meTitle,detNum){
+		function getDraggableContainerHTML(leadingStr, meTitle, titleWithDStr){
 			
 			var idx = $("#tabs").tabs('option', 'active');
 			
-		 	var divId = 't'+idx+'_'+ leadingStr ;//+detNum;
-			var divTitle = (detNum!='nodet')? meTitle +' (Detector ' + detNum + ')' : meTitle;
-			
+		 	var divId = 't'+idx+'_'+ leadingStr;//+detNum;
+			var divTitle =  meTitle.split('-').join(' ') + ' ' + titleWithDStr;
+			divTitle = divTitle.split('_').join(' - ');
 			
 			var chartId = 't'+idx+'_ts_'+leadingStr;
 			
@@ -19,7 +19,7 @@
 			
 			var draggableDiv = '';
 //			draggableDiv +=	"<div class='meDraggableItem col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
-//			draggableDiv +=	"<div class='meDraggableItem col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
+//			draggableDiv +=	"		<div class='box col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
 			draggableDiv +=	"		<div class='box meDraggableItem col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
 			draggableDiv +=	"			<div class='box-header'>";
 			draggableDiv +=	"				<div class='box-name'>";
@@ -27,9 +27,9 @@
 			draggableDiv +=	"					<span>"+divTitle+"</span>";
 			draggableDiv +=	"				</div>";
 			draggableDiv +=	"				<div class='box-icons'>";
-			draggableDiv +=	"					<a class='mePopupWindow'>";
-			draggableDiv +=	"						<i class='fa fa-search'></i>";
-			draggableDiv +=	"					</a>";
+//			draggableDiv +=	"					<a class='mePopupWindow'>";
+//			draggableDiv +=	"						<i class='fa fa-search'></i>";
+//			draggableDiv +=	"					</a>";
 			draggableDiv +=	"					<a class='collapse-link'>";
 			draggableDiv +=	"						<i class='fa fa-chevron-up'></i>";
 			draggableDiv +=	"					</a>";
@@ -45,7 +45,60 @@
 //			draggableDiv +=	"               	<img src='${pageContext.request.contextPath}/resource/assets/preloader.gif' class='devoops-getdata' alt='preloader'/>";
 //			draggableDiv +=	"				</div>";
 			
-			draggableDiv +=	"				<div id='"+ chartId + "' class='classySnob' style='height: 330px;width: 100%;margin: 0 auto;'></div>";
+			draggableDiv +=	"				<div id='"+ chartId + "' class='classySnob' style='height: 330px;margin: 0 auto;'></div>";
+			draggableDiv +=	"			</div>";
+			draggableDiv +=	"		</div>";
+//			draggableDiv +=	"	</div>";
+			
+			return draggableDiv;
+		}
+		function getDraggableImageContainer(leadingStr, meTitle, titleWithDStr){
+			
+			var idx = $("#tabs").tabs('option', 'active');
+			
+			var divId = 't'+idx+'_'+ leadingStr;//+detNum;
+			var divTitle =  meTitle.split('-').join(' ') + ' ' + titleWithDStr;
+			divTitle = divTitle.split('_').join(' - ');
+			
+			var chartId = 't'+idx+'_ts_'+leadingStr;
+			
+			if($('#'+divId).length){
+//				sysout('if chartWrapperHTML [#' +divId+'] is already exiests ')
+//				sysout('then RETURN;')
+				return false;
+			}
+			
+			
+			var draggableDiv = '';
+//			draggableDiv +=	"<div class='meDraggableItem col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
+//			draggableDiv +=	"		<div class='box col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
+			draggableDiv +=	"		<div class='box meDraggableItem col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
+			draggableDiv +=	"			<div class='box-header'>";
+			draggableDiv +=	"				<div class='box-name'>";
+			draggableDiv +=	"					<i class='fa fa-bar-chart'></i>";
+			draggableDiv +=	"					<span>"+divTitle+"</span>";
+			draggableDiv +=	"				</div>";
+			draggableDiv +=	"				<div class='box-icons'>";
+//			draggableDiv +=	"					<a class='mePopupWindow'>";
+//			draggableDiv +=	"						<i class='fa fa-search'></i>";
+//			draggableDiv +=	"					</a>";
+			draggableDiv +=	"					<a class='collapse-link'>";
+			draggableDiv +=	"						<i class='fa fa-chevron-up'></i>";
+			draggableDiv +=	"					</a>";
+			draggableDiv +=	"					<a class='close-window'>";
+			draggableDiv +=	"						<i class='fa fa-times'></i>";
+			draggableDiv +=	"					</a>";
+			draggableDiv +=	"				</div>";
+			draggableDiv +=	"				<div class='no-move'></div>";
+			draggableDiv +=	"			</div>";
+			draggableDiv +=	"			<div class='box-content'>";
+//preloader
+//			draggableDiv +=	"				<div class='preloader'>";
+//			draggableDiv +=	"               	<img src='${pageContext.request.contextPath}/resource/assets/preloader.gif' class='devoops-getdata' alt='preloader'/>";
+//			draggableDiv +=	"				</div>";
+			
+//			draggableDiv +=	"				<div id='"+ chartId + "' class='classySnob' style='height: 330px;margin: 0 auto;'></div>";
+			draggableDiv +=	"				<div id='"+ chartId + "' class='classySnob' style=''></div>";
 			draggableDiv +=	"			</div>";
 			draggableDiv +=	"		</div>";
 //			draggableDiv +=	"	</div>";
