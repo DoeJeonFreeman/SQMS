@@ -539,9 +539,13 @@ function reorderDivAlphabeticallyMan(){
 //	    });
 //	    $("#container").html(numericallyOrderedDivs);
 //	});
-	
 }
 	
+function fxxkingaman(tabIndex,key){
+	alert('fxxking A haha');
+	$("#OPT_"+tabIndex).fancytree("getTree").getNodeByKey(key).setActive(false);
+}
+
 //////////////////////////////////////////////////////
 //////////////////////////////////////////////////////
 //
@@ -690,7 +694,7 @@ $(document).ready(function () {//doejeon
 	 * meDraggableItem은 id는 해당꺼를 날려야니까  그대로니까   $(this).closest('div.meDraggableItem').attr('id'); //t0_L1A-QI01_0 얘를 받아서 날려버려
 	 * 
 	 * */
-	$('[id^=TSCWrapper]').on('click', '.close-window', function (e) {
+/*	$('[id^=TSCWrapper]').on('click', '.close-window', function (e) {
 		e.preventDefault();
 		
 		var tabIndex = $("#tabs").tabs('option', 'active') ;
@@ -698,8 +702,14 @@ $(document).ready(function () {//doejeon
 //		var cbName = $(this).closest('div.box-header').siblings().find('.classySnob').attr('id');
 //		cbName = cbName.replace("_ts_", "_"); //차트컨테이너 .classySnobt id 받아서 _ts삭제 !!  0_[ts_]L1A-QI01_0
 		sysout('[captured] '+cbName);
-		$("#OPT_"+tabIndex +" input[name='" + cbName.substr(cbName.indexOf("_")+1) + "']").prop('checked',false); //	or .removeAttr('checked');
-		//var currContainerId = $(this).closest('div.meDraggableItem').attr('id');
+		
+		//substitute fancytree for checkboxes 2016.12.05.
+		//substitute fancytree for checkboxes 2016.12.05.
+		//$("#OPT_"+tabIndex +" input[name='" + cbName.substr(cbName.indexOf("_")+1) + "']").prop('checked',false); //	or .removeAttr('checked');
+		var key = cbName.substr(cbName.indexOf("_")+1);
+		sysout('[key] '+key);
+//		$("#OPT_"+tabIndex).fancytree("getTree").getNodeByKey(key).setActive(false);
+		fxxkingaman(tabIndex, key);
 		$('#'+cbName).remove(); //remove chartWrapperHTML
 //		$('#'+currContainerId).remove(); //remove chartWrapperHTML
 		var leadingStr = 't' + tabIndex + '_ts_';
@@ -711,9 +721,27 @@ $(document).ready(function () {//doejeon
 		sysout('======> remove [' +leadingStr  + cbName.substr(cbName.indexOf("_")+1) + '] from maps'); 
 		sysout(map);
 		
+	});*/
+	
+	/*
+	$('[id^=TSCWrapper]').on('click', '.close-window', function (e) {
+		e.preventDefault();
+		var tabIndex = $("#tabs").tabs('option', 'active') ;
+		var cbName = $(this).closest('div.meDraggableItem').attr('id'); //t0_L1A-QI01_0 
+		sysout('[captured] '+cbName);
+		$("#OPT_"+tabIndex +" input[name='" + cbName.substr(cbName.indexOf("_")+1) + "']").prop('checked',false); //	or .removeAttr('checked');
+		//var currContainerId = $(this).closest('div.meDraggableItem').attr('id');
+		$('#'+cbName).remove(); //remove chartWrapperHTML
+		var leadingStr = 't' + tabIndex + '_ts_';
+		map.remove(leadingStr  + cbName.substr(cbName.indexOf("_")+1)); //remove chart from maps 
+		sysout("#OPT_"+tabIndex +" input[name='" + cbName.substr(cbName.indexOf("_")+1) + "']")
+		sysout("==>close-window.remove() " + cbName); 
+		sysout("====>cb.removeAttr(checked) "   + cbName.substr(cbName.indexOf("_")+1) ); 
+		sysout('======> remove [' +leadingStr  + cbName.substr(cbName.indexOf("_")+1) + '] from maps'); 
+		sysout(map);
 	});
 	
-	
+	*/
 	
 	$('.meControllPanel').on('click', '.meExpandable', function (e) {
 		e.preventDefault();

@@ -45,11 +45,6 @@ public interface TimeSeriesChartService {
 	ArrayList<HashMap<String,Object>> getSeriesRetrieval_L1B_SCPOS (String targetDate, String period) throws Exception;
 	ArrayList<HashMap<String,Object>> getSeriesRetrieval_L1B_SCATT (String targetDate, String period) throws Exception;
 	
-//	MostRecentStuffVO retrievingIfArcticDataExists() throws Exception;
-//	MostRecentStuffVO findMatchingArcticData (String selectedDate) throws Exception;
-//	List<MostRecentStuffVO> findMatchingArcticDataList (String selectedDate) throws Exception;
-//	TimeSeriesDataVO selectIceExtentSeries() throws Exception;
-//	TimeSeriesDataVO selectIceTrendSeries() throws Exception;
 }
 
 

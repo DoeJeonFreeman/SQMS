@@ -1,7 +1,10 @@
 package kr.go.nmsc.sat.qms.mybatis;
 
+import javax.annotation.Resource;
+
 import kr.go.nmsc.sat.qms.domain.UpToDateStuffVO;
 
+@Resource(name="sqlSessionFactory")
 public interface MostRecentStuffMapper {
 	/**
 	 * Level_1_A_VisibleSNR + VisibleRadiance

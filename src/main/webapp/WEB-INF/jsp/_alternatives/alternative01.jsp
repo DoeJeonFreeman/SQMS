@@ -14,8 +14,14 @@
     
 	<title>QIMS-품질지표1</title>
 	
+	<!-- 
+		Cannot call methods prior to initialization; attempted to call method XXX 
+		The issue is sometimes caused by jquery-ui and bootstrap-button plugins conflict. 
+		jquery-ui code should go before bootstrap.js, and that solves the problem.
+	-->
  
 	<script src="${pageContext.request.contextPath}/js/jquery/jquery-1.9.1.js"></script>	
+	<script src="${pageContext.request.contextPath}/js/jquery/ui/jquery-ui-1111.js"></script>
     <script src="${pageContext.request.contextPath}/resource/js/bootstrap.min.js"></script>
   	<!-- FuelUX 
 	    <script src="//www.fuelcdn.com/fuelux/3.13.0/js/fuelux.min.js"></script>
@@ -40,8 +46,6 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/daterangepicker/daterangepicker.js"></script>
     <!-- dateJS -->
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery/date.js"></script>
-    <!-- JQuery UI -->
-	<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery/ui/jquery-ui-1111.js"></script>
     <!-- spinner.js -->
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/meSpinner/spin.min.js"></script>
 	
@@ -98,6 +102,7 @@
 
 	<script type="text/javascript">
 		
+		var ITEM_SIZE = 6; //     4 || 6 || 12
 	
 		function addJstlImportTagDynamically(){
 			//$('#TSCWrapper0').html('<c import url="/mePageLink.do?link=_alternatives/WHOLE_CONDITIONS" />');
@@ -171,17 +176,62 @@
 	    	$.ui.fancytree.info("Event('" + event.type + "', node=" + data.node + ")" + msg);
 		}	
 		
-		//djf20161019
-		var treeSelected;
+		
+	
+		//djf20161206
+		/*
+			
+		*/
 		function getSelectedVarialbes(idx){
+			sysout('==[begin]========getSelectedVarialbes(idx)==========================//'); 
+			var selected = [];
+			var key_laedingStr = 't' + idx + '_ts_';
+			$.each(map.keys(), function( index, keyStr ){
+		    	var key = new String(keyStr);
+			    if(key.indexOf(key_laedingStr) != -1){   
+//			    	selected.push(key.substring(6, key.length));
+			    	selected.push(key.substr(6));
+			    	sysout('tab'+idx+ ' [activated]=======>selected.push( ' + key.substring(6, key.length) + ' )');
+			    }
+			});
+			sysout('==[end]==========getSelectedVarialbes(idx)===========================//'); 
+			return selected;
+		} 
+		
+	
+		//djf20161019
+		/*
+			
+		*/
+		var treeSelected;
+		function getSelectedVarialbes_DEPRECATED(idx){
 			var selected = [];
  			$('#OPT_'+idx+' .checkboxes input:checked').each(function() {
 			    selected.push($(this).attr('name'));
+			    sysout($(this).attr('name'));
 			}); 
  			sysout('_T_R_E_E_S_E_L_E_C_T_E_D_');
  			sysout(treeSelected);
- 			
- 
+			return selected;			
+		} 
+		
+		//djf20161019
+		//
+		//fancytree
+		function getSelectedVarialbes_DOESNT_WORK(idx){
+			 /* var selNodes = $("#treeWithCheckbox_" +idx ).fancytree("getSelectedNodes");
+			 var selection = $.map(selNodes, function(node){
+				return node.key;
+			}); */
+			   var selection = jQuery.map(
+				        jQuery("#treeWithCheckbox_" +idx ).fancytree('getRootNode').tree.getSelectedNodes(),
+				        function( node ) { 
+				            return node.key; 
+				        }
+				    );
+			sysout(selection); 
+			return meKeys
+			
 			 /* var selNodes = data.tree.getSelectedNodes();
 			 // convert to title/key array
 			 var selKeys = $.map(selNodes, function(node){
@@ -199,7 +249,6 @@
 				});
 				sysout(meSelKeys); */
 				
-				//alert($("#echoSelection2").text(selKeys.join(", "))); 
 			return selected;			
 		}
 	
@@ -302,49 +351,49 @@ sysout(varSelected);
 					var meItem = 't' + $("#tabs").tabs('option', 'active') + '_ts_' + itm;
 					
 					if(typeOfChart=='L1A-QI01'){
-						var vsnrHTML =  getDraggableContainerHTML(itm, 'Visible SNR ',detectorNum);
+						var vsnrHTML =  getDraggableContainerHTML(itm, 'Visible SNR ',detectorNum, ITEM_SIZE);
 						$(targetDivId).append(vsnrHTML);
 						pleaseWait(meItem);
 						var url_VSNR = '<c:url value='/' />timeseries/retrieval/L_1_A_VSNR';
 						addChart_VSNR(url_VSNR,dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					}else if(typeOfChart=='L1A-QI02'){
-						var radianceHTML =  getDraggableContainerHTML(itm, 'Visible Radiance ',detectorNum);
+						var radianceHTML =  getDraggableContainerHTML(itm, 'Visible Radiance ',detectorNum, ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
 						var url_VR = '<c:url value='/' />timeseries/retrieval/L_1_A_VR';
 						addChart_VRadiance(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					}else if(typeOfChart=='L1A-QI03'){
-						var radianceHTML =  getDraggableContainerHTML(itm, 'Visible PRNU ',detectorNum);
+						var radianceHTML =  getDraggableContainerHTML(itm, 'Visible PRNU ',detectorNum, ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
 						var url_VPRNU = '<c:url value='/' />timeseries/retrieval/L_1_A_VisblePRNU';
 						addChart_VisiblePRNU(url_VPRNU, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					}else if(typeOfChart=='L1A-QI04'){
-						var radianceHTML =  getDraggableContainerHTML(itm, 'IR Radiance',detectorNum);
+						var radianceHTML =  getDraggableContainerHTML(itm, 'IR Radiance',detectorNum, ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_A_IRRS';
 						addChart_IRRS(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					}else if(typeOfChart=='L1A-QI05'){
-						var radianceHTML =  getDraggableContainerHTML(itm, 'IR NEDT',detectorNum);
+						var radianceHTML =  getDraggableContainerHTML(itm, 'IR NEDT',detectorNum, ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_A_IRNEDT';
 						addChart_IR_NEDT(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					}else if(typeOfChart=='L1A-QI06'){
-						var radianceHTML =  getDraggableContainerHTML(itm, 'IR PRNU',detectorNum);
+						var radianceHTML =  getDraggableContainerHTML(itm, 'IR PRNU',detectorNum, ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_A_IRPRNU';
 						addChart_IR_PRNU(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 				//Level 1 A Environment Variables	
 					}else if(typeOfChart.startsWith("L1A-EV")){
-						var radianceHTML =  getDraggableContainerHTML(itm, 'Level 1 A ENV','nodet');
+						var radianceHTML =  getDraggableContainerHTML(itm, 'Level 1 A ENV','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_A_ENV';
@@ -357,28 +406,28 @@ sysout(varSelected);
 					//Level 1 B QI	
 					//Level 1 B QI	
 					}else if(typeOfChart=='L1B-QI02'){
-						var radianceHTML =  getDraggableContainerHTML(itm, 'Number of Valid Landmarks','nodet');
+						var radianceHTML =  getDraggableContainerHTML(itm, 'Number of Valid Landmarks','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_B_NVL';
 						addChart_LV1B_QI_NumOfLandmarks(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					}else if(typeOfChart=='L1B-QI03'){
-						var radianceHTML =  getDraggableContainerHTML(itm, 'Landmark Residual - Average (EW/NS)','nodet');
+						var radianceHTML =  getDraggableContainerHTML(itm, 'Landmark Residual - Average (EW/NS)','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_B_RAVG';
 						addChart_LV1B_QI_ResidualAvg(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 					//Residual Standard Deviation (EW/NS)	
 					}else if(typeOfChart=='L1B-QI04'){
-						var radianceHTML =  getDraggableContainerHTML(itm, 'Residual Standard Deviation','nodet');
+						var radianceHTML =  getDraggableContainerHTML(itm, 'Residual Standard Deviation','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_B_STDDEV';
 						addChart_LV1B_QI_ResidualStdDev(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 					//Residual Quadratic Distance 	
 					}else if(typeOfChart=='L1B-QI05'){
-						var radianceHTML =  getDraggableContainerHTML(itm, 'Residual Quadratic Distance','nodet');
+						var radianceHTML =  getDraggableContainerHTML(itm, 'Residual Quadratic Distance','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_B_QUADDIST';
@@ -388,14 +437,14 @@ sysout(varSelected);
 					//Level 1 B ENV		
 					//Spacecraft Position R(m)	
 					}else if(typeOfChart=='L1B-EV01'){
-						var radianceHTML =  getDraggableContainerHTML(itm, 'Spacecraft Position','nodet');
+						var radianceHTML =  getDraggableContainerHTML(itm, 'Spacecraft Position','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_B_SCPOS';
 						addChart_LV1B_EV_SCPOS(url, dStr, d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 					//Spacecraft Attitude	
 					}else if(typeOfChart=='L1B-EV02'){
-						var radianceHTML =  getDraggableContainerHTML(itm, 'Spacecraft Attitude','nodet');
+						var radianceHTML =  getDraggableContainerHTML(itm, 'Spacecraft Attitude','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_B_SCATT';
@@ -549,6 +598,7 @@ sysout(varSelected);
 					var targetTab = '#TSCWrapper' + idx;
 					
 					drawTimeseries(targetTab, getSelectedVarialbes(idx),$("#meNMSCDemo").val());
+					sysout('tabs activate event()');
 					sysout('[map.keys after #tabs'+idx +' activation ] ');
 					$.each( map.keys(), function( i, key){
 						sysout(i +' : '+ key)
@@ -686,6 +736,7 @@ sysout(varSelected);
 				$('.meDraggableItem').addClass('col-md-'+size);
 				$('.meDraggableItem').addClass('col-lg-'+size);
 				itemSize = size;
+				ITEM_SIZE = size;
 				//resize div and reflow!!!
 				//$('#ts_vsnr_det_0').highcharts().reflow(); //test only
 				$('.classySnob').each(function() { 
@@ -753,6 +804,7 @@ sysout(varSelected);
 					    	<span class="selected" id="1" value="WEEK">1주일</span><span class="caret"></span>
 				    	</button>
 					    <ul class="dropdown-menu option" role="menu" >
+					      <li id="0" role="presentation" value="DAY"><a role="menuitem" tabindex="-1" >1일</a></li>
 					      <li id="1" role="presentation" value="WEEK"><a role="menuitem" tabindex="-1" >1주일</a></li>
 					      <li id="2" role="presentation" value="MONTH"><a role="menuitem" tabindex="-1" >1개월</a></li>
 					      <li id="3" role="presentation" value="YEAR"><a role="menuitem" tabindex="-1" >1년</a></li>
@@ -803,7 +855,6 @@ sysout(varSelected);
 					      <!-- 
 					      <li id="5" role="presentation" value="BIANNUALLY"><a role="menuitem" tabindex="-1" >Biannually</a></li>
 					       -->
-					       
 					      <!-- 
 					      <li role="presentation" class="divider"></li>
 					       -->
@@ -934,35 +985,29 @@ sysout(varSelected);
                 <div class="row"  style="width:350px;">
              		<!--FIRST TAB-->
                		<div id="OPT_0" >
-			        	<c:import url="/mePageLink.do?link=_alternatives/WHOLE_CONDITIONS" />
+               		<!-- 
+			        	<c import url="/mePageLink.do?link=_alternatives/WHOLE_CONDITIONS" />
+               		 -->
+			        	<c:import url="/mePageLink.do?link=_alternatives/ENTIRE_CONDITIONS_L1">
+			        		<c:param name="identifier" value="0"/>
+			        	</c:import>
                		</div>
                		<div id="OPT_1" >
-			        	<c:import url="/mePageLink.do?link=_alternatives/WHOLE_CONDITIONS" />
                			<!-- 
-			        	<c import url="/mePageLink.do?link=_alternatives/ENTIRE_CONDITIONS">
-			        		<c param name="identifier" value="pan01"/>
-			        	</c import>
+			        	<c import url="/mePageLink.do?link=_alternatives/WHOLE_CONDITIONS" />
                			 -->
+			        	<c:import url="/mePageLink.do?link=_alternatives/ENTIRE_CONDITIONS_L1">
+			        		<c:param name="identifier" value="1"/>
+			        	</c:import>
                		</div>
                		<div id="OPT_2" >
-			        	<c:import url="/mePageLink.do?link=_alternatives/WHOLE_CONDITIONS" />
 	               		<!-- 
-               			<c import url="/mePageLink.do?link=_alternatives/ENTIRE_CONDITIONS">
-               				<c param name="identifier" value="pan02"/>
-			        	</c import>
+			        	<c import url="/mePageLink.do?link=_alternatives/WHOLE_CONDITIONS" />
 	               		 -->
-	               		 <!-- 
-	               		      <h5><a href="#" id="fxxkMe">fxxkMe</a></h5>
-      
-							  <p>
-							    <a href="#" id="btnDeselectAll">Deselect all</a> -
-							    <a href="#" id="btnToggleExpand">Toggle Expand</a>
-							  </p>
-							  <div>Selected keys: <span id="echoSelection2">-</span></div>
-							  <div id="treeWithCheckbox"></div>	 
-	               		  -->
+               			<c:import url="/mePageLink.do?link=_alternatives/ENTIRE_CONDITIONS_L1">
+               				<c:param name="identifier" value="2"/>
+			        	</c:import>
                		</div>
-               		
                		
                		
                		<!-- 

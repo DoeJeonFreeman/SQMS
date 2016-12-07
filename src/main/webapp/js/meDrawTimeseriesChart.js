@@ -1,12 +1,14 @@
 
 				                          //leadingStr L1A-QI01_0
-		function getDraggableContainerHTML(leadingStr, meTitle, titleWithDStr){
-			
+		function getDraggableContainerHTML(leadingStr, meTitle, titleWithDStr, ITEM_SIZE){
 			var idx = $("#tabs").tabs('option', 'active');
 			
 		 	var divId = 't'+idx+'_'+ leadingStr;//+detNum;
-			var divTitle =  meTitle.split('-').join(' ') + ' ' + titleWithDStr;
-			divTitle = divTitle.split('_').join(' - ');
+//			var divTitle =  meTitle.split('-').join(' ') + ' ' ;
+//			divTitle = divTitle.split('_').join(' - ');
+		 	var divTitle =  meTitle;
+			divTitle += (titleWithDStr=='nodet')? '' : ' (Detector '+titleWithDStr+')'
+		 	
 			
 			var chartId = 't'+idx+'_ts_'+leadingStr;
 			
@@ -20,7 +22,8 @@
 			var draggableDiv = '';
 //			draggableDiv +=	"<div class='meDraggableItem col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
 //			draggableDiv +=	"		<div class='box col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
-			draggableDiv +=	"		<div class='box meDraggableItem col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
+//			draggableDiv +=	"		<div class='box meDraggableItem col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
+			draggableDiv +=	"		<div class='box meDraggableItem col-xs-"+ITEM_SIZE+" col-md-"+ITEM_SIZE+" col-lg-"+ITEM_SIZE+"' id='" + divId + "'>";
 			draggableDiv +=	"			<div class='box-header'>";
 			draggableDiv +=	"				<div class='box-name'>";
 			draggableDiv +=	"					<i class='fa fa-bar-chart'></i>";
@@ -52,7 +55,9 @@
 			
 			return draggableDiv;
 		}
-		function getDraggableImageContainer(leadingStr, meTitle, titleWithDStr){
+		
+		
+		function getDraggableImageContainer(leadingStr, meTitle, titleWithDStr, ITEM_SIZE){
 			
 			var idx = $("#tabs").tabs('option', 'active');
 			
@@ -68,11 +73,12 @@
 				return false;
 			}
 			
-			
+			sysout('ITEM_SIZE is : ' + ITEM_SIZE);
 			var draggableDiv = '';
 //			draggableDiv +=	"<div class='meDraggableItem col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
 //			draggableDiv +=	"		<div class='box col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
-			draggableDiv +=	"		<div class='box meDraggableItem col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
+//			draggableDiv +=	"		<div class='box meDraggableItem col-xs-12 col-md-12 col-lg-6' id='" + divId + "'>";
+			draggableDiv +=	"		<div class='box meDraggableItem col-xs-"+ITEM_SIZE+" col-md-"+ITEM_SIZE+" col-lg-"+ITEM_SIZE+"' id='" + divId + "'>";
 			draggableDiv +=	"			<div class='box-header'>";
 			draggableDiv +=	"				<div class='box-name'>";
 			draggableDiv +=	"					<i class='fa fa-bar-chart'></i>";
@@ -92,10 +98,14 @@
 			draggableDiv +=	"				<div class='no-move'></div>";
 			draggableDiv +=	"			</div>";
 			draggableDiv +=	"			<div class='box-content'>";
-//preloader
-//			draggableDiv +=	"				<div class='preloader'>";
-//			draggableDiv +=	"               	<img src='${pageContext.request.contextPath}/resource/assets/preloader.gif' class='devoops-getdata' alt='preloader'/>";
-//			draggableDiv +=	"				</div>";
+			
+			
+			draggableDiv +=	"				<nav class='nav-circlepop djf'>";
+//			draggableDiv +=	"               	<a class='prev' href='/item1'><span class='icon-wrap'></span></a>";
+//			draggableDiv +=	"					<a class='next' href='/item3'><span class='icon-wrap'></span></a>";
+			draggableDiv +=	"               	<a class='prev' href='#'><span class='icon-wrap'></span></a>";
+			draggableDiv +=	"					<a class='next' href='#'><span class='icon-wrap'></span></a>";
+			draggableDiv +=	"				</nav>";
 			
 //			draggableDiv +=	"				<div id='"+ chartId + "' class='classySnob' style='height: 330px;margin: 0 auto;'></div>";
 			draggableDiv +=	"				<div id='"+ chartId + "' class='classySnob' style=''></div>";
@@ -533,8 +543,16 @@
 					            formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
 					            	return Highcharts.numberFormat(this.value, 2, '.', ',');
 					            }
-			            	}
+			            	},
+			            	plotLines:[{
+			                    value:2.7,
+			                    color: '#ff0000',
+			                    width:1,
+			                    zIndex:4,
+			                    label:{text:'outlier'}
+			                }]
 				        }
+				        
 					
 						
 					})); //haha

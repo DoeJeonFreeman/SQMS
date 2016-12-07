@@ -1,8 +1,21 @@
 package kr.go.nmsc.sat.qms.common.web;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.poi.xwpf.converter.core.FileURIResolver;
+import org.apache.poi.xwpf.converter.xhtml.XHTMLConverter;
+import org.apache.poi.xwpf.converter.xhtml.XHTMLOptions;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,13 +23,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.go.nmsc.sat.qms.domain.UpToDateStuffVO;
+import kr.go.nmsc.sat.qms.domain.lvl2.UpToDateStuffVO_L2;
 import kr.go.nmsc.sat.qms.service.TimeSeriesChartService;
+import kr.go.nmsc.sat.qms.service.TimeSeriesChartService_L2;
 
 @Controller 
 public class ViewPageController {
 
 	 @Autowired
 	 private TimeSeriesChartService timeseriesService;
+	 
+//	 @Autowired
+	 private TimeSeriesChartService_L2 timeseriesService_L2;
 	 
 	/**
 	 *
@@ -58,19 +76,52 @@ public class ViewPageController {
 		UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1A("CPP_RADIODETPARAM_V");
 		//2015.11.17데이터는 L1A만있어ㅠ 모든 변수 공통적으로 데이터 존재하는 날짜는 2013-08-09 임!!! L1A 환경정보는 2015년 11-17데이터밖에 없음ㅠ
 //		UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1B("CPP_NAVPERFO_V");		
-		
 		model.addAttribute("extSeries", mostRecent);
+		
 		return "_alternatives/alternative01";
 	}
 	/** alternative/b.do*/
 	@RequestMapping(value = "alternative/b.do")
 	public String alt1(HttpServletRequest request, ModelMap model) throws Exception{
-		UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1A("CPP_RADIODETPARAM_V");
+//		UpToDateStuffVO mostRecent = timeseriesService.pickMostRecentStuff_L1A("CPP_RADIODETPARAM_V");
+		
+		UpToDateStuffVO mostRecent = new UpToDateStuffVO();
+		
+		SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		java.util.Date d = datetimeFormatter1.parse("2016-04-30 23:59:00");
+		Timestamp dTimestamp = new Timestamp(d.getTime());
+		mostRecent.setLateststuff(dTimestamp);
+		
 		model.addAttribute("extSeries", mostRecent);
 		return "_alternatives/alternative02";
 	}
-	//=============================================================================================================
-	//=============================================================================================================
+	
+	/** alternative/b.do*/
+	@RequestMapping(value = "report.doe")
+	public String getReport(HttpServletRequest request, ModelMap model) throws Exception{
+		
+		UpToDateStuffVO mostRecent = new UpToDateStuffVO();
+		
+		SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		java.util.Date d = datetimeFormatter1.parse("2016-06-16 23:59:00");
+		Timestamp dTimestamp = new Timestamp(d.getTime());
+		mostRecent.setLateststuff(dTimestamp);
+		
+		model.addAttribute("extSeries", mostRecent);
+		return "_alternatives/reportView";
+	}
+	
+	/** lvl_2/dailyValidation.do*/
+	@RequestMapping(value = "lvl_2/dailyValidation.do")	
+	public String l2_dailyValidation(HttpServletRequest request, ModelMap model) throws Exception{
+		UpToDateStuffVO_L2 mostRecent =  timeseriesService_L2.pickMostRecentStuff_L2_dayilyValidation("==PASSING_L2_DAILY_VAILDATION_PARAMETERS==");
+//		model.addAttribute("extSeries", mostRecent);
+//		return "_alternatives/alternative02";
+		timeseriesService_L2.testQuery("==PASSING_L2_DAILY_VAILDATION_PARAMETERS==");
+		return "_codeSnippet/snippet1";
+	}
+	
+	
 	/** test/snippet1.do */
 	@RequestMapping(value = "test/snippet1.do")
 	public String test_1(HttpServletRequest request, ModelMap model) throws Exception{

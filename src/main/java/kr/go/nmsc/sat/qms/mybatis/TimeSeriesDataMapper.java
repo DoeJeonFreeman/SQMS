@@ -3,6 +3,9 @@ package kr.go.nmsc.sat.qms.mybatis;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.annotation.Resource;
+
+@Resource(name="sqlSessionFactory")
 public interface TimeSeriesDataMapper {
     
 	 	

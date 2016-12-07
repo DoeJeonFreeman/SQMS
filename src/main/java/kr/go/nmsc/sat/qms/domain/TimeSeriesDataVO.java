@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import org.json.simple.JSONObject;
 
+
 public class TimeSeriesDataVO implements Serializable{
 	
 	private static final long serialVersionUID = 4595656631281517902L;

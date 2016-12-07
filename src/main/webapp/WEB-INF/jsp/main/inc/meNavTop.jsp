@@ -220,8 +220,12 @@
 		                 <li> <!-- class="disabled" -->
 		                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('61','alternative/b.do')">월검증결과</a> <!-- onclick="javascript:fn_main_headPageAction('61','alternative/b.do')" -->
 		                 </li>
+                         <li>
+                         	<a href='#LINK' onclick="javascript:fn_main_headPageAction('62','report.doe')"  >월검증리포트</a>
+                         </li>
                          <li class="disabled">
-                         	<a href='##LINK'  onclick="javascript:fn_main_headPageAction('62','l_2_qi/dailyValidation.do')">일검증결과</a>
+                         	<!-- onclick="javascript:fn_main_headPageAction('63','lvl_2/dailyValidation.do')" -->
+                         	<a href='#LINK' class="disabled"  >일검증결과</a>
                          </li>
                  	</ul>
                  </li>
