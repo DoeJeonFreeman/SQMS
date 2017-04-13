@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" 
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:p="http://www.springframework.org/schema/p"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans 
-    http://www.springframework.org/schema/beans/spring-beans.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 	
 	<!-- 환경설정 기본정보를 globals.properties 에서 참조하도록 propertyConfigurer 설정  
 	-->
@@ -48,22 +58,45 @@
     </bean>
 	
 
+	    <!-- 기존 설정 
+		  <bean id="sqlSessionFactory"   class="org.mybatis.spring.SqlSessionFactoryBean">
+		    <property name="dataSource" ref="dataSource" />
+		    <property name="configLocation" value="classpath:twoc/sqlMap/config/Configuration.xml" />
+		  </bean>
+	     -->
+	     
 	  <bean id="sqlSessionFactory"   class="org.mybatis.spring.SqlSessionFactoryBean">
 	    <property name="dataSource" ref="dataSource" />
-	    <property name="configLocation" value="classpath:twoc/sqlMap/config/Configuration.xml" />
+        <property name="typeAliasesPackage" value="kr.go.nmsc.sat.qms.domain" />
+        <!-- 
+         <property name="configLocation" value="classpath:twoc/sqlMap/config/Configuration.xml" />
+         -->
+	     <property name="mapperLocations" value="classpath:twoc/sqlMap/mybatis/*.xml" />
 	  </bean>
 	  
+	  <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+   	  </bean>
+	  
+	  
+	  <!-- LEVEL 2 Daily Validation.. -->
+	  <!-- LEVEL 2 Daily Validation.. -->
+	  <!-- LEVEL 2 Daily Validation.. -->
 	  <bean id="sqlSessionFactory2"   class="org.mybatis.spring.SqlSessionFactoryBean">
 	    <property name="dataSource" ref="dataSource_l2" />
-	    <property name="configLocation" value="classpath:twoc/sqlMap/config_lvl_2/Configuration_lvl_2.xml" />
+        <property name="typeAliasesPackage" value="kr.go.nmsc.sat.qms.domain" />
+	     <property name="mapperLocations" value="classpath:twoc/sqlMap/mybatis_L2/*.xml" />
 	  </bean>
-    
+	  
+	  <bean id="sqlSession2" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory2" />
+   	  </bean>
+	  
+	  
+	  
 
 	
-	  <bean id="multipartResolver"
-	    class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
-	    p:maxUploadSize="104857600"
-	    p:maxInMemorySize="10485760"/>
+
 
 
    	<!-- SqlSessionFactory설정 .. 아래 sqlSessionTemplate 안쓰고 meContext-sqlMap.xml에 설정내용 따로 올림-->
@@ -80,5 +113,8 @@
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
 	-->
+	
+	  <!-- lob Handler -->
+    <bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler" lazy-init="true" />
     
 </beans>

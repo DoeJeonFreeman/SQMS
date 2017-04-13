@@ -1,40 +1,30 @@
 package kr.go.nmsc.sat.qms.common.web;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.poi.xwpf.converter.core.FileURIResolver;
-import org.apache.poi.xwpf.converter.xhtml.XHTMLConverter;
-import org.apache.poi.xwpf.converter.xhtml.XHTMLOptions;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import kr.go.nmsc.sat.qms.domain.UpToDateStuffVO;
-import kr.go.nmsc.sat.qms.domain.lvl2.UpToDateStuffVO_L2;
-import kr.go.nmsc.sat.qms.service.TimeSeriesChartService;
-import kr.go.nmsc.sat.qms.service.TimeSeriesChartService_L2;
+import kr.go.nmsc.sat.qms.dao.MostRecentStuffDAOService;
+import kr.go.nmsc.sat.qms.dao_L2.MostRecentStuffDAOService_L2;
+import kr.go.nmsc.sat.qms.domain.MostRecentStuffVO;
 
 @Controller 
 public class ViewPageController {
 
 	 @Autowired
-	 private TimeSeriesChartService timeseriesService;
+	 private MostRecentStuffDAOService mostRecentStuffDAOService;
 	 
-//	 @Autowired
-	 private TimeSeriesChartService_L2 timeseriesService_L2;
+	 @Autowired
+	 private MostRecentStuffDAOService_L2 mostRecentStuffDAOService_L2;
+	 
+//	 private static final Logger logger = LoggerFactory.getLogger(ViewPageController.class);
 	 
 	/**
 	 *
@@ -60,7 +50,6 @@ public class ViewPageController {
         List<Article> list = boardService.getArticleList("notice", "");
         model.addAttribute("notices", list);
         */
-		
         //MostRecentStuffVO stuff =  timeseriesService.retrievingIfArcticDataExists();
         //model.addAttribute("mostRecentStuff", stuff);
 		return "main/main";
@@ -71,36 +60,47 @@ public class ViewPageController {
 	//=============================================================================================================
 	//=============================================================================================================
 	/** alternative/a.do */
-	@RequestMapping(value = "alternative/a.do")
+	@RequestMapping(value = "lvl_1/QI.do")
 	public String alt0(HttpServletRequest request, ModelMap model) throws Exception{
-		UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1A("CPP_RADIODETPARAM_V");
+//		MostRecentStuffVO mostRecent =  mostRecentStuffDAOService.seekLatestStuff("CPP_RADIODETPARAM_V");
 		//2015.11.17데이터는 L1A만있어ㅠ 모든 변수 공통적으로 데이터 존재하는 날짜는 2013-08-09 임!!! L1A 환경정보는 2015년 11-17데이터밖에 없음ㅠ
-//		UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1B("CPP_NAVPERFO_V");		
+		
+		MostRecentStuffVO mostRecent = new MostRecentStuffVO();
+		SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		java.util.Date d = datetimeFormatter1.parse("2013-08-07 23:59:00");
+		Timestamp dTimestamp = new Timestamp(d.getTime());
+		mostRecent.setLateststuff(dTimestamp);	
+		
+		
 		model.addAttribute("extSeries", mostRecent);
 		
-		return "_alternatives/alternative01";
+		
+		
+		return "L1/LV_1_AB";
 	}
+	
+	
+	
 	/** alternative/b.do*/
-	@RequestMapping(value = "alternative/b.do")
+	@RequestMapping(value = "lvl_2/monthlyValidation.do")
 	public String alt1(HttpServletRequest request, ModelMap model) throws Exception{
-//		UpToDateStuffVO mostRecent = timeseriesService.pickMostRecentStuff_L1A("CPP_RADIODETPARAM_V");
-		
-		UpToDateStuffVO mostRecent = new UpToDateStuffVO();
-		
+//		UpToDateStuffVO mostRecent = mostRecentStuffDAOService.seekLatestStuff("CPP_RADIODETPARAM_V");
+		MostRecentStuffVO mostRecent = new MostRecentStuffVO();
 		SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		java.util.Date d = datetimeFormatter1.parse("2016-04-30 23:59:00");
+//		java.util.Date d = datetimeFormatter1.parse("2016-04-30 23:59:00");
+		java.util.Date d = datetimeFormatter1.parse("2016-11-30 23:59:00");
 		Timestamp dTimestamp = new Timestamp(d.getTime());
 		mostRecent.setLateststuff(dTimestamp);
 		
 		model.addAttribute("extSeries", mostRecent);
-		return "_alternatives/alternative02";
+		return "L2/LV_2_monthlyValidation";
 	}
 	
 	/** alternative/b.do*/
 	@RequestMapping(value = "report.doe")
 	public String getReport(HttpServletRequest request, ModelMap model) throws Exception{
 		
-		UpToDateStuffVO mostRecent = new UpToDateStuffVO();
+		MostRecentStuffVO mostRecent = new MostRecentStuffVO();
 		
 		SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		java.util.Date d = datetimeFormatter1.parse("2016-06-16 23:59:00");
@@ -108,31 +108,35 @@ public class ViewPageController {
 		mostRecent.setLateststuff(dTimestamp);
 		
 		model.addAttribute("extSeries", mostRecent);
-		return "_alternatives/reportView";
+		return "L2/LV_2_reportView";
 	}
 	
-	/** lvl_2/dailyValidation.do*/
+//	/** lvl_2/dailyValidation.do*/
 	@RequestMapping(value = "lvl_2/dailyValidation.do")	
 	public String l2_dailyValidation(HttpServletRequest request, ModelMap model) throws Exception{
-		UpToDateStuffVO_L2 mostRecent =  timeseriesService_L2.pickMostRecentStuff_L2_dayilyValidation("==PASSING_L2_DAILY_VAILDATION_PARAMETERS==");
-//		model.addAttribute("extSeries", mostRecent);
-//		return "_alternatives/alternative02";
-		timeseriesService_L2.testQuery("==PASSING_L2_DAILY_VAILDATION_PARAMETERS==");
-		return "_codeSnippet/snippet1";
+	MostRecentStuffVO mostRecent = new MostRecentStuffVO();
+		SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		java.util.Date d = datetimeFormatter1.parse("2016-11-11 23:59:00");
+		Timestamp dTimestamp = new Timestamp(d.getTime());
+		mostRecent.setLateststuff(dTimestamp);
+		
+		model.addAttribute("extSeries", mostRecent);
+		return "L2/LV_2_dailyValidation";
 	}
 	
 	
 	/** test/snippet1.do */
+	
 	@RequestMapping(value = "test/snippet1.do")
 	public String test_1(HttpServletRequest request, ModelMap model) throws Exception{
-		UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1A("CPP_RADIODETPARAM_V");
+		MostRecentStuffVO mostRecent =  mostRecentStuffDAOService.seekLatestStuff("CPP_RADIODETPARAM_V");
 		model.addAttribute("extSeries", mostRecent);
 		return "_codeSnippet/snippet1";
 	}
 	/** test/snippet2.do */
 	@RequestMapping(value = "test/snippet2.do")
 	public String test_2(HttpServletRequest request, ModelMap model) throws Exception{
-		UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1A("CPP_RADIODETPARAM_V");
+		MostRecentStuffVO mostRecent =  mostRecentStuffDAOService.seekLatestStuff("CPP_RADIODETPARAM_V");
 		model.addAttribute("extSeries", mostRecent);
 		return "_codeSnippet/snippet2";
 	}
@@ -168,7 +172,7 @@ public class ViewPageController {
 	/** QI/LV1A.do */
 	@RequestMapping(value = "QI/LV1A.do")
 	public String get_L1A_QI_initInfo(HttpServletRequest request, ModelMap model) throws Exception{
-		UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1A("CPP_RADIODETPARAM_V");
+		MostRecentStuffVO mostRecent =  mostRecentStuffDAOService.seekLatestStuff("CPP_RADIODETPARAM_V");
 		model.addAttribute("extSeries", mostRecent);
 		return "QI/QI_LV1A";
 	}
@@ -178,7 +182,7 @@ public class ViewPageController {
 	/** EI/LV1A.do */
 	@RequestMapping(value = "EI/LV1A.do")
 	public String get_L1A_EI_initInfo(HttpServletRequest request, ModelMap model) throws Exception{
-		UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1A("CPP_RADIODETPARAM_V");
+		MostRecentStuffVO mostRecent =  mostRecentStuffDAOService.seekLatestStuff("CPP_RADIODETPARAM_V");
 		model.addAttribute("extSeries", mostRecent);
 		return "EI/EI_LV1A";
 	}
@@ -193,7 +197,7 @@ public class ViewPageController {
 	/**QI_level_1_a.do*/
 	@RequestMapping(value = "QI/level_1_a.do")
 	public String get_L1A_initInfo(HttpServletRequest request, ModelMap model) throws Exception{
-		UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1A("CPP_RADIODETPARAM_V");
+		MostRecentStuffVO mostRecent =  mostRecentStuffDAOService.seekLatestStuff("CPP_RADIODETPARAM_V");
 		model.addAttribute("extSeries", mostRecent);
 //		return "QI/level_1_a";
 		return "QI/level_1_a";
@@ -203,7 +207,7 @@ public class ViewPageController {
 	/**level_1_a_IRRS.do*/
 	@RequestMapping(value = "QI/level_1_a_IRRadiance.do")
 	public String get_L1A_IRRS_initInfo(HttpServletRequest request, ModelMap model) throws Exception{
-		UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1A_IRRS("ID_GOES_HERE");
+		MostRecentStuffVO mostRecent =  mostRecentStuffDAOService.seekLatestStuff_IRRS("ID_GOES_HERE");
 		model.addAttribute("extSeries", mostRecent);
 		return "QI/level_1_a_IRRS";
 	}
@@ -212,7 +216,7 @@ public class ViewPageController {
 	/**level_1_a_VisiblePRNU.do*/
 	@RequestMapping(value = "QI/level_1_a_VisiblePRNU.do")
 	public String get_L1A_VisPRNU_initInfo(HttpServletRequest request, ModelMap model) throws Exception{
-		UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1A_VisPRNU("ID_GOES_HERE");
+		MostRecentStuffVO mostRecent =  mostRecentStuffDAOService.seekLatestStuff_VisPRNU("ID_GOES_HERE");
 		model.addAttribute("extSeries", mostRecent);
 		return "QI/level_1_a_VisPRNU";
 	}
@@ -221,7 +225,7 @@ public class ViewPageController {
 	/**level_1_a_IR_PRNU.do*/
 	@RequestMapping(value = "QI/level_1_a_IR_PRNU.do")
 	public String get_L1A_IRPRNU_initInfo(HttpServletRequest request, ModelMap model) throws Exception{
-		UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1A_IRPRNU("ID_GOES_HERE");
+		MostRecentStuffVO mostRecent =  mostRecentStuffDAOService.seekLatestStuff_IRPRNU("ID_GOES_HERE");
 		model.addAttribute("extSeries", mostRecent);
 		return "QI/level_1_a_IRPRNU";
 	}
@@ -230,7 +234,7 @@ public class ViewPageController {
 	/**level_1_a_IR_NEDT.do*/
 	@RequestMapping(value = "QI/level_1_a_IR_NEDT.do")
 	public String get_L1A_IRNEDT_initInfo(HttpServletRequest request, ModelMap model) throws Exception{
-UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1A_IRNEDT("ID_GOES_HERE");
+MostRecentStuffVO mostRecent =  mostRecentStuffDAOService.seekLatestStuff_IRNEDT("ID_GOES_HERE");
 		model.addAttribute("extSeries", mostRecent);
 		return "QI/level_1_a_IRNEDT";
 	}
@@ -250,7 +254,7 @@ UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1A_IRNEDT("
 	/**QI_level_1_b.do*/
 	@RequestMapping(value = "QI/level_1_b.do")
 	public String get_L1B_initInfo(HttpServletRequest request, ModelMap model) throws Exception{
-		UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1B("CPP_NAVPERFO_V");
+		MostRecentStuffVO mostRecent =  mostRecentStuffDAOService.seekLatestOne("CPP_NAVPERFO_V");
 		model.addAttribute("extSeries", mostRecent);
 		return "QI/level_1_b";
 	}
@@ -261,29 +265,10 @@ UpToDateStuffVO mostRecent =  timeseriesService.pickMostRecentStuff_L1A_IRNEDT("
 	/**QI_level_2.do*/
 	@RequestMapping(value = "QI/level_2.do")
 	public String get_L2_initInfo(HttpServletRequest request, ModelMap model) throws Exception{
-//		MostRecentStuffVO mostRecent =  timeseriesService.retrievingIfArcticDataExists();
-//      model.addAttribute("extSeries", mostRecent);
-//		return "QI/sampleCodeSnippet";
 		return "QI/level_2";
 	}
 	
 	
 	
 	
-	
-	
-	/*
-	@RequestMapping(value = "arctic/monthlyPrediction.do")
-	public String getPredictiveIceModel(HttpServletRequest request, ModelMap model) throws Exception{
-		UpToDateStuffVO stuff =  timeseriesService.selectLatestStuff("02PRE");
-        model.addAttribute("mostRecentStuff", stuff);
-		return "arctic/ext_predictive";
-	}
-	
-	@RequestMapping(value = "arctic/passage.do")
-	public String getArcticSeaRoute(HttpServletRequest request, ModelMap model) throws Exception{
-		MostRecentStuffVO seaRoute =  timeseriesService.retrievingIfArcticDataExists();
-		model.addAttribute("seaRoute", seaRoute);
-		return "arctic/seaRoute";
-	}*/
 }

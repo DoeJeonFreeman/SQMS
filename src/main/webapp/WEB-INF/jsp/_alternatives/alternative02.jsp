@@ -70,27 +70,7 @@
 	
 		var ITEM_SIZE = 6;
 	
-		Date.prototype.customFormat = function(formatString){
-		    var YYYY,YY,MMMM,MMM,MM,M,DDDD,DDD,DD,D,hhh,hh,h,hh24,mm,m,ss,s,ampm,AMPM,dMod,th, KDDD;
-		    var dateObject = this;
-		    YY = ((YYYY=dateObject.getFullYear())+"").slice(-2);
-		    MM = (M=dateObject.getMonth()+1)<10?('0'+M):M;
-		    MMM = (MMMM=["January","February","March","April","May","June","July","August","September","October","November","December"][M-1]).substring(0,3);
-		    DD = (D=dateObject.getDate())<10?('0'+D):D;
-		    DDD = (DDDD=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][dateObject.getDay()]).substring(0,3);
-		    DKor = (KDDD=["일요일","월요일오지마라","화요일","수요일","목요일","금요일","토요일"][dateObject.getDay()]).substring(0,1);
-		    th=(D>=10&&D<=20)?'th':((dMod=D%10)==1)?'st':(dMod==2)?'nd':(dMod==3)?'rd':'th';
-		    formatString = formatString.replace("#YYYY#",YYYY).replace("#YY#",YY).replace("#MMMM#",MMMM).replace("#MMM#",MMM).replace("#MM#",MM).replace("#M#",M).replace("#DDDD#",DDDD).replace("#DDD#",DDD).replace("#DD#",DD).replace("#D#",D).replace("#th#",th);
-		    h=(hhh=dateObject.getHours());
-		    hh24 = h<10?('0'+h):h;
-		    if (h==0) h=24;
-		    if (h>12) h-=12;
-		    hh = h<10?('0'+h):h;
-		    AMPM=(ampm=hhh<12?'am':'pm').toUpperCase();
-		    mm=(m=dateObject.getMinutes())<10?('0'+m):m;
-		    ss=(s=dateObject.getSeconds())<10?('0'+s):s;
-		    return formatString.replace("#hhh#",hhh).replace("#hh24#",hh24).replace("#hh#",hh).replace("#h#",h).replace("#mm#",mm).replace("#m#",m).replace("#ss#",ss).replace("#s#",s).replace("#ampm#",ampm).replace("#AMPM#",AMPM).replace("#DKor#",DKor);
-		}
+		
 	
 	
 		Map = function(){
@@ -681,17 +661,17 @@
              		<!--FIRST TAB-->
                		<div id="OPT_0" >
 			        	<c:import url="/mePageLink.do?link=_alternatives/ENTIRE_CONDITIONS_L2MonthlyValidation">
-			        		<c:param name="identifier" value="pan00"/>
+			        		<c:param name="identifier" value="0"/>
 			        	</c:import>
                		</div>
                		<div id="OPT_1" >
 			        	<c:import url="/mePageLink.do?link=_alternatives/ENTIRE_CONDITIONS_L2MonthlyValidation">
-			        		<c:param name="identifier" value="pan01"/>
+			        		<c:param name="identifier" value="1"/>
 			        	</c:import>
                		</div>
                		<div id="OPT_2" >
 			        	<c:import url="/mePageLink.do?link=_alternatives/ENTIRE_CONDITIONS_L2MonthlyValidation">
-			        		<c:param name="identifier" value="pan02"/>
+			        		<c:param name="identifier" value="2"/>
 			        	</c:import>
                		</div>
                		

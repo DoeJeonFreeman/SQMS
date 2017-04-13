@@ -6,7 +6,7 @@
 
 <mapper namespace="kr.go.nmsc.sat.qms.mybatis.TimeSeriesDataMapper">
 	
-	
+<!-- 	
  	<select id="seekLatestStuff" parameterType="string" resultType="UpToDateStuff">
   		SELECT 
   			TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff
@@ -15,7 +15,7 @@
  			AND PID=1 and INSTRUMENTMODE='LA'
 	</select>	
 	
-	
+	 -->
 	
 			<!-- 
 			WHERE ImgRef like '${targetDate}%'  	 
@@ -424,8 +424,56 @@
 	<!-- LEVEL 1 B -->
 	<!-- LEVEL 1 B -->
 
-	<!-- 0:FD 1:ENH 2:LSH 3:APNH 4:LA  -->
+	<!--
+		IMGMODEID 0:FD 1:ENH 2:LSH 3:APNH 4:LA  
+		if(ROIID == 1) then ROINAME == 'FULL'
+	-->
  	<select id="selectTimeSeriesData_L1B_NVL" parameterType="hashmap" resultType="hashmap">
+      	  SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, ROIID, ROINAME, IMGMODEID, IMGMODE, COUNT
+		  FROM CPP_NAVPERFO_V
+		  WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		     AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS') 	 
+	      AND PID=1 AND ROIID=1
+	      AND IMGMODEID in (0,1,2,3,4)
+	      order by DSTR, IMGMODEID
+ 	</select>
+ 	
+	<select id="selectTimeSeriesData_L1B_RAVG" parameterType="hashmap" resultType="hashmap">
+		SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, ROIID,ROINAME, IMGMODEID, IMGMODE, AverageEW, AverageNS
+		FROM CPP_NAVPERFO_V
+			WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		      AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS') 	 
+     		AND PID=1 AND ROIID=1
+			AND IMGMODEID IN (0,1,2,3,4) 
+			ORDER BY DSTR, IMGMODEID
+ 	</select>
+ 	
+ 	<!-- April 2017, DJFREEMAN -->
+ 	<select id="selectTimeSeriesData_L1B_STDDEV" parameterType="hashmap" resultType="hashmap">
+	  	SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, ROIID, ROINAME, IMGMODEID, IMGMODE, STDDEVEW, STDDEVNS
+			FROM CPP_NAVPERFO_V
+			WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		      AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')	 
+			AND PID=1 AND ROIID=1
+		    AND IMGMODEID in (0,1,2,3,4)
+		    order by DSTR, IMGMODEID
+ 	</select>
+ 	
+ 	
+	<select id="selectTimeSeriesData_L1B_QUADDIST" parameterType="hashmap" resultType="hashmap">
+	  	SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, ROIID,ROINAME, IMGMODEID, IMGMODE, QUADDIST
+			FROM CPP_NAVPERFO_V
+			WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		      AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS') 
+			AND PID=1 AND ROIID=1
+		    AND IMGMODEID in (0,1,2,3,4)
+		    order by DSTR, IMGMODEID
+ 	</select>
+ 	
+ 	
+ 	
+ 	<!-- ROIID 대신 IMGMODEID 별로 값 뽑자. ROIID 1이 FULL임 -->
+ 	<select id="DEPRECATED_selectTimeSeriesData_L1B_NVL" parameterType="hashmap" resultType="hashmap">
   		SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, ROIID, COUNT
 			FROM CPP_NAVPERFO_V
 			WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
@@ -435,7 +483,8 @@
 			ORDER BY DSTR, RoiID
  	</select>
   
- 	<select id="selectTimeSeriesData_L1B_RAVG" parameterType="hashmap" resultType="hashmap">
+ 	
+ 	<select id="DEPRECATED_selectTimeSeriesData_L1B_RAVG" parameterType="hashmap" resultType="hashmap">
 	  	SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, ROIID, AverageEW, AverageNS
 			FROM CPP_NAVPERFO_V
 			WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
@@ -445,9 +494,10 @@
 			ORDER BY DSTR, RoiID
  	</select>
 
+	
 	<!-- JUNE 2016, DJFREEMAN -->
 	<!-- JUNE 2016, DJFREEMAN -->
- 	<select id="selectTimeSeriesData_L1B_STDDEV" parameterType="hashmap" resultType="hashmap">
+ 	<select id="DEPRECATED_selectTimeSeriesData_L1B_STDDEV" parameterType="hashmap" resultType="hashmap">
 	  	SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, ROIID, STDDEVEW, STDDEVNS
 			FROM CPP_NAVPERFO_V
 			WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
@@ -456,7 +506,9 @@
 			AND RoiID IN (1,2,3,4,5) 
 			ORDER BY DSTR, RoiID
  	</select>
- 	<select id="selectTimeSeriesData_L1B_QUADDIST" parameterType="hashmap" resultType="hashmap">
+ 	
+
+ 	<select id="DEPRECATED_selectTimeSeriesData_L1B_QUADDIST" parameterType="hashmap" resultType="hashmap">
 	  	SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, ROIID, QUADDIST
 			FROM CPP_NAVPERFO_V
 			WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 

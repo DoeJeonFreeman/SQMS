@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
  * get most recent stuff
  *
  */
-public class UpToDateStuffVO implements Serializable{
+public class MostRecentStuffVO implements Serializable{
 	
 	private static final long serialVersionUID = -7147016742738953109L;
 	
@@ -23,7 +23,7 @@ public class UpToDateStuffVO implements Serializable{
 	
 	private static final SimpleDateFormat CAL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	
-	public UpToDateStuffVO() {}
+	public MostRecentStuffVO() {}
 	
 	public String getId() {
 		return id;

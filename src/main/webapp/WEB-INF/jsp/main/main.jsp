@@ -20,7 +20,7 @@
     <!-- Bootstrap Core CSS -->
     <link href="${pageContext.request.contextPath}/resource/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="${pageContext.request.contextPath}/resource/css/modern-business.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resource/css/djf.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="${pageContext.request.contextPath}/resource/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     

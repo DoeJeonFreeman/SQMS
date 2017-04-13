@@ -6,7 +6,13 @@
 
 <mapper namespace="kr.go.nmsc.sat.qms.mybatis.MostRecentStuffMapper">
 
-  <select id="seekLatestStuff" parameterType="string" resultType="UpToDateStuff">
+<!--     
+ -->
+	<resultMap type="kr.go.nmsc.sat.qms.domain.MostRecentStuffVO" id="up2dateObj">
+        <result property="lateststuff" column="lateststuff" />
+    </resultMap>
+
+  <select id="seekLatestStuff" parameterType="string" resultMap="up2dateObj">
   	SELECT 
   		TO_CHAR(max(IMGREFDT) ,'YYYY-MM-DD HH24:MI:SS') as lateststuff
 		FROM CPP_IMG_PRODUCT_T
@@ -14,7 +20,7 @@
 		AND PLATFORM=1
   </select>
   
-  <select id="seekLatestStuff_DEPRECATED" parameterType="string" resultType="UpToDateStuff">
+  <select id="seekLatestStuff_DEPRECATED" parameterType="string" resultMap="up2dateObj">
   	SELECT 
   		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff
 		FROM CPP_RADIODETPARAM_V
@@ -23,7 +29,7 @@
   </select>
   
   <!-- TID 7이 Slope -->
-  <select id="seekLatestStuff_IRRS" parameterType="string" resultType="UpToDateStuff">
+  <select id="seekLatestStuff_IRRS" parameterType="string" resultMap="up2dateObj">
  	SELECT 
   		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff
 		FROM CPP_RADIODETPARAM_V
@@ -33,7 +39,7 @@
   </select>
   
   <!-- TID 25가 Visible PRNU -->
-  <select id="seekLatestStuff_VisPRNU" parameterType="string" resultType="UpToDateStuff">
+  <select id="seekLatestStuff_VisPRNU" parameterType="string" resultMap="up2dateObj">
  	SELECT 
   		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff
 		FROM CPP_RADIODETPARAM_V
@@ -44,7 +50,7 @@
   
   
   <!-- TID 31은 IR_PRNU_220K -->
-  <select id="seekLatestStuff_IRPRNU" parameterType="string" resultType="UpToDateStuff">
+  <select id="seekLatestStuff_IRPRNU" parameterType="string" resultMap="up2dateObj">
  	SELECT 
   		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff
 		FROM CPP_RADIODETPARAM_V
@@ -56,7 +62,7 @@
   
   
   <!-- 미구현현 -->
-  <select id="seekLatestStuff_IRNEDT" parameterType="string" resultType="UpToDateStuff">
+  <select id="seekLatestStuff_IRNEDT" parameterType="string" resultMap="up2dateObj">
  	SELECT 
   		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff
 		FROM CPP_RADIODETPARAM_V
@@ -68,11 +74,7 @@
   
   
   
-  
-  
-  
-  
-  <select id="seekLatestOne" parameterType="string" resultType="UpToDateStuff">
+  <select id="seekLatestOne" parameterType="string" resultMap="up2dateObj">
   	SELECT 
   		TO_CHAR(max(IMGREFDT) keep (dense_rank last order by IMGREFDT),'YYYY-MM-DD HH24:MI:SS') as lateststuff 
 	FROM CPP_NAVPERFO_V

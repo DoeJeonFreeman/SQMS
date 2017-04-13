@@ -89,6 +89,7 @@
 	<script src="${pageContext.request.contextPath}/js/highchart/modules/boost.src.djf.custom.js"></script>
 	<script src="${pageContext.request.contextPath}/js/highchart/modules/exporting.js"></script>
 	<script src="${pageContext.request.contextPath}/js/highchart/modules/offline-exporting.js"></script>
+	<script src="${pageContext.request.contextPath}/js/highchart/modules/export-csv.js"></script>
 	
 	
 	<!-- minimal ajax loading spinner 
@@ -256,6 +257,8 @@
 //		var charts = [];
 
 		  function syncTooltip(container, p) {
+			sysout('chartObj.series .length is ===');			  
+			sysout(' [ '+chartObj.series.length+' ]');			  
 		    var  data;
 		 	  $.each( map.values(), function( i, chartObj){
 //		      for(var i=0; i<map.size(); i++) {
@@ -941,6 +944,7 @@ sysout(varSelected);
         		    "endDate" : "<c:out value="${extSeries.compbegindate4Cal}" />",
 //        		    "startDate": "2013-08-09", 
 //        		    "endDate" : "2013-08-09",
+					"minDate" : minDate.customFormat("#YYYY#-#MM#-#DD#"),
         		    "maxDate": "<c:out value="${extSeries.compbegindate4Cal}" />"     //today
         			}, function(start, end, label) {
         				var idx = $("#tabs").tabs('option', 'active');
