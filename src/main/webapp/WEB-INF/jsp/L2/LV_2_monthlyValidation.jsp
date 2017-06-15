@@ -163,7 +163,7 @@
 		}
 		
 		/**
-		리팩터링 시급ㅋㅋㅋㅋㅋㅋ 
+		리팩터링 요함 
 		*/ 
 		function doPostMonthlyValidationImageOnTheWall(targetDivId, varSelected, dStr){
 			
@@ -172,36 +172,61 @@
 			var dActual = moment(dStr, 'YYYY-MM-DD').toDate(); //use .toDate() to transform a moment object into a js date obj haha
 			var dActualStr = dActual.customFormat("#YYYY##MM#01");
 			var dActualTitle = dActual.customFormat("(#YYYY#.#MM#.)");
-//			var repositoryUrl = "http://intra.nmsc.kma.go.kr/emcoms/VIMG/QCM/DATA/"; 
-			var repositoryUrl = "http://2csolution.iptime.org:8880/~doejeon/QIMS_L2MonthlyValidation/emcoms/VIMG/QCM/DATA/"; 
+			var repositoryUrl = "http://intra.nmsc.kma.go.kr/emcoms/VIMG/QCM/DATA/"; 
+//			var repositoryUrl = "http://2csolution.iptime.org:8880/~doejeon/QIMS_L2MonthlyValidation/emcoms/VIMG/QCM/DATA/"; 
 			var repositoryYmd = dActual.customFormat("/Y#YYYY#/M#MM#/D01/");
 				
 			$.each (varSelected, function(i,item){ //itm == cb name attr
 				
 				//var detectorNum = itm.substring(itm.lastIndexOf('_')+1,itm.length);
 				//var typeOfChart = itm.split('_')[0]; //VR01		
-				
-					 //selected.push(item.node.key);
-					 //alert(targetTab + " [" + data.node.key + "]: '" + data.node.title + "'");
-					 //alert('path:' + item.node.data.mePath);
+			    //selected.push(item.node.key);
+					 
 				var key = item.node.key;
-				var imgPrefix = item.node.data.mePath;
-				var varAbbr = item.node.data.meAbbreviation;
 				
-				var boxContentIdentifier = 't' + $("#tabs").tabs('option', 'active') + '_ts_' + key + '_'+dActualStr;
+				var currNode = item.node;
 				
-				var wrapperHTML =  getDraggableImageContainer(key+'_'+dActualStr, key, dActualTitle,ITEM_SIZE);
+				var tokens = [];
+				while(currNode){
+					if(currNode.parent) tokens.push(currNode.title); // if root node then skip 
+					currNode = currNode.parent;					
+				}
+				var titleStr = ''; 
+				tokens.reverse().forEach(function(eachTitle, index){
+					titleStr += eachTitle;				
+					if(index != tokens.length-1) titleStr += ' - ';
+				});
+				//toastr.error(titleStr );
+				
+				var imgPrefix = item.node.data.key;
+				var varAbbr = item.node.data.abbr;
+				
+				titleStr = titleStr.replace(/\(/,"*");
+				titleStr = titleStr.split('*');
+				titleStr.shift();
+				titleStr = titleStr.join('');
+				titleStr = titleStr.replace(/\)/,"");
+				
+//				var wrapperHTML =  getDraggableImageContainer(key+'_'+dActualStr, key, dActualTitle,ITEM_SIZE);
+				var wrapperHTML =  getDraggableImageContainer(key+'_'+dActualStr, titleStr, dActualTitle,ITEM_SIZE);
 				if(wrapperHTML){
 					$(targetDivId).append(wrapperHTML);
-//					toastr.info(repositoryUrl + varAbbr + repositoryYmd + imgPrefix + '_' + dActualStr + '.png' );
-					var NMSCPath= repositoryUrl + varAbbr + repositoryYmd + imgPrefix + '_' + dActualStr + '.png';
+					var NMSCPath= repositoryUrl + varAbbr + repositoryYmd + 'coms_mi_' +imgPrefix + '_cn_' + dActualStr + '.png';
+					//toastr.info(NMSCPath);
+					var boxContentIdentifier = 't' + $("#tabs").tabs('option', 'active') + '_ts_' + key + '_'+dActualStr;
+					/* boxContentIdentifier = boxContentIdentifier.replace(/\(/g,"");
+					boxContentIdentifier = boxContentIdentifier.replace(/\)/g,"");
+					boxContentIdentifier = boxContentIdentifier.replace(/\./g,"");
+					boxContentIdentifier = boxContentIdentifier.replace(/\//g,"");
+					boxContentIdentifier = boxContentIdentifier.replace(/ /g,""); */
 					$('#'+boxContentIdentifier).append("<span class='clear'><img class='img-responsive center-block' src='"+NMSCPath+"'/></span>")
 				}else{
 					var yyyymm = dActual.customFormat("#YYYY#.#MM#.");
-					var currItem =  key.split('-').join(' ') ;
-					currItem = currItem.split('_').join(' - ');
+//					var currItem =  key.split('-').join(' ') ;
+//					currItem = currItem.split('_').join(' - ');
+					var currItem = titleStr;
 					currItem = 'Item already exists. [ '+ yyyymm + ' ]<br/>' + currItem + '' 
-					toastr.info(currItem);
+					toastr.warning(currItem);
 				}
 				
 				
@@ -660,17 +685,17 @@
                 <div class="row"  style="width:350px;">
              		<!--FIRST TAB-->
                		<div id="OPT_0" >
-			        	<c:import url="/mePageLink.do?link=_alternatives/ENTIRE_CONDITIONS_L2MonthlyValidation">
+			        	<c:import url="/mePageLink.do?link=L2/VARS_L2MonthlyValidation">
 			        		<c:param name="identifier" value="0"/>
 			        	</c:import>
                		</div>
                		<div id="OPT_1" >
-			        	<c:import url="/mePageLink.do?link=_alternatives/ENTIRE_CONDITIONS_L2MonthlyValidation">
+			        	<c:import url="/mePageLink.do?link=L2/VARS_L2MonthlyValidation">
 			        		<c:param name="identifier" value="1"/>
 			        	</c:import>
                		</div>
                		<div id="OPT_2" >
-			        	<c:import url="/mePageLink.do?link=_alternatives/ENTIRE_CONDITIONS_L2MonthlyValidation">
+			        	<c:import url="/mePageLink.do?link=L2/VARS_L2MonthlyValidation">
 			        		<c:param name="identifier" value="2"/>
 			        	</c:import>
                		</div>

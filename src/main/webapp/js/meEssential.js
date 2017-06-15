@@ -1,5 +1,6 @@
 //
-//    Main script 2016-04-21
+//    DoeJeonFreeman  
+//	  2016-04-21
 //
 //"use strict";
 

@@ -62,14 +62,14 @@ public class ViewPageController {
 	/** alternative/a.do */
 	@RequestMapping(value = "lvl_1/QI.do")
 	public String alt0(HttpServletRequest request, ModelMap model) throws Exception{
-//		MostRecentStuffVO mostRecent =  mostRecentStuffDAOService.seekLatestStuff("CPP_RADIODETPARAM_V");
+		MostRecentStuffVO mostRecent =  mostRecentStuffDAOService.seekLatestStuff("CPP_RADIODETPARAM_V");
 		//2015.11.17데이터는 L1A만있어ㅠ 모든 변수 공통적으로 데이터 존재하는 날짜는 2013-08-09 임!!! L1A 환경정보는 2015년 11-17데이터밖에 없음ㅠ
 		
-		MostRecentStuffVO mostRecent = new MostRecentStuffVO();
-		SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		java.util.Date d = datetimeFormatter1.parse("2013-08-07 23:59:00");
-		Timestamp dTimestamp = new Timestamp(d.getTime());
-		mostRecent.setLateststuff(dTimestamp);	
+//		MostRecentStuffVO mostRecent = new MostRecentStuffVO();
+//		SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//		java.util.Date d = datetimeFormatter1.parse("2013-08-07 23:59:00");
+//		Timestamp dTimestamp = new Timestamp(d.getTime());
+//		mostRecent.setLateststuff(dTimestamp);	
 		
 		
 		model.addAttribute("extSeries", mostRecent);
@@ -88,7 +88,8 @@ public class ViewPageController {
 		MostRecentStuffVO mostRecent = new MostRecentStuffVO();
 		SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 //		java.util.Date d = datetimeFormatter1.parse("2016-04-30 23:59:00");
-		java.util.Date d = datetimeFormatter1.parse("2016-11-30 23:59:00");
+//		java.util.Date d = datetimeFormatter1.parse("2016-11-30 23:59:00");
+		java.util.Date d = datetimeFormatter1.parse("2017-05-31 23:59:00");
 		Timestamp dTimestamp = new Timestamp(d.getTime());
 		mostRecent.setLateststuff(dTimestamp);
 		

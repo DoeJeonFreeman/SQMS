@@ -1,5 +1,3 @@
-
-				                          //leadingStr L1A-QI01_0
 		function getDraggableContainerHTML(leadingStr, meTitle, titleWithDStr, ITEM_SIZE){
 			var idx = $("#tabs").tabs('option', 'active');
 			
@@ -58,11 +56,17 @@
 		
 		
 		function getDraggableImageContainer(leadingStr, meTitle, titleWithDStr, ITEM_SIZE){
+			leadingStr = leadingStr.replace(/\(/g,"");
+			leadingStr = leadingStr.replace(/\)/g,"");
+			leadingStr = leadingStr.replace(/\./g,"");
+			leadingStr = leadingStr.replace(/\//g,"");
+			leadingStr = leadingStr.replace(/ /g,"");
 			
 			var idx = $("#tabs").tabs('option', 'active');
 			
 			var divId = 't'+idx+'_'+ leadingStr;//+detNum;
-			var divTitle =  meTitle.split('-').join(' ') + ' ' + titleWithDStr;
+//			var divTitle =  meTitle.split('-').join(' ') + ' ' + titleWithDStr;
+			var divTitle =  meTitle + ' ' + titleWithDStr;
 			divTitle = divTitle.split('_').join(' - ');
 			
 			var chartId = 't'+idx+'_ts_'+leadingStr;
@@ -784,6 +788,13 @@
 			                    zIndex:4,
 			                    label:{text:'outlier'}
 			                }]*/
+				            ,plotLines:[{
+			                    value:2.7,
+			                    color: '#ff2a2c',
+			                    width:1,
+			                    zIndex:4,
+			                    label:{text:'plotLine#01'}
+			                }]
 				        }
 				        
 					
@@ -1029,6 +1040,13 @@
 					            	return Highcharts.numberFormat(this.value, 2, '.', ',');
 					            }
 							},	
+							plotLines:[{
+				                    value:0.8,
+				                    color: '#ff2a2c',
+				                    width:1,
+				                    zIndex:4,
+				                    label:{text:'Specification'}
+			                }]
 						}
 				
 					})); //haha
@@ -1477,6 +1495,9 @@
 									return Highcharts.numberFormat(this.value, 3, '.', ',');
 								}
 							}	
+								
+							
+							
 						}
 					/*	,series: [
 						          {name:'series',
@@ -1508,10 +1529,27 @@
 					var title = getLevel1A_ENV_Title(ENVTypeCode);
 					_chartInstance.setTitle({text: title});
 //					_chartInstance.series[0].update({name:"name u want to change"}, false);
-					if(ENVTypeCode=='6' || ENVTypeCode=='20')
-					_chartInstance.yAxis[0].axisTitle.attr({
-				        text: 'Ampere(A)'
-				    });
+					if(ENVTypeCode=='6' || ENVTypeCode=='20'){
+						_chartInstance.yAxis[0].axisTitle.attr({
+					        text: 'Ampere(A)'
+					    });
+					}else{
+						_chartInstance.yAxis[0].addPlotLine({
+							value:getLevel1A_ENV_upperLimit(ENVTypeCode),
+							color: '#008080',
+							width:1,
+							zIndex:4,
+							label:{text:'Upper limit'}
+						});
+						_chartInstance.yAxis[0].addPlotLine({
+							value:getLevel1A_ENV_lowerLimit(ENVTypeCode),
+							color: '#ffa500',
+							width:1,
+							zIndex:4,
+							label:{text:'Lower limit'}
+						});
+					}	
+					
 					_chartInstance.redraw();
 					
 					
@@ -1524,6 +1562,49 @@
 				
 			});	
 		}
+		
+		
+		
+		function getLevel1A_ENV_upperLimit(givenTypeId){
+			var limit= 0;
+			if(givenTypeId=='25'){
+				limit = 305;
+			}else if(givenTypeId=='26'){
+				limit = 308;
+			}else if(givenTypeId=='34' || givenTypeId=='73' || givenTypeId=='72'){
+				limit = 318;
+			}else if(givenTypeId=='36'){
+				limit = 338;
+			}else if(givenTypeId=='74' || givenTypeId=='75'){
+				limit = 323;
+			}else if(givenTypeId=='6'){
+//				limit = 'E-W Servo Current';
+			}else if(givenTypeId=='20'){
+//				limit = 'N-S Servo Current';
+			}
+			return limit;
+		}
+		
+		function getLevel1A_ENV_lowerLimit(givenTypeId){
+			var limit= 0;
+			if(givenTypeId=='25'){
+				limit = 280;
+			}else if(givenTypeId=='26'){
+				limit = 266;
+			}else if(givenTypeId=='34' || givenTypeId=='73' || givenTypeId=='72'){
+				limit = 272;
+			}else if(givenTypeId=='36'){
+				limit = 273;
+			}else if(givenTypeId=='74' || givenTypeId=='75'){
+				limit = 273;
+			}else if(givenTypeId=='6'){
+//				limit = 'E-W Servo Current';
+			}else if(givenTypeId=='20'){
+//				limit = 'N-S Servo Current';
+			}
+			return limit;
+		}
+		
 		
 		function getLevel1A_ENV_Title(givenTypeId){
 			var title='';

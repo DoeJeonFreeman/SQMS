@@ -62,7 +62,9 @@
             			</li>
               			<c:choose>
 							<c:when test="${empty check}">
+							<!-- 
               					<li><a href="${pageContext.request.contextPath}/auth/path/to/somewhere.do"><i class="fa fa-sign-in fa-fw"></i> Administration</a></li>
+							 -->
               				</c:when>	
 		    				<c:otherwise>
 							<!-- 
@@ -220,13 +222,14 @@
 		                 <li> <!-- class="disabled" -->
 		                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('61','lvl_2/monthlyValidation.do')">월검증결과</a> <!-- onclick="javascript:fn_main_headPageAction('61','alternative/b.do')" -->
 		                 </li>
+                       	<!--   
                          <li class="disabled">
-                         	<!--  onclick="javascript:fn_main_headPageAction('62','report.doe')" -->
-                         	<a href='#LINK'  >월검증리포트</a>
+                         	<a href='#LINK'  onclick="javascript:fn_main_headPageAction('62','report.doe')">월검증리포트</a>
                          </li>
-                         <li class="disabled">
+                       	-->
+                         <li>
                          	<!-- onclick="javascript:fn_main_headPageAction('63','lvl_2/dailyValidation.do')" -->
-                         	<a href='#LINK'  >일검증결과</a>
+                         	<a href='#LINK' onclick="javascript:fn_main_headPageAction('63','lvl_2/dailyValidation.do')"  >일검증결과</a>
                          </li>
                  	</ul>
                  </li>
