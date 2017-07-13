@@ -1,0 +1,1625 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	
+	<!-- Include Fancytree skin and library -->
+	<!--os x.7 
+	<link href="${pageContext.request.contextPath}/js/fancytree/skin-bootstrap/ui.fancytree.min.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/js/fancytree/skin-lion/ui.fancytree.min.css" rel="stylesheet">
+	 -->
+	<link href="${pageContext.request.contextPath}/js/fancytree/skin-xp/ui.fancytree.css" rel="stylesheet">
+	<script src="${pageContext.request.contextPath}/js/fancytree/jquery.fancytree-all.min.js"></script>	
+	<!-- 
+	<script src="${pageContext.request.contextPath}/js/fancytree/jquery.fancytree.glyph.js"></script>	
+	<script src="${pageContext.request.contextPath}/js/fancytree/jquery.fancytree.wide.js"></script>	
+	 -->
+	<!-- Initialize the tree when page is loaded -->
+	
+	<style>
+		ul.fancytree-container{
+			font-size: 13px;
+		}
+		
+		ul.fancytree-container {
+	    	background-color: transparent;
+   			border: none;
+		}
+		
+	    .fancytree-selected span.fancytree-title {
+		    color: #555555;
+		    font-style: italic;
+		}
+	</style>
+	<script type="text/javascript">
+		
+	 	var glyph_opts = {
+		    map: {
+		      doc: "",
+		      docOpen: "",
+		      checkbox: "glyphicon glyphicon-unchecked",
+		      checkboxSelected: "glyphicon glyphicon-check",
+		      checkboxUnknown: "glyphicon glyphicon-share",
+		      dragHelper: "glyphicon glyphicon-play",
+		      dropMarker: "glyphicon glyphicon-arrow-right",
+		      error: "glyphicon glyphicon-warning-sign",
+		      expanderClosed: "glyphicon glyphicon-menu-right",
+		      expanderLazy: "glyphicon glyphicon-menu-right",  // glyphicon-plus-sign
+		      expanderOpen: "glyphicon glyphicon-menu-down",  // glyphicon-collapse-down
+		      folder: "glyphicon glyphicon-folder-close",
+//		      folder: "fa fa-folder-o",
+		      folderOpen: "glyphicon glyphicon-folder-open",
+		      loading: "glyphicon glyphicon-refresh glyphicon-spin"
+		    }
+	  	};
+	
+	
+		$(function(){
+			
+			  var treeData = [
+							{title: "대기운동벡터 (AMV)", folder: true, hideCheckbox:true, expanded: true,
+							    children: [
+							               
+							               
+							      {title: "Statistical Map", folder: true, hideCheckbox:true,
+							        children: [
+								      // Statistical Map - AMV vs. Sonde(IR1)		
+							       	  // Statistical Map - AMV vs. Sonde(IR1)		
+							       	  // Statistical Map - AMV vs. Sonde(IR1)	         
+							       	   {title: "AMV vs. Sonde(IR1)", folder: true, hideCheckbox:true,//
+								        children: [ 
+									      {title: "All Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f10000" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_ir1_m_f10200" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_ir1_m_f10400" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f10300" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f10001" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_ir1_m_f10201" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_ir1_m_f10401" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f10301" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(STC)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number", key:"amv_ir1_m_f10002" , abbr:"AMV"}
+											          ,{title: "Bias",    key:"amv_ir1_m_f10202" , abbr:"AMV"}
+											          ,{title: "MVD",      key:"amv_ir1_m_f10302" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f10302" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(IR/WV)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f10003" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_ir1_m_f10203" , abbr:"AMV"}
+											          ,{title: "MVD",      key:"amv_ir1_m_f10403" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f10303" , abbr:"AMV"}
+											  ]}
+														        
+									      ]},
+									      {title: "High Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f10010" , abbr:"AMV"}
+											          ,{title: "Bias",    key:"amv_ir1_m_f10210" , abbr:"AMV"}
+											          ,{title: "MVD",      key:"amv_ir1_m_f10410" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f10310" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f10011" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_ir1_m_f10211" , abbr:"AMV"}
+											          ,{title: "MVD",      key:"amv_ir1_m_f10411" , abbr:"AMV"}
+											          ,{title: "RMSVD", key:"amv_ir1_m_f10311" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(STC)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f10012" , abbr:"AMV"}
+											          ,{title: "Bias",    key:"amv_ir1_m_f10212" , abbr:"AMV"}
+											          ,{title: "MVD",      key:"amv_ir1_m_f10412" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f10312" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(IR/WV)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number", key:"amv_ir1_m_f10013" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_ir1_m_f10213" , abbr:"AMV"}
+											          ,{title: "MVD",     key:"amv_ir1_m_f10413" , abbr:"AMV"}
+											          ,{title: "RMSVD", key:"amv_ir1_m_f10313" , abbr:"AMV"}
+											  ]}
+														        
+									      ]},
+									      {title: "Mid Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f10020" , abbr:"AMV"}
+											          ,{title: "Bias",    key:"amv_ir1_m_f10220" , abbr:"AMV"}
+											          ,{title: "MVD",      key:"amv_ir1_m_f10420" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f10320" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f10021" , abbr:"AMV"}
+											          ,{title: "Bias",    key:"amv_ir1_m_f10221" , abbr:"AMV"}
+											          ,{title: "MVD",      key:"amv_ir1_m_f10421" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f10321" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(STC)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f10022" , abbr:"AMV"}
+											          ,{title: "Bias",    key:"amv_ir1_m_f10222" , abbr:"AMV"}
+											          ,{title: "MVD",      key:"amv_ir1_m_f10422" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f10322" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(IR/WV)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f10023" , abbr:"AMV"}
+											          ,{title: "Bias",    key:"amv_ir1_m_f10223" , abbr:"AMV"}
+											          ,{title: "MVD",      key:"amv_ir1_m_f10423" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f10323" , abbr:"AMV"}
+											  ]}
+														        
+									      ]},
+									      {title: "Low Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f10030" , abbr:"AMV"}
+											          ,{title: "Bias",    key:"amv_ir1_m_f10230" , abbr:"AMV"}
+											          ,{title: "MVD",      key:"amv_ir1_m_f10430" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f10330" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f10031" , abbr:"AMV"}
+											          ,{title: "Bias",    key:"amv_ir1_m_f10231" , abbr:"AMV"}
+											          ,{title: "MVD",      key:"amv_ir1_m_f10431" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f10331" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(STC)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f10032" , abbr:"AMV"}
+											          ,{title: "Bias",    key:"amv_ir1_m_f10232" , abbr:"AMV"}
+											          ,{title: "MVD",      key:"amv_ir1_m_f10432" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f10332" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(IR/WV)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f10033" , abbr:"AMV"}
+											          ,{title: "Bias",    key:"amv_ir1_m_f10233" , abbr:"AMV"}
+											          ,{title: "MVD",      key:"amv_ir1_m_f10433" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f10333" , abbr:"AMV"}
+											  ]}
+														        
+									      ]}
+								        
+								      ]},
+							        
+								      // Statistical Map - AMV vs. Sonde(SWIR)		
+							       	  // Statistical Map - AMV vs. Sonde(SWIR)		
+							       	  // Statistical Map - AMV vs. Sonde(SWIR)	
+								      {title: "AMV vs. Sonde(SWIR)", folder: true, hideCheckbox:true,//
+								        children: [//
+									      {title: "All Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_swir_m_f10000" , abbr:"AMV"}
+											          ,{title: "Bias",  key:"amv_swir_m_f10200" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_swir_m_f10400" , abbr:"AMV"}
+											          ,{title: "RMSVD", key:"amv_swir_m_f10300" , abbr:"AMV"}
+											  ]}
+									      ]},
+									      {title: "High Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_swir_m_f10010" , abbr:"AMV"}
+											          ,{title: "Bias",  key:"amv_swir_m_f10210" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_swir_m_f10410" , abbr:"AMV"}
+											          ,{title: "RMSVD", key:"amv_swir_m_f10310" , abbr:"AMV"}
+											  ]}
+									      ]},
+									      {title: "Mid Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_swir_m_f10020" , abbr:"AMV"}
+											          ,{title: "Bias",  key:"amv_swir_m_f10220" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_swir_m_f10420" , abbr:"AMV"}
+											          ,{title: "RMSVD", key:"amv_swir_m_f10320" , abbr:"AMV"}
+											  ]}
+									      ]},
+									      {title: "Low Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_swir_m_f10030" , abbr:"AMV"}
+											          ,{title: "Bias",  key:"amv_swir_m_f10230" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_swir_m_f10430" , abbr:"AMV"}
+											          ,{title: "RMSVD", key:"amv_swir_m_f10330" , abbr:"AMV"}
+											  ]}
+									      ]}
+								        
+								      ]},
+								      
+							       	  // Statistical Map - AMV vs. Sonde(VIS)		
+							       	  // Statistical Map - AMV vs. Sonde(VIS)		
+							       	  // Statistical Map - AMV vs. Sonde(VIS)		
+								      {title: "AMV vs. Sonde(VIS)", folder: true, hideCheckbox:true,//
+								        children: [//
+									      {title: "All Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_vis_m_f10000" , abbr:"AMV"}
+											          ,{title: "Bias",    key:"amv_vis_m_f10200" , abbr:"AMV"}
+											          ,{title: "MVD",      key:"amv_vis_m_f10400" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_vis_m_f10300" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_vis_m_f10001" , abbr:"AMV"}
+											          ,{title: "Bias",    key:"amv_vis_m_f10201" , abbr:"AMV"}
+											          ,{title: "MVD",      key:"amv_vis_m_f10401" , abbr:"AMV"}
+											          ,{title: "RMSVD",   key:"amv_vis_m_f10301" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(IR/WV)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_vis_m_f10003" , abbr:"AMV"}
+											          ,{title: "Bias",    key:"amv_vis_m_f10203" , abbr:"AMV"}
+											          ,{title: "MVD",      key:"amv_vis_m_f10403" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_vis_m_f10303" , abbr:"AMV"}
+											  ]}
+														        
+									      ]},
+									      {title: "High Height", folder: true, hideCheckbox:true,//
+									        children: [//
+									                   {title: "H-A(All)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_vis_m_f10010" , abbr:"AMV"}
+														          ,{title: "Bias",    key:"amv_vis_m_f10210" , abbr:"AMV"}
+														          ,{title: "MVD",      key:"amv_vis_m_f10410" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_vis_m_f10310" , abbr:"AMV"}
+														  ]}
+													      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_vis_m_f10011" , abbr:"AMV"}
+														          ,{title: "Bias",    key:"amv_vis_m_f10211" , abbr:"AMV"}
+														          ,{title: "MVD",      key:"amv_vis_m_f10411" , abbr:"AMV"}
+														          ,{title: "RMSVD",   key:"amv_vis_m_f10311" , abbr:"AMV"}
+														  ]}
+													    
+													      ,{title: "H-A(IR/WV)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_vis_m_f10013" , abbr:"AMV"}
+														          ,{title: "Bias",    key:"amv_vis_m_f10213" , abbr:"AMV"}
+														          ,{title: "MVD",      key:"amv_vis_m_f10413" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_vis_m_f10313" , abbr:"AMV"}
+														  ]}
+														        
+									      ]},
+									      {title: "Mid Height", folder: true, hideCheckbox:true,//
+									        children: [//
+									                   {title: "H-A(All)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_vis_m_f10020" , abbr:"AMV"}
+														          ,{title: "Bias",    key:"amv_vis_m_f10220" , abbr:"AMV"}
+														          ,{title: "MVD",      key:"amv_vis_m_f10420" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_vis_m_f10320" , abbr:"AMV"}
+														  ]}
+													      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_vis_m_f10021" , abbr:"AMV"}
+														          ,{title: "Bias",    key:"amv_vis_m_f10221" , abbr:"AMV"}
+														          ,{title: "MVD",      key:"amv_vis_m_f10421" , abbr:"AMV"}
+														          ,{title: "RMSVD",   key:"amv_vis_m_f10321" , abbr:"AMV"}
+														  ]}
+													     
+													      ,{title: "H-A(IR/WV)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_vis_m_f10023" , abbr:"AMV"}
+														          ,{title: "Bias",    key:"amv_vis_m_f10223" , abbr:"AMV"}
+														          ,{title: "MVD",      key:"amv_vis_m_f10423" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_vis_m_f10323" , abbr:"AMV"}
+														  ]}
+														        
+									      ]},
+									      {title: "Low Height", folder: true, hideCheckbox:true,//
+									        children: [//
+									                   {title: "H-A(All)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_vis_m_f10030" , abbr:"AMV"}
+														          ,{title: "Bias",    key:"amv_vis_m_f10230" , abbr:"AMV"}
+														          ,{title: "MVD",      key:"amv_vis_m_f10430" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_vis_m_f10330" , abbr:"AMV"}
+														  ]}
+													      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number", key:"amv_vis_m_f10031" , abbr:"AMV"}
+														          ,{title: "Bias",    key:"amv_vis_m_f10231" , abbr:"AMV"}
+														          ,{title: "MVD",     key:"amv_vis_m_f10431" , abbr:"AMV"}
+														          ,{title: "RMSVD", key:"amv_vis_m_f10331" , abbr:"AMV"}
+														  ]}
+													      ,{title: "H-A(IR/WV)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_vis_m_f10033" , abbr:"AMV"}
+														          ,{title: "Bias",    key:"amv_vis_m_f10233" , abbr:"AMV"}
+														          ,{title: "MVD",      key:"amv_vis_m_f10433" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_vis_m_f10333" , abbr:"AMV"}
+														  ]}
+														        
+									      ]}
+								        
+								      ]},
+								      
+									  // Statistical Map - AMV vs. Sonde(WVA)		
+							       	  // Statistical Map - AMV vs. Sonde(WVA)		
+							       	  // Statistical Map - AMV vs. Sonde(WVA)		
+								      {title: "AMV vs. Sonde(WVA)", folder: true, hideCheckbox:true,//
+								        children: [//
+									      {title: "All Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_wva_m_f10000" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_wva_m_f10200" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_wva_m_f10400" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_wva_m_f10300" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_wva_m_f10001" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_wva_m_f10201" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_wva_m_f10401" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_wva_m_f10301" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(NTC)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_wva_m_f10002" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_wva_m_f10202" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_wva_m_f10402" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_wva_m_f10302" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(NTCC)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_wva_m_f10003" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_wva_m_f10203" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_wva_m_f10403" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_wva_m_f10303" , abbr:"AMV"}
+											  ]}
+														        
+									      ]},
+									      {title: "High Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+											        children: [
+												          {title: "Number",  key:"amv_wva_m_f10010" , abbr:"AMV"}
+												          ,{title: "Bias",   key:"amv_wva_m_f10210" , abbr:"AMV"}
+												          ,{title: "MVD",    key:"amv_wva_m_f10410" , abbr:"AMV"}
+												          ,{title: "RMSVD",  key:"amv_wva_m_f10310" , abbr:"AMV"}
+												  ]}
+											      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+											        children: [
+												          {title: "Number",  key:"amv_wva_m_f10011" , abbr:"AMV"}
+												          ,{title: "Bias",   key:"amv_wva_m_f10211" , abbr:"AMV"}
+												          ,{title: "MVD",    key:"amv_wva_m_f10411" , abbr:"AMV"}
+												          ,{title: "RMSVD",  key:"amv_wva_m_f10311" , abbr:"AMV"}
+												  ]}
+											      ,{title: "H-A(NTC)", folder: true, hideCheckbox:true,//
+											        children: [
+												          {title: "Number",  key:"amv_wva_m_f10012" , abbr:"AMV"}
+												          ,{title: "Bias",   key:"amv_wva_m_f10212" , abbr:"AMV"}
+												          ,{title: "MVD",    key:"amv_wva_m_f10412" , abbr:"AMV"}
+												          ,{title: "RMSVD",  key:"amv_wva_m_f10312" , abbr:"AMV"}
+												  ]}
+											      ,{title: "H-A(NTCC)", folder: true, hideCheckbox:true,//
+											        children: [
+												          {title: "Number",  key:"amv_wva_m_f10013" , abbr:"AMV"}
+												          ,{title: "Bias",   key:"amv_wva_m_f10213" , abbr:"AMV"}
+												          ,{title: "MVD",    key:"amv_wva_m_f10413" , abbr:"AMV"}
+												          ,{title: "RMSVD",  key:"amv_wva_m_f10313" , abbr:"AMV"}
+												  ]}
+														        
+									      ]},
+									      {title: "Mid Height", folder: true, hideCheckbox:true,//
+									        children: [//
+							                   {title: "H-A(All)", folder: true, hideCheckbox:true,//
+											        children: [
+												          {title: "Number",  key:"amv_wva_m_f10020" , abbr:"AMV"}
+												          ,{title: "Bias",   key:"amv_wva_m_f10220" , abbr:"AMV"}
+												          ,{title: "MVD",    key:"amv_wva_m_f10420" , abbr:"AMV"}
+												          ,{title: "RMSVD",  key:"amv_wva_m_f10320" , abbr:"AMV"}
+												  ]}
+											      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+											        children: [
+												          {title: "Number",  key:"amv_wva_m_f10021" , abbr:"AMV"}
+												          ,{title: "Bias",   key:"amv_wva_m_f10221" , abbr:"AMV"}
+												          ,{title: "MVD",    key:"amv_wva_m_f10421" , abbr:"AMV"}
+												          ,{title: "RMSVD",  key:"amv_wva_m_f10321" , abbr:"AMV"}
+												  ]}
+											      ,{title: "H-A(NTC)", folder: true, hideCheckbox:true,//
+											        children: [
+												          {title: "Number",  key:"amv_wva_m_f10022" , abbr:"AMV"}
+												          ,{title: "Bias",   key:"amv_wva_m_f10222" , abbr:"AMV"}
+												          ,{title: "MVD",    key:"amv_wva_m_f10422" , abbr:"AMV"}
+												          ,{title: "RMSVD",  key:"amv_wva_m_f10322" , abbr:"AMV"}
+												  ]}
+											      ,{title: "H-A(NTCC)", folder: true, hideCheckbox:true,//
+											        children: [
+												          {title: "Number",  key:"amv_wva_m_f10023" , abbr:"AMV"}
+												          ,{title: "Bias",   key:"amv_wva_m_f10223" , abbr:"AMV"}
+												          ,{title: "MVD",    key:"amv_wva_m_f10423" , abbr:"AMV"}
+												          ,{title: "RMSVD",  key:"amv_wva_m_f10323" , abbr:"AMV"}
+												  ]}
+														        
+									      ]}
+								      ]},
+								      // Statistical Map - AMV vs. Sonde(WV1)		
+							       	  // Statistical Map - AMV vs. Sonde(WV1)		
+							       	  // Statistical Map - AMV vs. Sonde(WV1)		
+								      {title: "AMV vs. Sonde(WV1)", folder: true, hideCheckbox:true,//
+								    	  children: [//
+										      {title: "All Height", folder: true, hideCheckbox:true,//
+										        children: [//
+											      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+											        children: [
+												          {title: "Number",   key:"amv_wv1_m_f" , abbr:"AMV"}
+												          ,{title: "Bias",    key:"amv_wv1_m_f" , abbr:"AMV"}
+												          ,{title: "MVD",     key:"amv_wv1_m_f" , abbr:"AMV"}
+												          ,{title: "RMSVD",   key:"amv_wv1_m_f" , abbr:"AMV"}
+												  ]}
+											      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+											        children: [
+												          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+												          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+												          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+												          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+												  ]}
+											      ,{title: "H-A(NTC)", folder: true, hideCheckbox:true,//
+											        children: [
+												          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+												          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+												          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+												          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+												  ]}
+											      ,{title: "H-A(NTCC)", folder: true, hideCheckbox:true,//
+											        children: [
+												          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+												          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+												          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+												          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+												  ]}
+															        
+										      ]},
+										      {title: "High Height", folder: true, hideCheckbox:true,//
+										        children: [//
+											      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(NTC)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(NTCC)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													  ]}
+															        
+										      ]},
+										      {title: "Mid Height", folder: true, hideCheckbox:true,//
+										        children: [//
+								                   {title: "H-A(All)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(NTC)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(NTCC)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													  ]}
+															        
+										      ]}
+								      ]},
+							        
+	   							      // Statistical Map - AMV vs. Sonde(WV2)		
+							       	  // Statistical Map - AMV vs. Sonde(WV2)		
+							       	  // Statistical Map - AMV vs. Sonde(WV2)		
+								         {title: "AMV vs. Sonde(WV2)", folder: true, hideCheckbox:true,//
+								    	  children: [//
+										      {title: "All Height", folder: true, hideCheckbox:true,//
+										        children: [//
+											      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+											        children: [
+												          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+												          ,{title: "Bias",   key:"amv_wv2_m_f" , abbr:"AMV"}
+												          ,{title: "MVD",    key:"amv_wv2_m_f" , abbr:"AMV"}
+												          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+												  ]}
+											      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,
+											        children: [
+												          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+												          ,{title: "Bias",   key:"amv_wv2_m_f" , abbr:"AMV"}
+												          ,{title: "MVD",    key:"amv_wv2_m_f" , abbr:"AMV"}
+												          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+												  ]}
+											      ,{title: "H-A(NTC)", folder: true, hideCheckbox:true,//
+											        children: [
+												          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+												          ,{title: "Bias",   key:"amv_wv2_m_f" , abbr:"AMV"}
+												          ,{title: "MVD",    key:"amv_wv2_m_f" , abbr:"AMV"}
+												          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+												  ]}
+											      ,{title: "H-A(NTCC)", folder: true, hideCheckbox:true,//
+											        children: [
+												          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+												          ,{title: "Bias",   key:"amv_wv2_m_f" , abbr:"AMV"}
+												          ,{title: "MVD",    key:"amv_wv2_m_f" , abbr:"AMV"}
+												          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+												  ]}
+															        
+										      ]},
+										      {title: "High Height", folder: true, hideCheckbox:true,//
+										        children: [//
+											      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(NTC)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(NTCC)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													  ]}
+															        
+										      ]},
+										      {title: "Mid Height", folder: true, hideCheckbox:true,//
+										        children: [//
+								                   {title: "H-A(All)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(NTC)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(NTCC)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													  ]}
+															        
+										      ]}
+								      ]},
+								      
+								      
+	   							      // Statistical Map - AMV vs. NWP (IR1)		
+	   							      // Statistical Map - AMV vs. NWP (IR1)		
+	   							      // Statistical Map - AMV vs. NWP (IR1)		
+								      {title: "AMV vs. NWP(IR1)", folder: true, hideCheckbox:true,//
+								        children: [//
+									      {title: "All Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number", key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",   key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD", key:"amv_ir1_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(STC)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",   key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",    key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",     key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",   key:"amv_ir1_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(IR/WV)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",   key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",    key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",     key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",   key:"amv_ir1_m_f" , abbr:"AMV"}
+											  ]}
+														        
+									      ]},
+									      {title: "High Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number", key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",   key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD", key:"amv_ir1_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(STC)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(IR/WV)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",   key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",    key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",     key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",   key:"amv_ir1_m_f" , abbr:"AMV"}
+											  ]}
+														        
+									      ]},
+									      {title: "Mid Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(STC)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(IR/WV)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											  ]}
+														        
+									      ]},
+									      {title: "Low Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(STC)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(IR/WV)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_ir1_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_ir1_m_f" , abbr:"AMV"}
+											  ]}
+														        
+									      ]}
+								        
+								      ]},
+	   							      // Statistical Map - AMV vs. NWP (SWIR)		
+	   							      // Statistical Map - AMV vs. NWP (SWIR)		
+	   							      // Statistical Map - AMV vs. NWP (SWIR)									        
+								      {title: "AMV vs. NWP(SWIR)", folder: true, hideCheckbox:true,//
+								        children: [//
+									      {title: "All Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_swir_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_swir_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_swir_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_swir_m_f" , abbr:"AMV"}
+											  ]}
+									      ]},
+									      {title: "High Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_swir_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_swir_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_swir_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_swir_m_f" , abbr:"AMV"}
+											  ]}
+									      ]},
+									      {title: "Mid Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_swir_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_swir_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_swir_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_swir_m_f" , abbr:"AMV"}
+											  ]}
+									      ]},
+									      {title: "Low Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_swir_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_swir_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_swir_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_swir_m_f" , abbr:"AMV"}
+											  ]}
+									      ]}
+								        
+								      ]},
+								      
+	   							      // Statistical Map - AMV vs. NWP (VIS)		
+	   							      // Statistical Map - AMV vs. NWP (VIS)		
+	   							      // Statistical Map - AMV vs. NWP (VIS)		
+								      {title: "AMV vs. NWP(VIS)", folder: true, hideCheckbox:true,//
+								        children: [//
+									      {title: "All Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_vis_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_vis_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(IR/WV)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_vis_m_f" , abbr:"AMV"}
+											  ]}
+														        
+									      ]},
+									      {title: "High Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_vis_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_vis_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(IR/WV)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_vis_m_f" , abbr:"AMV"}
+											  ]}
+														        
+									      ]},
+									      {title: "Mid Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_vis_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_vis_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(IR/WV)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_vis_m_f" , abbr:"AMV"}
+											  ]}
+														        
+									      ]},
+									      {title: "Low Height", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_vis_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_vis_m_f" , abbr:"AMV"}
+											  ]}
+										      ,{title: "H-A(IR/WV)", folder: true, hideCheckbox:true,//
+										        children: [
+											          {title: "Number",  key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "Bias",   key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "MVD",    key:"amv_vis_m_f" , abbr:"AMV"}
+											          ,{title: "RMSVD",  key:"amv_vis_m_f" , abbr:"AMV"}
+											  ]}
+														        
+									      ]}
+								        
+								      ]},
+	   							      // Statistical Map - AMV vs. NWP (WVA)		
+	   							      // Statistical Map - AMV vs. NWP (WVA)		
+	   							      // Statistical Map - AMV vs. NWP (WVA)		
+								      {title: "AMV vs. NWP(WVA)", folder: true, hideCheckbox:true,//
+									        children: [//
+										      {title: "All Height", folder: true, hideCheckbox:true,//
+										        children: [//
+											      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+											        children: [
+												          {title: "Number",  key:"amv_wva_m_f" , abbr:"AMV"}
+												          ,{title: "Bias",   key:"amv_wva_m_f" , abbr:"AMV"}
+												          ,{title: "MVD",    key:"amv_wva_m_f" , abbr:"AMV"}
+												          ,{title: "RMSVD",  key:"amv_wva_m_f" , abbr:"AMV"}
+												  ]}
+											      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+											        children: [
+												          {title: "Number",  key:"amv_wva_m_f" , abbr:"AMV"}
+												          ,{title: "Bias",   key:"amv_wva_m_f" , abbr:"AMV"}
+												          ,{title: "MVD",    key:"amv_wva_m_f" , abbr:"AMV"}
+												          ,{title: "RMSVD",  key:"amv_wva_m_f" , abbr:"AMV"}
+												  ]}
+											      ,{title: "H-A(NTC)", folder: true, hideCheckbox:true,//
+											        children: [
+												          {title: "Number",  key:"amv_wva_m_f" , abbr:"AMV"}
+												          ,{title: "Bias",   key:"amv_wva_m_f" , abbr:"AMV"}
+												          ,{title: "MVD",    key:"amv_wva_m_f" , abbr:"AMV"}
+												          ,{title: "RMSVD",  key:"amv_wva_m_f" , abbr:"AMV"}
+												  ]}
+											      ,{title: "H-A(NTCC)", folder: true, hideCheckbox:true,//
+											        children: [
+												          {title: "Number",  key:"amv_wva_m_f" , abbr:"AMV"}
+												          ,{title: "Bias",   key:"amv_wva_m_f" , abbr:"AMV"}
+												          ,{title: "MVD",    key:"amv_wva_m_f" , abbr:"AMV"}
+												          ,{title: "RMSVD",  key:"amv_wva_m_f" , abbr:"AMV"}
+												  ]}
+															        
+										      ]},
+										      {title: "High Height", folder: true, hideCheckbox:true,//
+										        children: [//
+											      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wva_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wva_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(NTC)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wva_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(NTCC)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wva_m_f" , abbr:"AMV"}
+													  ]}
+															        
+										      ]},
+										      {title: "Mid Height", folder: true, hideCheckbox:true,//
+										        children: [//
+								                   {title: "H-A(All)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wva_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wva_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(NTC)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wva_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(NTCC)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wva_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wva_m_f" , abbr:"AMV"}
+													  ]}
+															        
+										      ]}
+									      ]},
+								       	  // Statistical Map - AMV vs. NWP(WV1)		
+								       	  // Statistical Map - AMV vs. NWP(WV1)		
+								       	  // Statistical Map - AMV vs. NWP(WV1)		
+									      {title: "AMV vs. NWP(WV1)", folder: true, hideCheckbox:true,//
+									    	  children: [//
+											      {title: "All Height", folder: true, hideCheckbox:true,//
+											        children: [//
+												      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(NTC)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(NTCC)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+													  ]}
+																        
+											      ]},
+											      {title: "High Height", folder: true, hideCheckbox:true,//
+											        children: [//
+												      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+														  ]}
+													      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+														  ]}
+													      ,{title: "H-A(NTC)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+														  ]}
+													      ,{title: "H-A(NTCC)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+														  ]}
+																        
+											      ]},
+											      {title: "Mid Height", folder: true, hideCheckbox:true,//
+											        children: [//
+									                   {title: "H-A(All)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+														  ]}
+													      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+														  ]}
+													      ,{title: "H-A(NTC)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+														  ]}
+													      ,{title: "H-A(NTCC)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "Bias",   key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "MVD",    key:"amv_wv1_m_f" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_wv1_m_f" , abbr:"AMV"}
+														  ]}
+																        
+											      ]}
+									      ]},
+								        
+		   							      // Statistical Map - AMV vs. NWP(WV2)		
+								       	  // Statistical Map - AMV vs. NWP(WV2)		
+								       	  // Statistical Map - AMV vs. NWP(WV2)		
+									         {title: "AMV vs. NWP(WV2)", folder: true, hideCheckbox:true,//
+									    	  children: [//
+											      {title: "All Height", folder: true, hideCheckbox:true,//
+											        children: [//
+												      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,
+												        children: [
+													          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(NTC)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													  ]}
+												      ,{title: "H-A(NTCC)", folder: true, hideCheckbox:true,//
+												        children: [
+													          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "Bias",   key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "MVD",    key:"amv_wv2_m_f" , abbr:"AMV"}
+													          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+													  ]}
+																        
+											      ]},
+											      {title: "High Height", folder: true, hideCheckbox:true,//
+											        children: [//
+												      {title: "H-A(All)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "Bias",    key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "MVD",      key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+														  ]}
+													      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "Bias",    key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "MVD",      key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+														  ]}
+													      ,{title: "H-A(NTC)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "Bias",    key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "MVD",      key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+														  ]}
+													      ,{title: "H-A(NTCC)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "Bias",    key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "MVD",      key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+														  ]}
+																        
+											      ]},
+											      {title: "Mid Height", folder: true, hideCheckbox:true,//
+											        children: [//
+									                   {title: "H-A(All)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "Bias",    key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "MVD",      key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+														  ]}
+													      ,{title: "H-A(EBBT)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "Bias",    key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "MVD",      key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+														  ]}
+													      ,{title: "H-A(NTC)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "Bias",    key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "MVD",      key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+														  ]}
+													      ,{title: "H-A(NTCC)", folder: true, hideCheckbox:true,//
+													        children: [
+														          {title: "Number",  key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "Bias",    key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "MVD",      key:"amv_wv2_m_f" , abbr:"AMV"}
+														          ,{title: "RMSVD",  key:"amv_wv2_m_f" , abbr:"AMV"}
+														  ]}
+																        
+											      ]}
+									      ]},
+								      
+							      ]}
+							      
+							      // 22
+							      // Density Plot goes here
+							    
+							      // Density Plot goes here
+							      /////////////////////////
+							      
+							      
+							      // 333
+							      // Bar Plot 1 goes here
+							 
+							      // Bar Plot 1 goes here
+							      /////////////////////////
+							      
+							      
+							      // 4444
+							      // Bar Plot 2 goes here
+							    
+							      // Bar Plot 2 goes here
+							      /////////////////////////
+							      
+							      
+							      // 55555
+							      // Zonal Plot  goes here
+							      
+							      // Zonal Plot  goes here
+							      /////////////////////////
+							      
+							      
+							      // 666666
+							      // Monthly Trend goes here
+							     
+							      // Monthly Trend goes here
+							      /////////////////////////
+							    ]
+							  },
+			                  /////////////////////////////////////////////////////////////////////////////////////////
+			                  /////////////////////////////////////////////////////////////////////////////////////////
+			                  /////////////////////////////////////////////////////////////////////////////////////////
+			                  /////////////////////////////////////////////////////////////////////////////////////////
+			                  /////////////////////////////////////////////////////////////////////////////////////////
+			                  /////////////////////////////////////////////////////////////////////////////////////////
+			                  /////////////////////////////////////////////////////////////////////////////////////////
+			                  /////////////////////////////////////////////////////////////////////////////////////////
+			                  /////////////////////////////////////////////////////////////////////////////////////////
+			                  {title: "황사 탐지 (AI)", folder: true, hideCheckbox:true, expanded: true,
+			                    children: [
+			                      {title: "Scatter Plot", folder: true, hideCheckbox:true,
+			                        children: [
+			                          {title: "Compare-MODIS",  key:"ai_zzz_m_f32900", abbr:"AI" },
+			                          {title: "Compare OMI",   key:"ai_zzz_m_f32910", abbr:"AI"  }
+			                        ]
+			                      },
+			                      {title: "Daily Trend", folder: true, hideCheckbox:true,
+			                        children: [
+			                          {title: "Compare-MODIS",   key:"ai_zzz_m_f42300", abbr:"AI"  },
+			                          {title: "Compare OMI",   	key:"ai_zzz_m_f42310", abbr:"AI" }
+			                        ]
+			                      },
+			                      {title: "Monthly Trend", folder: true, hideCheckbox:true,
+			                        children: [
+			                          {title: "Compare-MODIS",   key:"ai_zzz_y_f42300", abbr:"AI"  },
+			                          {title: "Compare OMI",  	  key:"ai_zzz_y_f42310", abbr:"AI" }
+			                        ]
+			                      }
+			                    ]
+			                  },
+			                  {title: "에어로졸 광학두께 (AOD)", folder: true, hideCheckbox:true, expanded: true,
+			                    children: [
+			                      {title: "Statistical Map", folder: true, hideCheckbox:true,
+			                        children: [
+										{title: "Compare MODIS", folder: true, hideCheckbox:true,
+										    children: [
+										      {title: "Number",   	   key:"aod_zzz_m_f10000", abbr:"AOD"  },
+										      {title: "Bias",  	   key:"aod_zzz_m_f10200", abbr:"AOD"  },
+										      {title: "RMSE",   key:"aod_zzz_m_f10300", abbr:"AOD" }
+										    ]
+										  }
+			                        ]
+			                      },
+			                      {title: "Density Plot", folder: true, hideCheckbox:true,
+			                        children: [
+			                          {title: "Compare MODIS",  	key:"aod_zzz_m_f20000", abbr:"AOD" }
+			                        ]
+			                      },
+			                      {title: "Daily Trend", folder: true, hideCheckbox:true,
+			                        children: [
+			                          {title: "Compare MODIS",   	key:"aod_zzz_m_f42000", abbr:"AOD" }
+			                        ]
+			                      },
+			                      {title: "Monthly Trend", folder: true, hideCheckbox:true,
+			                        children: [
+			                          {title: "Compare MODIS",  	  key:"aod_zzz_y_f42000", abbr:"AOD" }
+			                        ]
+			                      }
+			                    ]
+			                  },
+			                  {title: "운량 (CA)", folder: true, hideCheckbox:true, expanded: true,
+			                    children: [
+			                      {title: "Statistical Map", folder: true, hideCheckbox:true,
+			                        children: [
+			                          {title: "Compare GTS",     key:"ca_zzz_m_f10200", abbr:"CA"  },
+			                          {title: "Compare Ground",   key:"ca_zzz_m_f10210", abbr:"CA" }
+			                        ]
+			                      },
+			                      {title: "Density Plot", folder: true, hideCheckbox:true,
+			                        children: [
+			                          {title: "Compare GTS",  	key:"ca_zzz_m_f20000" , abbr:"CA"},
+			                          {title: "Compare Ground",   key:"ca_zzz_m_f20010" , abbr:"CA"}
+			                        ]
+			                      },
+			                      {title: "Daily Trend", folder: true, hideCheckbox:true,
+			                        children: [
+			                          {title: "Compare GTS",  	   key:"ca_zzz_m_f42000" , abbr:"CA"},
+			                          {title: "Compare Ground",   key:"ca_zzz_m_f42010" , abbr:"CA"}
+			                        ]
+			                      },
+			                      {title: "Monthly Trend", folder: true, hideCheckbox:true,
+			                        children: [
+			                          {title: "Compare GTS",  		 key:"ca_zzz_y_f42000" , abbr:"CA"},
+			                          {title: "Compare Ground",   key:"ca_zzz_y_f42010" , abbr:"CA"}
+			                        ]
+			                      }
+			                    ]
+			                  },
+			                  {title: "위성 관측 운량 (CF)", folder: true, hideCheckbox:true, expanded: true,
+				                    children: [
+				                      {title: "Statistical Map", folder: true, hideCheckbox:true,
+				                        children: [
+				                          {title: "Compare MODIS", 	key:"cf_zzz_m_f10200", abbr:"CF" }
+				                        ]
+				                      },
+				                      {title: "Daily Trend", folder: true, hideCheckbox:true,
+				                        children: [
+		 								  {title: "Compare MODIS", folder: true, hideCheckbox:true,
+										    children: [
+										      {title: "All Lat.",  	   key:"cf_zzz_m_f42000", abbr:"CF"  },
+										      {title: "Tropical Lat.",  	   key:"cf_zzz_m_f42001", abbr:"CF"  },
+										      {title: "Middle Lat.",  key:"cf_zzz_m_f42002", abbr:"CF" }
+										    ]
+										  }
+				                        ]
+				                      },
+				                      {title: "Monthly Trend", folder: true, hideCheckbox:true,
+				                        children: [
+		 								  {title: "Compare MODIS", folder: true, hideCheckbox:true,
+										    children: [
+										      {title: "All Lat.",   	   key:"cf_zzz_y_f42000", abbr:"CF"  },
+										      {title: "Tropical Lat.",     key:"cf_zzz_y_f42001", abbr:"CF"  },
+										      {title: "Middle Lat.",   key:"cf_zzz_y_f42002", abbr:"CF" }
+										    ]
+										  }
+				                        ]
+				                      }
+				                    ]
+				                  },
+			                  {title: "구름 탐지(CLD)", folder: true, hideCheckbox:true, expanded: true,
+			                    children: [
+			                      {title: "Scatter Plot", folder: true, hideCheckbox:true,
+			                        children: [
+			                          {title: "Compare MODIS",   key:"cld_zzz_m_f32900", abbr:"CLD" }
+			                        ]
+			                      },
+			                      {title: "Daily Trend", folder: true, hideCheckbox:true,
+			                        children: [
+			                          {title: "Compare MODIS",   key:"cld_zzz_m_f42100" , abbr:"CLD"}
+			                        ]
+			                      },
+			                      {title: "Monthly Trend", folder: true, hideCheckbox:true,
+			                        children: [
+			                          {title: "Compare MODIS",   key:"cld_zzz_y_f42100" , abbr:"CLD"}
+			                        ]
+			                      }
+			                    ]
+			                  },
+			                  {title: "구름 광학 두께 (COT)", folder: true, hideCheckbox:true, expanded: true,
+				                    children: [
+				                      {title: "Statistical Map", folder: true, hideCheckbox:true,
+				                        children: [
+				                          {title: "Compare MODIS",   	key:"cot_zzz_m_f10200", abbr:"COT" }
+				                        ]
+				                      },
+				                      {title: "Daily Trend", folder: true, hideCheckbox:true,
+				                        children: [
+				                          {title: "Compare MODIS",   	key:"cot_zzz_m_f42000", abbr:"COT" }
+				                        ]
+				                      },
+				                      {title: "Frequency Distribution", folder: true, hideCheckbox:true,
+				                        children: [
+		 								  {title: "Compare MODIS", folder: true, hideCheckbox:true,
+										    children: [
+										      {title: "COT",     key:"cot_zzz_m_f45500", abbr:"COT"  },
+										      {title: "COMS_MODIS COT",   key:"cot_zzz_m_f45501", abbr:"COT" }
+										    ]
+										  }
+				                        ]
+				                      },
+				                      {title: "Monthly Trend", folder: true, hideCheckbox:true,
+				                        children: [
+				                          {title: "Compare MODIS",  	key:"cot_zzz_y_f42000", abbr:"COT" }
+				                        ]
+				                      }
+		                    	]
+			                  },
+			                  
+			                  //fog goes here
+     			       	  	  {title: "안개 (FOG)", folder: true, hideCheckbox:true, expanded: true,
+			                    children: [
+			                      {title: "Statistical Map", folder: true, hideCheckbox:true,
+			                        children: [
+			                          {title: "Compare GTS",  		key:"fog_zzz_m_f11600" , abbr: "FOG"},
+			                          {title: "Compare Ground",   key:"fog_zzz_m_f11610" , abbr: "FOG"}
+			                        ]
+			                      },
+			                      {title: "Density Plot", folder: true, hideCheckbox:true,
+			                        children: [
+			                          {title: "Compare GTS",  		 key:"fog_zzz_m_f32900" , abbr: "FOG"},
+			                          {title: "Compare Ground",   key:"fog_zzz_m_f32910" , abbr: "FOG"}
+			                        ]
+			                      },
+			                      {title: "Daily Trend", folder: true, hideCheckbox:true,
+			                        children: [
+			                          {title: "Compare GTS",  		key:"fog_zzz_m_f42500" , abbr: "FOG"},
+			                          {title: "Compare Ground",   key:"fog_zzz_m_f42510" , abbr: "FOG"}
+			                        ]
+			                      },
+			                      {title: "Monthly Trend", folder: true, hideCheckbox:true,
+			                        children: [
+			                          {title: "Compare GTS", 	  key:"fog_zzz_y_f42500" , abbr: "FOG"},
+			                          {title: "Compare Ground",   key:"fog_zzz_y_f42510" , abbr: "FOG"}
+			                        ]
+			                      }
+			                    ]
+			                  }
+	
+			                  //fog goes here
+			                  
+			                ];
+			
+		    $("#treeWithCheckbox_<c:out value="${param.identifier}"/>").fancytree({
+		    	 //extensions: ["glyph", "wide"],
+		         //glyph: glyph_opts,
+		         //wide: {
+		         //  iconWidth: "5px",     // Adjust this if @fancy-icon-width != "16px"
+		         //  iconSpacing: "10px", // Adjust this if @fancy-icon-spacing != "3px"
+		         //  levelOfs: "18px"     // Adjust this if ul padding != "16px"
+		         //}, 
+		    	 connectors:true,
+		    	 //checkbox: true,
+		         debugLevel: 0, // 0:quiet, 1:normal, 2:debug
+		         selectMode: 2,   // 1:single, 2:multi, 3:multi-hier
+		         clickFolderMode: 2, // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)
+		         //activeVisible: true, // Make sure, active nodes are visible (expanded).
+		         source: treeData,
+//		         source: {url: "QIMSMenus.json", debugDelay: 1000},
+//				 lazyLoad: function(event, data) {
+//			        data.result = {url: "ajax-QIMSMenus.json", debugDelay: 1000};
+//			     }
+
+				 beforeSelect: function(event, data) {
+			        if( data.node.folder ){
+			          return false;
+			        }
+			     },	
+				
+		         select: function(event, data) {
+		           // Display list of selected nodes
+		           var selNodes = data.tree.getSelectedNodes();
+		           sysout(selNodes);
+		           // convert to title/key array
+		           var selKeys = $.map(selNodes, function(node){
+		        	   sysout("[" + node.key + "]: '" + node.title + "'");
+		                return "[" + node.key + "]: '" + node.title + "'";
+		             });
+		          // $(".echoSelection2").text(selKeys.join(", "));
+		           sysout('==varSelected========================================================');
+		           sysout(selKeys.join(",\n"));
+		         },
+		        /*  click: function(event, data) {
+		             if( ! data.node.folder ){
+		               data.node.toggleSelected();
+		             }
+		         }, */
+		         
+//		         dblclick: function(event, item) {
+		         click: function(event, item) {
+		             //data.node.toggleSelected();
+		        	 var idx = $("#tabs").tabs('option', 'active');
+					 var targetTab = '#TSCWrapper' + idx;
+					 var selected = [];
+//					 selected.push(item.node.key);
+					 selected.push(item);
+					 //alert(targetTab + " [" + data.node.key + "]: '" + data.node.title + "'");
+					 //alert('path:' + item.node.data.key);
+					 if( ! item.node.folder ){
+						doPostMonthlyValidationImageOnTheWall(targetTab, selected,$("#meNMSCDemo").val());
+					 }
+		         }, 
+		         keydown: function(event, data) {
+		           if( event.which === 32 ) {
+		             data.node.toggleSelected();
+		             return false;
+		           }
+		         },
+		         // The following options are only required, if we have more than one tree on one page:
+		         //cookieId: "fancytree-Cb2",
+		         //idPrefix: "fancytree-Cb2-"
+		    });
+		    
+		  
+		      $("#btnDeselectAll_<c:out value='${param.identifier}'/>").click(function(){
+		        $("#treeWithCheckbox_<c:out value="${param.identifier}"/>").fancytree("getTree").visit(function(node){
+		          node.setSelected(false);
+		        });
+		        return false;
+		      });
+		      $("#btnExpandAll_<c:out value='${param.identifier}'/>").click(function(){
+		    	$("#treeWithCheckbox_<c:out value='${param.identifier}'/>").fancytree("getRootNode").visit(function(node){
+		    	        //node.toggleExpanded();
+		    		 node.setExpanded(true);
+    	        });
+		        return false;
+		      });
+		      $("#btnCollapseAll_<c:out value='${param.identifier}'/>").click(function(){
+		    	$("#treeWithCheckbox_<c:out value='${param.identifier}'/>").fancytree("getRootNode").visit(function(node){
+			    	node.setExpanded(false);
+		    	        //node.toggleExpanded();
+    	        });
+		        return false;
+		      });
+		      
+		      $("#TSCWrapper<c:out value='${param.identifier}'/>").on('click', '.close-window', function (e) {
+		    	    //alert("#TSCWrapper<c:out value='${param.identifier}'/>" + ".close-window event");
+					e.preventDefault();
+					var tabIndex = $("#tabs").tabs('option', 'active') ;
+					var cbName = $(this).closest('div.meDraggableItem').attr('id'); 
+					//alert('[captured] '+cbName);
+					$('#'+cbName).remove(); //remove chartWrapperHTML
+				});
+		      
+		      
+	 	});
+	</script>
+	
+	<!-- Define where the tree should appear -->
+	<!-- 
+      <h5><a href="#" id="logger_<c out value='${param.identifier}'/>">haha</a></h5>
+	 -->
+	  <p style="padding-left:12px; font-size: 13px;">
+	    <a href="#" id="btnDeselectAll_<c:out value='${param.identifier}'/>">Deselect all</a> -
+	    <a href="#" id="btnExpandAll_<c:out value='${param.identifier}'/>">Expand all</a> - 
+	    <a href="#" id="btnCollapseAll_<c:out value='${param.identifier}'/>">Collapse all</a>
+	  </p>
+	  <!-- 
+	  <div>Selected keys: <span class="echoSelection2">-</span></div>
+    identifier
+	   -->
+	
+	  <div id="treeWithCheckbox_<c:out value="${param.identifier}"/>" style="padding-left:7px;"></div>

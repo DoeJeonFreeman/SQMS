@@ -3120,7 +3120,7 @@
 				                      }
 				                    ]
 				                  },
-			                  {title: "구름 탐지(CLD)", folder: true, hideCheckbox:true, expanded: true,
+			                  {title: "구름 탐지 (CLD)", folder: true, hideCheckbox:true, expanded: true,
 			                    children: [
 			                      {title: "Scatter Plot", folder: true, hideCheckbox:true,
 			                        children: [
@@ -3169,6 +3169,226 @@
 		                    	]
 			                  },
 			                  
+			                  
+     			       	  	  {title: "구름상 (CP)", folder: true, hideCheckbox:true, expanded: true,
+			                  	children: [
+									  {title: "Daily Trend", folder: true, hideCheckbox:true,
+									    children: [
+											  {title: "Compare MODIS", folder: true, hideCheckbox:true,
+										      	children: [
+										      	  {title: "All Lat.",           	key:"cp_zzz_m_f42200", abbr:"CP"  },
+										      	  {title: "Tropical Lat.",      	key:"cp_zzz_m_f42201", abbr:"CP"  },
+										      	  {title: "Middle Lat.",             key:"cp_zzz_m_f42202", abbr:"CP"  },
+										      	  {title: "All Lat. & Water",   	key:"cp_zzz_m_f42203", abbr:"CP"  },
+										      	  {title: "Tropical Lat. & Water",   key:"cp_zzz_m_f42204", abbr:"CP"  },
+										      	  {title: "Middle Lat. & Water",     key:"cp_zzz_m_f42205", abbr:"CP"  },
+										      	  {title: "All Lat. & Ice",     	key:"cp_zzz_m_f42206", abbr:"CP"  },
+										      	  {title: "Tropical Lat. & Ice",     key:"cp_zzz_m_f42207", abbr:"CP"  },
+										      	  {title: "Middle Lat. & Ice",       key:"cp_zzz_m_f42208", abbr:"CP"  },
+										      	  {title: "All Lat. & Mixed",   	key:"cp_zzz_m_f42209", abbr:"CP"  },
+										      	  {title: "Tropical Lat. & Mixed",   key:"cp_zzz_m_f42210", abbr:"CP"  },
+										      	  {title: "Middle Lat. & Mixed",     key:"cp_zzz_m_f42211", abbr:"CP"  }
+										    	]
+										  	  }
+									    ]
+									  },
+									  {title: "Frequency Distribution", folder: true, hideCheckbox:true,
+									    children: [
+											  {title: "Compare MODIS", folder: true, hideCheckbox:true,
+											    children: [
+											      {title: "All Lat.",      key:"cp_zzz_m_f55500", abbr:"CP"  },
+											      {title: "Tropical Lat.", key:"cp_zzz_m_f55501", abbr:"CP"  },
+											      {title: "Middle Lat.",   key:"cp_zzz_m_f55502", abbr:"CP"  }
+											    ]
+										  	  }
+									    ]
+									  },
+									  {title: "Distribution Plot", folder: true, hideCheckbox:true,
+									    children: [
+									      {title: "Compare MODIS",  	key:"cp_zzz_m_f42231", abbr:"CP" }
+									    ]
+									  },           
+									  {title: "Monthly Trend", folder: true, hideCheckbox:true,
+									    children: [
+											  {title: "Compare MODIS", folder: true, hideCheckbox:true,
+											    children: [
+										      	  {title: "All Lat.",           	 key:"cp_zzz_y_f42200", abbr:"CP"  },
+										      	  {title: "Tropical Lat.",      	 key:"cp_zzz_y_f42201", abbr:"CP"  },
+										      	  {title: "Middle Lat.",             key:"cp_zzz_y_f42202", abbr:"CP"  },
+										      	  {title: "All Lat. & Water",   	 key:"cp_zzz_y_f42203", abbr:"CP"  },
+										      	  {title: "Tropical Lat. & Water",   key:"cp_zzz_y_f42204", abbr:"CP"  },
+										      	  {title: "Middle Lat. & Water",     key:"cp_zzz_y_f42205", abbr:"CP"  },
+										      	  {title: "All Lat. & Ice",     	 key:"cp_zzz_y_f42206", abbr:"CP"  },
+										      	  {title: "Tropical Lat. & Ice",     key:"cp_zzz_y_f42207", abbr:"CP"  },
+										      	  {title: "Middle Lat. & Ice",       key:"cp_zzz_y_f42208", abbr:"CP"  },
+										      	  {title: "All Lat. & Mixed",   	 key:"cp_zzz_y_f42209", abbr:"CP"  },
+										      	  {title: "Tropical Lat. & Mixed",   key:"cp_zzz_y_f42210", abbr:"CP"  },
+										      	  {title: "Middle Lat. & Mixed",     key:"cp_zzz_y_f42211", abbr:"CP"  }
+											    ]
+											  }
+									    ]
+									  }
+			                    ]
+     			       	  	  },
+			                  
+     			       	  	  {title: "운형 (CT)", folder: true, hideCheckbox:true, expanded: true,
+			                  	children: [
+									  {title: "Daily Trend", folder: true, hideCheckbox:true,
+									    children: [
+											  {title: "Compare MODIS", folder: true, hideCheckbox:true,
+											    children: [
+											      {title: "ISCCP All Lat.",       key:"ct_zzz_m_f42200", abbr:"CT"  },
+											      {title: "ISCCP Tropical Lat.",  key:"ct_zzz_m_f42201", abbr:"CT"  },
+											      {title: "ISCCP Middle Lat.",    key:"ct_zzz_m_f42202", abbr:"CT"  },
+											      {title: "SEVIRI All Lat.",      key:"ct_zzz_m_f42203", abbr:"CT"  },
+											      {title: "SEVIRI Tropical Lat.", key:"ct_zzz_m_f42204", abbr:"CT"  },
+											      {title: "SEVIRI Middle Lat.",   key:"ct_zzz_m_f42205", abbr:"CT"  }
+											    ]
+											  }
+									    ]
+									  },
+									  {title: "Monthly Trend", folder: true, hideCheckbox:true,
+									    children: [
+											  {title: "Compare MODIS", folder: true, hideCheckbox:true,
+											    children: [
+											      {title: "ISCCP All Lat.",       key:"ct_zzz_y_f42200", abbr:"CT"  },
+											      {title: "ISCCP Tropical Lat.",  key:"ct_zzz_y_f42201", abbr:"CT"  },
+											      {title: "ISCCP Middle Lat.",    key:"ct_zzz_y_f42202", abbr:"CT"  },
+											      {title: "SEVIRI All Lat.",      key:"ct_zzz_y_f42203", abbr:"CT"  },
+											      {title: "SEVIRI Tropical Lat.", key:"ct_zzz_y_f42204", abbr:"CT"  },
+											      {title: "SEVIRI Middle Lat.",   key:"ct_zzz_y_f42205", abbr:"CT"  }
+											    ]
+											  }
+									    ]
+									  }
+			                    ]
+     			       	  	  },
+			                  
+     			       	  	  {title: "운정 기압 (CTP)", folder: true, hideCheckbox:true, expanded: true,
+			                  	children: [
+									{title: "Statistical Map", folder: true, hideCheckbox:true,
+									    children: [
+											{title: "Compare MODIS", folder: true, hideCheckbox:true,
+										    	children: [
+											      {title: "COMS Mean",  key:"ctp_zzz_m_f10100", abbr:"CTP"  },
+											      {title: "MODIS Mean", key:"ctp_zzz_m_f10101", abbr:"CTP"  },
+											      {title: "Bias",       key:"ctp_zzz_m_f10200", abbr:"CTP"  },
+											      {title: "COMS STD",   key:"ctp_zzz_m_f10500", abbr:"CTP"  }
+										    	]
+										  	}
+									    ]
+									},
+									{title: "Density Plot", folder: true, hideCheckbox:true,
+									    children: [
+											{title: "Compare MODIS", folder: true, hideCheckbox:true,
+										    	children: [
+											      {title: "All Lat.",      key:"ctp_zzz_m_f20000", abbr:"CTP"  },
+											      {title: "Tropical Lat.", key:"ctp_zzz_m_f20001", abbr:"CTP"  },
+											      {title: "Middle Lat.",   key:"ctp_zzz_m_f20002", abbr:"CTP"  }
+										    	]
+										  	},
+										  	{title: "MODIS vs. COMS-MODIS", 	key:"ctp_zzz_m_f20003", abbr:"CTP" }
+									    ]
+									},
+									{title: "Daily Trend", folder: true, hideCheckbox:true,
+									    children: [
+											{title: "Compare MODIS", folder: true, hideCheckbox:true,
+										    	children: [
+											      {title: "All Lat.",      key:"ctp_zzz_m_f42000", abbr:"CTP"  },
+											      {title: "Tropical Lat.", key:"ctp_zzz_m_f42001", abbr:"CTP"  },
+											      {title: "Middle Lat.",   key:"ctp_zzz_m_f42002", abbr:"CTP"  }
+										    	]
+										  	}
+									    ]
+									},
+									{title: "Distribution plot", folder: true, hideCheckbox:true,
+									    children: [
+											{title: "Compare MODIS", folder: true, hideCheckbox:true,
+										    	children: [
+											      {title: "Distribution by Lat.",      key:"ctp_zzz_m_f42700", abbr:"CTP"  },
+											      {title: "Distribution by Diurnal",   key:"ctp_zzz_m_f42701", abbr:"CTP"  }
+										    	]
+										  	}
+									    ]
+									},
+									//js 참고해야함
+									{title: "Monthly Trend", folder: true, hideCheckbox:true,
+									    children: [
+											{title: "Compare MODIS", folder: true, hideCheckbox:true,
+										    	children: [
+											      {title: "All Lat.",      key:"ctp_zzz_y_f42000", abbr:"CTP"  },
+											      {title: "Tropical Lat.", key:"ctp_zzz_y_f42001", abbr:"CTP"  },
+											      {title: "Middle Lat.",   key:"ctp_zzz_y_f42002", abbr:"CTP"  }
+										    	]
+										  	}
+									    ]
+									}
+			                    ]
+     			       	  	  },
+			                  
+     			       	  	  {title: "운정 온도 (CTT)", folder: true, hideCheckbox:true, expanded: true,
+			                  	children: [
+									{title: "Statistical Map", folder: true, hideCheckbox:true,
+									    children: [
+											{title: "Compare MODIS", folder: true, hideCheckbox:true,
+										    	children: [
+											      {title: "COMS Mean",   key:"ctt_zzz_m_f10100", abbr:"CTT"  },
+											      {title: "MODIS Mean",  key:"ctt_zzz_m_f10101", abbr:"CTT"  },
+											      {title: "Bias",        key:"ctt_zzz_m_f10200", abbr:"CTT"  },
+											      {title: "COMS STD",    key:"ctt_zzz_m_f10500", abbr:"CTT"  }
+										    	]
+										  	}
+									    ]
+									},
+									{title: "Density Plot", folder: true, hideCheckbox:true,
+									    children: [
+											{title: "Compare MODIS", folder: true, hideCheckbox:true,
+										    	children: [
+											      {title: "All Lat.",      		 key:"ctt_zzz_m_f20000", abbr:"CTT"  },
+											      {title: "Tropical Lat.", 		 key:"ctt_zzz_m_f20001", abbr:"CTT"  },
+											      {title: "Middle Lat.",    	 key:"ctt_zzz_m_f20002", abbr:"CTT"  },
+												  {title:"MODIS vs. COMS-MODIS", key:"ctt_zzz_m_f20003", abbr:"CTT" }
+										    	]
+										  	},
+									    ]
+									},
+									{title: "Daily Trend", folder: true, hideCheckbox:true,
+									    children: [
+											{title: "Compare MODIS", folder: true, hideCheckbox:true,
+										    	children: [
+											      {title: "All Lat.",      		 key:"ctt_zzz_m_f42000", abbr:"CTT"  },
+											      {title: "Tropical Lat.", 		 key:"ctt_zzz_m_f42001", abbr:"CTT"  },
+											      {title: "Middle Lat.",    	 key:"ctt_zzz_m_f42002", abbr:"CTT"  }
+										    	]
+										  	}
+									    ]
+									},
+									{title: "Distribution plot", folder: true, hideCheckbox:true,
+									    children: [
+											{title: "Compare MODIS", folder: true, hideCheckbox:true,
+										    	children: [
+											      {title: "Distribution by Lat.",     key:"ctt_zzz_m_f42700", abbr:"CTT"  },
+											      {title: "Distribution by Diurnal",  key:"ctt_zzz_m_f42701", abbr:"CTT"  }
+										    	]
+										  	}
+									    ]
+									},
+									//js 참고해야함
+									{title: "Monthly Trend", folder: true, hideCheckbox:true,
+									    children: [
+											{title: "Compare MODIS", folder: true, hideCheckbox:true,
+										    	children: [
+											      {title: "All Lat.",      		 key:"ctt_zzz_y_f42000", abbr:"CTT"  },
+											      {title: "Tropical Lat.", 		 key:"ctt_zzz_y_f42001", abbr:"CTT"  },
+											      {title: "Middle Lat.",    	 key:"ctt_zzz_y_f42002", abbr:"CTT"  }
+										    	]
+										  	}
+									    ]
+									}           
+			                    ]
+     			       	  	  },
+			                  
+			                  
 			                  //fog goes here
      			       	  	  {title: "안개 (FOG)", folder: true, hideCheckbox:true, expanded: true,
 			                    children: [
@@ -3197,9 +3417,467 @@
 			                        ]
 			                      }
 			                    ]
-			                  }
-	
-			                  //fog goes here
+			                  },     			       	  	  
+			                  
+     			       	  	  //
+	     			       	  {title: "표면도달일사량 (INS)", folder: true, hideCheckbox:true, expanded: true,
+				                  	children: [
+										{title: "Statistical Map", folder: true, hideCheckbox:true,
+										    children: [
+												{title: "Compare Ground", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "Number",   key:"ins_zzz_m_f10000", abbr:"INS"  },
+												      {title: "Bias",     key:"ins_zzz_m_f10200", abbr:"INS"  },
+												      {title: "RMSE",     key:"ins_zzz_m_f10300", abbr:"INS"  }
+											    	]
+											  	}
+										    ]
+										},
+										{title: "Density Plot", folder: true, hideCheckbox:true,
+										    children: [
+											  	{title: "Compare Ground", 	key:"ins_zzz_m_f20000", abbr:"INS" }
+										    ]
+										},
+										{title: "Scatter plot", folder: true, hideCheckbox:true,
+										    children: [
+												{title: "Compare MODIS", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "속초",     key:"ins_090_m_f30000", abbr:"INS"  },
+												      {title: "철원",     key:"ins_095_m_f30000", abbr:"INS"  },
+												      {title: "동두천",   key:"ins_098_m_f30000", abbr:"INS"  },
+												      {title: "문산",     key:"ins_099_m_f30000", abbr:"INS"  },
+												      {title: "대관령",   key:"ins_100_m_f30000", abbr:"INS"  },
+												      {title: "춘천",     key:"ins_101_m_f30000", abbr:"INS"  },
+												      {title: "백령도",   key:"ins_102_m_f30000", abbr:"INS"  },
+												      {title: "강릉",     key:"ins_105_m_f30000", abbr:"INS"  },
+												      {title: "동해",     key:"ins_106_m_f30000", abbr:"INS"  },
+												      {title: "서울",     key:"ins_108_m_f30000", abbr:"INS"  },
+												      {title: "인천",     key:"ins_112_m_f30000", abbr:"INS"  },
+												      {title: "원주",     key:"ins_114_m_f30000", abbr:"INS"  },
+												      {title: "울릉도",   key:"ins_115_m_f30000", abbr:"INS"  },
+												      {title: "수원",     key:"ins_119_m_f30000", abbr:"INS"  },
+												      {title: "영월",     key:"ins_121_m_f30000", abbr:"INS"  },
+												      {title: "충주",     key:"ins_127_m_f30000", abbr:"INS"  },
+												      {title: "서산",     key:"ins_129_m_f30000", abbr:"INS"  },
+												      {title: "울진",     key:"ins_130_m_f30000", abbr:"INS"  },
+												      {title: "청주",     key:"ins_131_m_f30000", abbr:"INS"  },
+												      {title: "대전",     key:"ins_133_m_f30000", abbr:"INS"  },
+												      {title: "안동",     key:"ins_136_m_f30000", abbr:"INS"  },
+												      {title: "상주",     key:"ins_137_m_f30000", abbr:"INS"  },
+												      {title: "포항",     key:"ins_138_m_f30000", abbr:"INS"  },
+												      {title: "군산",     key:"ins_140_m_f30000", abbr:"INS"  },
+												      {title: "대구",     key:"ins_143_m_f30000", abbr:"INS"  },
+												      {title: "전주",     key:"ins_146_m_f30000", abbr:"INS"  },
+												      {title: "울산",     key:"ins_152_m_f30000", abbr:"INS"  },
+												      {title: "마산/창원",key:"ins_155_m_f30000", abbr:"INS"  },
+												      {title: "광주",     key:"ins_156_m_f30000", abbr:"INS"  },
+												      {title: "부산",     key:"ins_159_m_f30000", abbr:"INS"  },
+												      {title: "통영",     key:"ins_162_m_f30000", abbr:"INS"  },
+												      {title: "무안",     key:"ins_164_m_f30000", abbr:"INS"  },
+												      {title: "목포",     key:"ins_165_m_f30000", abbr:"INS"  },
+												      {title: "여수",     key:"ins_168_m_f30000", abbr:"INS"  },
+												      {title: "흑산도",   key:"ins_169_m_f30000", abbr:"INS"  },
+												      {title: "완도",     key:"ins_170_m_f30000", abbr:"INS"  },
+												      {title: "진도",     key:"ins_175_m_f30000", abbr:"INS"  },
+												      {title: "제주",     key:"ins_184_m_f30000", abbr:"INS"  },
+												      {title: "고산",     key:"ins_185_m_f30000", abbr:"INS"  },
+												      {title: "성산",     key:"ins_187_m_f30000", abbr:"INS"  },
+												      {title: "서귀포",   key:"ins_189_m_f30000", abbr:"INS"  },
+												      {title: "진주",     key:"ins_192_m_f30000", abbr:"INS"  },
+												      {title: "강화",     key:"ins_201_m_f30000", abbr:"INS"  },
+												      {title: "양평",     key:"ins_202_m_f30000", abbr:"INS"  },
+												      {title: "이천",     key:"ins_203_m_f30000", abbr:"INS"  },
+												      {title: "인제",     key:"ins_211_m_f30000", abbr:"INS"  },
+												      {title: "홍천",     key:"ins_212_m_f30000", abbr:"INS"  },
+												      {title: "삼척",     key:"ins_214_m_f30000", abbr:"INS"  },
+												      {title: "태백",     key:"ins_216_m_f30000", abbr:"INS"  },
+												      {title: "제천",     key:"ins_221_m_f30000", abbr:"INS"  },
+												      {title: "보은",     key:"ins_226_m_f30000", abbr:"INS"  },
+												      {title: "천안",     key:"ins_232_m_f30000", abbr:"INS"  },
+												      {title: "보령",     key:"ins_235_m_f30000", abbr:"INS"  },
+												      {title: "부여",     key:"ins_236_m_f30000", abbr:"INS"  },
+												      {title: "금산",     key:"ins_238_m_f30000", abbr:"INS"  },
+												      {title: "부안",     key:"ins_243_m_f30000", abbr:"INS"  },
+												      {title: "임실",     key:"ins_244_m_f30000", abbr:"INS"  },
+												      {title: "정읍",     key:"ins_245_m_f30000", abbr:"INS"  },
+												      {title: "남원",     key:"ins_247_m_f30000", abbr:"INS"  },
+												      {title: "장수",     key:"ins_248_m_f30000", abbr:"INS"  },
+												      {title: "창원",     key:"ins_255_m_f30000", abbr:"INS"  },
+												      {title: "순천/주암",key:"ins_256_m_f30000", abbr:"INS"  },
+												      {title: "장흥",     key:"ins_260_m_f30000", abbr:"INS"  },
+												      {title: "해남",     key:"ins_261_m_f30000", abbr:"INS"  },
+												      {title: "고흥",     key:"ins_262_m_f30000", abbr:"INS"  },
+												      {title: "봉화",     key:"ins_271_m_f30000", abbr:"INS"  },
+												      {title: "영주",     key:"ins_272_m_f30000", abbr:"INS"  },
+												      {title: "문경",     key:"ins_273_m_f30000", abbr:"INS"  },
+												      {title: "청송군",   key:"ins_276_m_f30000", abbr:"INS"  },
+												      {title: "영덕",     key:"ins_277_m_f30000", abbr:"INS"  },
+												      {title: "의성",     key:"ins_275_m_f30000", abbr:"INS"  },
+												      {title: "구미",     key:"ins_279_m_f30000", abbr:"INS"  },
+												      {title: "영천",     key:"ins_281_m_f30000", abbr:"INS"  },
+												      {title: "경주",     key:"ins_283_m_f30000", abbr:"INS"  },
+												      {title: "거창",     key:"ins_284_m_f30000", abbr:"INS"  },
+												      {title: "합천",     key:"ins_285_m_f30000", abbr:"INS"  },
+												      {title: "밀양",     key:"ins_288_m_f30000", abbr:"INS"  },
+												      {title: "산청",     key:"ins_289_m_f30000", abbr:"INS"  },
+												      {title: "거제",     key:"ins_294_m_f30000", abbr:"INS"  },
+												      {title: "남해",     key:"ins_295_m_f30000", abbr:"INS"  }
+											    	]
+											  	}
+										    ]
+										},
+										{title: "Daily Trend", folder: true, hideCheckbox:true,
+										    children: [
+											  	{title: "Compare Ground", 	key:"ins_zzz_m_f42000", abbr:"INS" }
+										    ]
+										},
+										{title: "Monthly Trend", folder: true, hideCheckbox:true,
+										    children: [
+											  	{title: "Compare Ground", 	key:"ins_zzz_y_f42000", abbr:"INS" }
+										    ]
+										}
+				                    ]
+	   			       	  	  },
+				                  
+	   			       	  	  {title: "지표면 온도 (LST)", folder: true, hideCheckbox:true, expanded: true,
+				                  	children: [
+										{title: "Statistical Map", folder: true, hideCheckbox:true,
+										    children: [
+												{title: "Compare AWS", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "Bias(All)",     key:"lst_zzz_m_f10200", abbr:"LST"  },
+												      {title: "Bias(Day)",     key:"lst_zzz_m_f10202", abbr:"LST"  },
+												      {title: "Bias(Night)",   key:"lst_zzz_m_f10201", abbr:"LST"  },
+												      {title: "RMSE(Day)",     key:"lst_zzz_m_f10302", abbr:"LST"  },
+												      {title: "RMSE(Night)",   key:"lst_zzz_m_f10301", abbr:"LST"  }
+											    	]
+											  	},
+												{title: "Compare MODIS", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "Bias(All)",     key:"lst_zzz_m_f10210", abbr:"LST"  },
+												      {title: "Bias(Day)",     key:"lst_zzz_m_f10212", abbr:"LST"  },
+												      {title: "Bias(Night)",   key:"lst_zzz_m_f10211", abbr:"LST"  },
+												      {title: "RMSE(Day)",     key:"lst_zzz_m_f10312", abbr:"LST"  },
+												      {title: "RMSE(Night)",   key:"lst_zzz_m_f10311", abbr:"LST"  }
+											    	]
+											  	}
+										    ]
+										},
+										{title: "Density Plot", folder: true, hideCheckbox:true,
+										    children: [
+												{title: "Compare AWS", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "All",     key:"lst_zzz_m_f20000", abbr:"LST"  },
+												      {title: "Day",     key:"lst_zzz_m_f20002", abbr:"LST"  },
+												      {title: "Night",   key:"lst_zzz_m_f20001", abbr:"LST"  }
+											    	]
+											  	},
+												{title: "Compare MODIS", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "All",     key:"lst_zzz_m_f20010", abbr:"LST"  },
+												      {title: "Day",     key:"lst_zzz_m_f20012", abbr:"LST"  },
+												      {title: "Night",   key:"lst_zzz_m_f20011", abbr:"LST"  }
+											    	]
+											  	}
+										    ]
+										},
+										{title: "Daily Trend", folder: true, hideCheckbox:true,
+										    children: [
+											  	{title: "Compare AWS", 	key:"lst_zzz_m_f42000", abbr:"LST" },
+											  	{title: "Compare MODIS",key:"lst_zzz_m_f42010", abbr:"LST" }
+										    ]
+										},
+										{title: "Monthly Trend", folder: true, hideCheckbox:true,
+										    children: [
+											  	{title: "Compare AWS", 	key:"lst_zzz_y_f42000", abbr:"LST" },
+											  	{title: "Compare MODIS",key:"lst_zzz_y_f42010", abbr:"LST" }
+										    ]
+										}
+				                    ]
+	   			       	  	  },
+				                  
+	   			       	  	  {title: "지구 방출 복사량 (OLR)", folder: true, hideCheckbox:true, expanded: true,
+				                  	children: [
+										{title: "Statistical Map", folder: true, hideCheckbox:true,
+										    children: [
+												{title: "Compare AWS", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "OLR-1(Bias)",     key:"olr_zzz_m_f10200", abbr:"OLR"  },
+												      {title: "OLR-2(Bias)",     key:"olr_zzz_m_f10201", abbr:"OLR"  },
+												      {title: "OLR-3(Bias)",     key:"olr_zzz_m_f10202", abbr:"OLR"  },
+												      {title: "OLR-Best(Bias)",  key:"olr_zzz_m_f10203", abbr:"OLR"  },
+												      {title: "OLR-1(RMSE)",     key:"olr_zzz_m_f10300", abbr:"OLR"  },
+												      {title: "OLR-2(RMSE)",     key:"olr_zzz_m_f10301", abbr:"OLR"  },
+												      {title: "OLR-3(RMSE)",     key:"olr_zzz_m_f10302", abbr:"OLR"  },
+												      {title: "OLR-Best(RMSE)",  key:"olr_zzz_m_f10303", abbr:"OLR"  }
+											    	]
+											  	}
+										    ]
+										},
+										{title: "Density Plot", folder: true, hideCheckbox:true,
+										    children: [
+												{title: "Compare CERES", folder: true, hideCheckbox:true,
+											    	children: [
+									    	           {title: "OLR-1",     key:"olr_zzz_m_f20000", abbr:"OLR"  },
+													   {title: "OLR-2",     key:"olr_zzz_m_f20001", abbr:"OLR"  },
+													   {title: "OLR-3",     key:"olr_zzz_m_f20002", abbr:"OLR"  },
+													   {title: "OLR-Best",  key:"olr_zzz_m_f20003", abbr:"OLR"  }
+											    	]
+											  	}
+										    ]
+										},
+										{title: "Daily Trend", folder: true, hideCheckbox:true,
+										    children: [
+												{title: "Compare CERES", folder: true, hideCheckbox:true,
+											    	children: [
+									    	           {title: "OLR-1",     key:"olr_zzz_m_f42000", abbr:"OLR"  },
+													   {title: "OLR-2",     key:"olr_zzz_m_f42001", abbr:"OLR"  },
+													   {title: "OLR-3",     key:"olr_zzz_m_f42002", abbr:"OLR"  },
+													   {title: "OLR-Best",  key:"olr_zzz_m_f42003", abbr:"OLR"  }
+											    	]
+											  	}
+										    ]
+										},
+										{title: "Monthly Trend", folder: true, hideCheckbox:true,
+										    children: [
+												{title: "Compare CERES", folder: true, hideCheckbox:true,
+											    	children: [
+									    	           {title: "OLR-1",     key:"olr_zzz_y_f42000", abbr:"OLR"  },
+													   {title: "OLR-2",     key:"olr_zzz_y_f42001", abbr:"OLR"  },
+													   {title: "OLR-3",     key:"olr_zzz_y_f42002", abbr:"OLR"  },
+													   {title: "OLR-Best",  key:"olr_zzz_y_f42003", abbr:"OLR"  }
+											    	]
+											  	}
+										    ]
+										}
+				                    ]
+	   			       	  	  },
+				                  
+	   			       	  	  {title: "강우 강도 (RI)", folder: true, hideCheckbox:true, expanded: true,
+				                  	children: [
+										{title: "Statistical Map", folder: true, hideCheckbox:true,
+										    children: [
+												{title: "Compare AWS", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "Bias",  key:"ri_zzz_m_f10200", abbr:"RI"  },
+												      {title: "RMSE",  key:"ri_zzz_m_f10300", abbr:"RI"  }
+											    	]
+											  	},
+												{title: "Compare SSMI", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "Bias",  key:"ri_zzz_m_f10210", abbr:"RI"  },
+												      {title: "RMSE",  key:"ri_zzz_m_f10310", abbr:"RI"  }
+											    	]
+											  	},
+												{title: "Compare SSMIS", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "Bias",  key:"ri_zzz_m_f10220", abbr:"RI"  },
+												      {title: "RMSE",  key:"ri_zzz_m_f10320", abbr:"RI"  }
+											    	]
+											  	},
+												{title: "Compare AMSR2", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "Bias",  key:"ri_zzz_m_f10230", abbr:"RI"  },
+												      {title: "RMSE",  key:"ri_zzz_m_f10330", abbr:"RI"  }
+											    	]
+											  	}
+										    ]
+										},
+										{title: "Density Plot", folder: true, hideCheckbox:true,
+									    	children: [
+							    	           {title: "Compare AWS",     key:"ri_zzz_m_f20000", abbr:"RI"  },
+											   {title: "Compare SSMI",    key:"ri_zzz_m_f20010", abbr:"RI"  },
+											   {title: "Compare SSMIS",   key:"ri_zzz_m_f20020", abbr:"RI"  },
+											   {title: "Compare AMSR2",   key:"ri_zzz_m_f20030", abbr:"RI"  }
+									    	]
+										},
+										{title: "Daily Trend", folder: true, hideCheckbox:true,
+										    children: [
+												{title: "Compare AWS", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "TS1",  key:"ri_zzz_m_f42000", abbr:"RI"  },
+												      {title: "TS2",  key:"ri_zzz_m_f42600", abbr:"RI"  }
+											    	]
+											  	},
+												{title: "Compare SSMI", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "TS1",  key:"ri_zzz_m_f42010", abbr:"RI"  },
+												      {title: "TS2",  key:"ri_zzz_m_f42610", abbr:"RI"  }
+											    	]
+											  	},
+												{title: "Compare SSMIS", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "TS1",  key:"ri_zzz_m_f42020", abbr:"RI"  },
+												      {title: "TS2",  key:"ri_zzz_m_f42620", abbr:"RI"  }
+											    	]
+											  	},
+												{title: "Compare AMSR2", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "TS1",  key:"ri_zzz_m_f42030", abbr:"RI"  },
+												      {title: "TS2",  key:"ri_zzz_m_f42630", abbr:"RI"  }
+											    	]
+											  	}
+										    ]
+										},
+										{title: "Monthly Trend", folder: true, hideCheckbox:true,
+										    children: [
+												{title: "Compare AWS", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "TS1",  key:"ri_zzz_y_f42000", abbr:"RI"  },
+												      {title: "TS2",  key:"ri_zzz_y_f42600", abbr:"RI"  }
+											    	]
+											  	},
+												{title: "Compare SSMI", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "TS1",  key:"ri_zzz_y_f42010", abbr:"RI"  },
+												      {title: "TS2",  key:"ri_zzz_y_f42610", abbr:"RI"  }
+											    	]
+											  	},
+												{title: "Compare SSMIS", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "TS1",  key:"ri_zzz_y_f42020", abbr:"RI"  },
+												      {title: "TS2",  key:"ri_zzz_y_f42620", abbr:"RI"  }
+											    	]
+											  	},
+												{title: "Compare AMSR2", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "TS1",  key:"ri_zzz_y_f42030", abbr:"RI"  },
+												      {title: "TS2",  key:"ri_zzz_y_f42630", abbr:"RI"  }
+											    	]
+											  	}
+										    ]
+										}
+				                    ]
+	   			       	  	  },
+	   			       	  	  {title: "해빙 및 적설 (SSI)", folder: true, hideCheckbox:true, expanded: true,
+				                  	children: [
+										{title: "Daily Trend", folder: true, hideCheckbox:true,
+										    children: [
+												{title: "Compare IMS", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "Snow",  key:"ssi_zzz_m_f42500", abbr:"SSI"  },
+												      {title: "Ice",   key:"ssi_zzz_m_f42501", abbr:"SSI"  }
+											    	]
+											  	},
+												{title: "Compare MODIS", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "Snow",  key:"ssi_zzz_m_f42510", abbr:"SSI"  },
+												      {title: "Ice",   key:"ssi_zzz_m_f42511", abbr:"SSI"  }
+											    	]
+											  	}
+										    ]
+										},
+										{title: "Monthly Trend", folder: true, hideCheckbox:true,
+										    children: [
+												{title: "Compare IMS", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "Snow",  key:"ssi_zzz_y_f42500", abbr:"SSI"  },
+												      {title: "Ice",   key:"ssi_zzz_y_f42501", abbr:"SSI"  }
+											    	]
+											  	},
+												{title: "Compare MODIS", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "Snow",  key:"ssi_zzz_y_f42510", abbr:"SSI"  },
+												      {title: "Ice",   key:"ssi_zzz_y_f42511", abbr:"SSI"  }
+											    	]
+											  	}
+										    ]
+										}
+				                    ]
+	   			       	  	  },
+	   			       	  	  {title: "해수면 온도 (SST)", folder: true, hideCheckbox:true, expanded: true,
+				                  	children: [
+										{title: "Statistical Map", folder: true, hideCheckbox:true,
+										    children: [
+												{title: "Compare Buoy", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "Bias(All)",  key:"sst_zzz_m_f10200", abbr:"SST"  },
+												      {title: "Bias(Day)",  key:"sst_zzz_m_f10202", abbr:"SST"  },
+												      {title: "Bias(Night)",key:"sst_zzz_m_f10201", abbr:"SST"  },
+												      {title: "RMSE(Day)",  key:"sst_zzz_m_f10302", abbr:"SST"  },
+												      {title: "RMSE(Night)",key:"sst_zzz_m_f10301", abbr:"SST"  }
+											    	]
+											  	},
+												{title: "Compare OSTIA", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "Bias(All)",  key:"sst_zzz_m_f10210", abbr:"SST"  },
+												      {title: "RMSE(All)",  key:"sst_zzz_m_f10303", abbr:"SST"  }
+											    	]
+											  	}
+										    ]
+										},
+										{title: "Density Plot", folder: true, hideCheckbox:true,
+									    	children: [
+							    	           {title: "Compare Buoy", folder: true, hideCheckbox:true,
+											    	children: [
+												      {title: "All",  key:"sst_zzz_m_f20000", abbr:"SST"  },
+												      {title: "Day",  key:"sst_zzz_m_f20002", abbr:"SST"  },
+												      {title: "Night",key:"sst_zzz_m_f20001", abbr:"SST"  }
+											    	]
+											   },
+							    	           {title: "Compare OSTIA",     key:"sst_zzz_m_f20010", abbr:"SST"  },
+									    	]
+										},
+										{title: "Mean Difference", folder: true, hideCheckbox:true,
+									    	children: [
+							    	           {title: "Compare Buoy",     key:"sst_zzz_m_f40200", abbr:"SST"  }
+									    	]
+										},
+										{title: "Daily Trend", folder: true, hideCheckbox:true,
+									    	children: [
+							    	           {title: "Compare Buoy",      key:"sst_zzz_m_f42000", abbr:"SST"  },
+							    	           {title: "Compare OSTIA",     key:"sst_zzz_m_f42010", abbr:"SST"  }
+									    	]
+										},
+										{title: "Monthlh Trend", folder: true, hideCheckbox:true,
+									    	children: [
+							    	           {title: "Compare Buoy",      key:"sst_zzz_y_f42000", abbr:"SST"  },
+							    	           {title: "Compare OSTIA",     key:"sst_zzz_y_f42010", abbr:"SST"  }
+									    	]
+										}
+				                    ]
+	   			       	  	  },
+	   			       	  	  {title: "가강수량 (TPW)", folder: true, hideCheckbox:true, expanded: true,
+				                  	children: [
+										{title: "Scatter Plot", folder: true, hideCheckbox:true,
+											children: [
+										       {title: "Compare Sonde",     key:"tpw_zzz_m_f30000", abbr:"TPW"  }
+											]
+										},           
+										{title: "Daily Trend", folder: true, hideCheckbox:true,
+											children: [
+										       {title: "Compare Sonde",     key:"tpw_zzz_m_f42000", abbr:"TPW"  }
+											]
+										},           
+										{title: "Monthly Trend", folder: true, hideCheckbox:true,
+											children: [
+										       {title: "Compare Sonde",     key:"tpw_zzz_y_f42000", abbr:"TPW"  }
+											]
+										}           
+				                    ]
+	   			       	  	  },
+	   			       	  	  {title: "상층수증기량 (UTH)", folder: true, hideCheckbox:true, expanded: true,
+				                  	children: [
+										{title: "Scatter Plot", folder: true, hideCheckbox:true,
+											children: [
+										       {title: "Compare Sonde",     key:"uth_zzz_m_f30000", abbr:"UTH"  }
+											]
+										},           
+										{title: "Daily Trend", folder: true, hideCheckbox:true,
+											children: [
+										       {title: "Compare Sonde",     key:"uth_zzz_m_f42000", abbr:"UTH"  }
+											]
+										},           
+										{title: "Monthly Trend", folder: true, hideCheckbox:true,
+											children: [
+										       {title: "Compare Sonde",     key:"uth_zzz_y_f42000", abbr:"UTH"  }
+											]
+										}                   
+				                    ]
+	   			       	  	  }
+     			       	  	  
+			                  
+			                  
 			                  
 			                ];
 			
@@ -3313,7 +3991,7 @@
       <h5><a href="#" id="logger_<c out value='${param.identifier}'/>">haha</a></h5>
 	 -->
 	  <p style="padding-left:12px; font-size: 13px;">
-	    <a href="#" id="btnDeselectAll_<c:out value='${param.identifier}'/>">Deselect all</a> -
+	    <a href="#" id="btnDeselectAll_<c:out value='${param.identifier}'/>">Remove all</a> -
 	    <a href="#" id="btnExpandAll_<c:out value='${param.identifier}'/>">Expand all</a> - 
 	    <a href="#" id="btnCollapseAll_<c:out value='${param.identifier}'/>">Collapse all</a>
 	  </p>
