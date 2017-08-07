@@ -76,22 +76,22 @@
 			                    children: [
 			                      {title: "CA", folder: true, hideCheckbox:true, expanded: true,
 			                        children: [
-			                          {title: "CA 검증지표", key: "L1A-QI02_0" }
+			                          {title: "CA 검증지표", key: "L2-QI01_0" }
 			                        ]
 			                      },
 			                      {title: "CLD", folder: true, hideCheckbox:true, expanded: true,
 			                        children: [
-			                          {title: "CLD 검증지표", key: "L1A-QI03_0" }
+			                          {title: "CLD 검증지표", key: "L2-QI02_0" }
 			                        ]
 			                      },
 			                      {title: "FOG", folder: true, hideCheckbox:true, expanded: true,
 			                        children: [
-			                          {title: "FOG 검증지표", key: "L1A-QI04_0" }
+			                          {title: "FOG 검증지표", key: "L2-QI03_0" }
 			                        ]
 			                      },
 			                      {title: "AI", folder: true, hideCheckbox:true, expanded: true,
 			                        children: [
-			                          {title: "AI 검증지표", key: "L1A-QI05_0" }
+			                          {title: "AI 검증지표", key: "L2-QI04_0" }
 			                        ]
 			                      }
 			                    ]

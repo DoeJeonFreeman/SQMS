@@ -48,7 +48,7 @@
  	
 	
 	<!--3. FOG -->
-	<!-- FOG -->
+	<!-- COMS vs. GTS -->
 	<!-- FOG -->
 	<!-- FOG -->
 	<!-- FOG -->
@@ -57,6 +57,20 @@
 	    	FROM FOG_VS_GTS
 			WHERE INIT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
 		    		AND INIT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			ORDER BY DSTR
+ 	</select>
+ 	
+	<!--3.2. FOG -->
+	<!-- COMS vs. Ground -->
+ 	<select id="selectTimeSeriesData_L2_FOG2" parameterType="hashmap" resultType="hashmap">
+	    select to_char(INIT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, HIT, FALSE_ALARM, VAM_NUM, COR_NEG
+	    	FROM FOG_VS_GR
+			WHERE INIT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    AND INIT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS') 
+		    <!-- INIT_DATE가 두 개씩 겹치는 레코드가 있어서 일단 얘네들은 제외시켰음. 대표님한테 자료처리 다시 해달라고 요청해야함. 2017.07.20. 
+		    		group by INIT_DATE, HIT, FALSE_ALARM, VAM_NUM, COR_NEG
+        			having count(INIT_DATE) &lt; 2
+		     -->
 			ORDER BY DSTR
  	</select>
 
@@ -70,6 +84,27 @@
  	<select id="selectTimeSeriesData_L2_AI" parameterType="hashmap" resultType="hashmap">
 	    select to_char(INIT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, VAM_NUM, MISS, COR_NEG, PC, BIAS, POD
 	    	FROM AI_VS_OMI
+			WHERE INIT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND INIT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			ORDER BY DSTR
+ 	</select>
+ 	
+ 	
+	<!--5. RI -->
+	<!-- RI -->
+ 	<select id="selectTimeSeriesData_L2_RI" parameterType="hashmap" resultType="hashmap">
+	    select to_char(INIT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, VAM_NUM, MISS, COR_NEG, PC, BIAS_ALL,RMSE_ALL, R_A,  POD
+	    	FROM RI_VS_AWS
+			WHERE INIT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND INIT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			ORDER BY DSTR
+ 	</select>
+ 	
+	<!--6. SST -->
+	<!-- SST -->
+ 	<select id="selectTimeSeriesData_L2_SST" parameterType="hashmap" resultType="hashmap">
+	    select to_char(INIT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, R, BIAS, RMSE, VAM_NUM 
+	    	FROM SST_VS_BUOY
 			WHERE INIT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
 		    		AND INIT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
 			ORDER BY DSTR

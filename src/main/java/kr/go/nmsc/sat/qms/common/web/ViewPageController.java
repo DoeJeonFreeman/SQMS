@@ -1,6 +1,8 @@
 package kr.go.nmsc.sat.qms.common.web;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -88,10 +90,16 @@ public class ViewPageController {
 		MostRecentStuffVO mostRecent = new MostRecentStuffVO();
 		SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 //		java.util.Date d = datetimeFormatter1.parse("2016-04-30 23:59:00");
-//		java.util.Date d = datetimeFormatter1.parse("2016-11-30 23:59:00");
-		java.util.Date d = datetimeFormatter1.parse("2017-05-31 23:59:00");
-		Timestamp dTimestamp = new Timestamp(d.getTime());
-		mostRecent.setLateststuff(dTimestamp);
+//		Timestamp dTimestamp = new Timestamp(d.getTime());
+//		mostRecent.setLateststuff(dTimestamp);
+		
+		Date lastMonth = new Date();
+		lastMonth = new Date(lastMonth.getYear(), lastMonth.getMonth(),1);
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(lastMonth); 
+		c.add(Calendar.DATE, -2);
+		lastMonth = c.getTime();
+		mostRecent.setLateststuff(new Timestamp(lastMonth.getTime()));
 		
 		model.addAttribute("extSeries", mostRecent);
 		return "L2/LV_2_monthlyValidation";

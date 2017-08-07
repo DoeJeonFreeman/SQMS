@@ -297,7 +297,7 @@ sysout(varSelected);
 					// 1. CLA
 					// 1. CLA
 					// 1. CLA
-					if(typeOfChart=='L1A-QI02'){ 
+					if(typeOfChart=='L2-QI01'){ 
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Cloud Amount','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
@@ -306,7 +306,7 @@ sysout(varSelected);
 					// 2. CLD
 					// 2. CLD
 					// 2. CLD
-					}else if(typeOfChart=='L1A-QI03'){ 
+					}else if(typeOfChart=='L2-QI02'){ 
 						var radianceHTML =  getDraggableContainerHTML(itm, 'CLD  - COMS vs MOD35','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
@@ -315,7 +315,7 @@ sysout(varSelected);
 					// 3. FOG	
 					// 3. FOG	
 					// 3. FOG	
-					}else if(typeOfChart=='L1A-QI04'){ 
+					}else if(typeOfChart=='L2-QI03'){ 
 						var radianceHTML =  getDraggableContainerHTML(itm, 'FOG - COMS vs  GTS','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
@@ -324,7 +324,7 @@ sysout(varSelected);
 					// 4. AI
 					// 4. AI
 					// 4. AI
-					}else if(typeOfChart=='L1A-QI05'){ 
+					}else if(typeOfChart=='L2-QI04'){ 
 						var radianceHTML =  getDraggableContainerHTML(itm, 'AI  - COMS vs OMI','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
@@ -848,17 +848,17 @@ sysout(varSelected);
                 <div class="row"  style="width:350px;">
              		<!--FIRST TAB-->
                		<div id="OPT_0" >
-			        	<c:import url="/mePageLink.do?link=_alternatives/ENTIRE_CONDITIONS_L2DailyValidation">
+			        	<c:import url="/mePageLink.do?link=L2/VARS_L2DailyValidation">
 			        		<c:param name="identifier" value="0"/>
 			        	</c:import>
                		</div>
                		<div id="OPT_1" >
-			        	<c:import url="/mePageLink.do?link=_alternatives/ENTIRE_CONDITIONS_L2DailyValidation">
+			        	<c:import url="/mePageLink.do?link=L2/VARS_L2DailyValidation">
 			        		<c:param name="identifier" value="1"/>
 			        	</c:import>
                		</div>
                		<div id="OPT_2" >
-               			<c:import url="/mePageLink.do?link=_alternatives/ENTIRE_CONDITIONS_L2DailyValidation">
+               			<c:import url="/mePageLink.do?link=L2/VARS_L2DailyValidation">
                				<c:param name="identifier" value="2"/>
 			        	</c:import>
                		</div>

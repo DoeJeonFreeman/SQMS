@@ -213,26 +213,28 @@
                  
                  
                  <li>
-                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('51','lvl_1/QI.do')" >품질지표</a>
+                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('51','lvl_1/QI.do')" >품질지표 모니터링</a>
                  </li>
+                 <li>
+                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('51','lvl_2/monthlyValidation.do')" >월간 L2 품질검증</a>
+                 </li>
+                 <!--  
                  <li class="dropdown">
                  	<a href="#" class="dropdown-toggle" data-toggle="dropdown">L2 품질감시<b class="caret"></b></a>
                  	
                  	<ul class="dropdown-menu meDropkick" >
-		                 <li> <!-- class="disabled" -->
-		                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('61','lvl_2/monthlyValidation.do')">월검증결과</a> <!-- onclick="javascript:fn_main_headPageAction('61','alternative/b.do')" -->
+		                 <li> class="disabled" 
+		                     <a href="#LINK" onclick="javascript:fn_main_headPageAction('61','lvl_2/monthlyValidation.do')">월검증결과</a> 
 		                 </li>
-                       	<!--   
                          <li class="disabled">
                          	<a href='#LINK'  onclick="javascript:fn_main_headPageAction('62','report.doe')">월검증리포트</a>
                          </li>
-                       	-->
                          <li>
-                         	<!-- onclick="javascript:fn_main_headPageAction('63','lvl_2/dailyValidation.do')" -->
                          	<a href='#LINK' onclick="javascript:fn_main_headPageAction('63','lvl_2/dailyValidation.do')"  >일검증결과</a>
                          </li>
                  	</ul>
                  </li>
+                 -->
   
              </ul>
          </div>

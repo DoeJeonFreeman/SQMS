@@ -1438,7 +1438,7 @@
 									  // Density Plot - AMV vs. Sonde(VIS)		
 							       	  // Density Plot - AMV vs. Sonde(VIS)	
 							       	  // Density Plot - AMV vs. Sonde(VIS)	
-									  {title: "AMV vs. Sonde(SWIR)", folder: true, hideCheckbox:true,//
+									  {title: "AMV vs. Sonde(VIS)", folder: true, hideCheckbox:true,//
 								        children: [ 
 									      {title: "All Height", folder: true, hideCheckbox:true,//
 									        children: [//
@@ -1520,7 +1520,7 @@
 									  // Density Plot - AMV vs. Sonde(WVA)		
 							       	  // Density Plot - AMV vs. Sonde(WVA)	
 							       	  // Density Plot - AMV vs. Sonde(WVA)	
-									  {title: "AMV vs. Sonde(SWIR)", folder: true, hideCheckbox:true,//
+									  {title: "AMV vs. Sonde(WVA)", folder: true, hideCheckbox:true,//
 								        children: [ 
 									      {title: "All Height", folder: true, hideCheckbox:true,//
 									        children: [//
@@ -1585,7 +1585,7 @@
 									  // Density Plot - AMV vs. Sonde(WV1)		
 							       	  // Density Plot - AMV vs. Sonde(WV1)	
 							       	  // Density Plot - AMV vs. Sonde(WV1)	
-									  {title: "AMV vs. Sonde(SWIR)", folder: true, hideCheckbox:true,//
+									  {title: "AMV vs. Sonde(WV1)", folder: true, hideCheckbox:true,//
 								        children: [ 
 									      {title: "All Height", folder: true, hideCheckbox:true,//
 									        children: [//
@@ -1649,7 +1649,7 @@
 									  // Density Plot - AMV vs. NWP(WV2)		
 							       	  // Density Plot - AMV vs. NWP(WV2)	
 							       	  // Density Plot - AMV vs. NWP(WV2)	
-									  {title: "AMV vs. NWP(SWIR)", folder: true, hideCheckbox:true,//
+									  {title: "AMV vs. NWP(WV2)", folder: true, hideCheckbox:true,//
 								        children: [ 
 									      {title: "All Height", folder: true, hideCheckbox:true,//
 									        children: [//
@@ -1877,7 +1877,7 @@
 									  // Density Plot - AMV vs. NWP(VIS)		
 							       	  // Density Plot - AMV vs. NWP(VIS)	
 							       	  // Density Plot - AMV vs. NWP(VIS)	
-									  {title: "AMV vs. NWP(SWIR)", folder: true, hideCheckbox:true,//
+									  {title: "AMV vs. NWP(VIS)", folder: true, hideCheckbox:true,//
 								        children: [ 
 									      {title: "All Height", folder: true, hideCheckbox:true,//
 									        children: [//
@@ -1959,7 +1959,7 @@
 									  // Density Plot - AMV vs. NWP(WVA)		
 							       	  // Density Plot - AMV vs. NWP(WVA)	
 							       	  // Density Plot - AMV vs. NWP(WVA)	
-									  {title: "AMV vs. NWP(SWIR)", folder: true, hideCheckbox:true,//
+									  {title: "AMV vs. NWP(WVA)", folder: true, hideCheckbox:true,//
 								        children: [ 
 									      {title: "All Height", folder: true, hideCheckbox:true,//
 									        children: [//
@@ -2024,7 +2024,7 @@
 									  // Density Plot - AMV vs. NWP(WV1)		
 							       	  // Density Plot - AMV vs. NWP(WV1)	
 							       	  // Density Plot - AMV vs. NWP(WV1)	
-									  {title: "AMV vs. NWP(SWIR)", folder: true, hideCheckbox:true,//
+									  {title: "AMV vs. NWP(WV1)", folder: true, hideCheckbox:true,//
 								        children: [ 
 									      {title: "All Height", folder: true, hideCheckbox:true,//
 									        children: [//
@@ -2088,7 +2088,7 @@
 									  // Density Plot - AMV vs. NWP(WV2)		
 							       	  // Density Plot - AMV vs. NWP(WV2)	
 							       	  // Density Plot - AMV vs. NWP(WV2)	
-									  {title: "AMV vs. NWP(SWIR)", folder: true, hideCheckbox:true,//
+									  {title: "AMV vs. NWP(WV2)", folder: true, hideCheckbox:true,//
 								        children: [ 
 									      {title: "All Height", folder: true, hideCheckbox:true,//
 									        children: [//
@@ -3953,10 +3953,13 @@
 		    
 		  
 		      $("#btnDeselectAll_<c:out value='${param.identifier}'/>").click(function(){
-		        $("#treeWithCheckbox_<c:out value="${param.identifier}"/>").fancytree("getTree").visit(function(node){
-		          node.setSelected(false);
-		        });
-		        return false;
+		    	  //alert("#TSCWrapper_<c out value=${param.identifier}.remove()?")
+    			  //$("#TSCWrapper<c:out value="${param.identifier}"/>").remove();
+		
+		        //$("#treeWithCheckbox_<c out value="${param.identifier}"/>").fancytree("getTree").visit(function(node){
+		        //  node.setSelected(false);
+		        //});
+		        //return false;
 		      });
 		      $("#btnExpandAll_<c:out value='${param.identifier}'/>").click(function(){
 		    	$("#treeWithCheckbox_<c:out value='${param.identifier}'/>").fancytree("getRootNode").visit(function(node){
@@ -3991,9 +3994,11 @@
       <h5><a href="#" id="logger_<c out value='${param.identifier}'/>">haha</a></h5>
 	 -->
 	  <p style="padding-left:12px; font-size: 13px;">
-	    <a href="#" id="btnDeselectAll_<c:out value='${param.identifier}'/>">Remove all</a> -
-	    <a href="#" id="btnExpandAll_<c:out value='${param.identifier}'/>">Expand all</a> - 
-	    <a href="#" id="btnCollapseAll_<c:out value='${param.identifier}'/>">Collapse all</a>
+	    <a href="#" id="btnExpandAll_<c:out value='${param.identifier}'/>">전체 펼치기</a> - 
+	    <a href="#" id="btnCollapseAll_<c:out value='${param.identifier}'/>">전체 접기</a> 
+	    <!--
+	    <a href="#" id="btnDeselectAll_<c out value='${param.identifier}'/>">그래프 전체 지우기</a>
+	    -->
 	  </p>
 	  <!-- 
 	  <div>Selected keys: <span class="echoSelection2">-</span></div>

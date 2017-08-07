@@ -237,6 +237,43 @@
 			                      },
 			                    ]
 			                  }
+			                 //Level 2 Daily validation 
+			                 //Level 2 Daily validation 
+               				 ,{title: "Level 2 일검증결과 ", folder: true, hideCheckbox:true, expanded: true,
+			                    children: [
+			                      {title: "AI", folder: true, hideCheckbox:true, expanded: false,
+			                        children: [
+			                          {title: "AI 검증지표", key: "L2-QI04_0" }
+			                        ]
+			                      },
+			                      {title: "CA", folder: true, hideCheckbox:true, expanded: false,
+			                        children: [
+			                          {title: "CA 검증지표", key: "L2-QI01_0" }
+			                        ]
+			                      },
+			                      {title: "CLD", folder: true, hideCheckbox:true, expanded: false,
+			                        children: [
+			                          {title: "CLD 검증지표", key: "L2-QI02_0" }
+			                        ]
+			                      },
+			                      {title: "FOG", folder: true, hideCheckbox:true, expanded: false,
+			                        children: [
+			                          {title: "FOG 검증지표(COMS vs. GTS)", key: "L2-QI03_0" },
+			                          {title: "FOG 검증지표(COMS vs. Ground)", key: "L2-QI03_1" }
+			                        ]
+			                      },
+			                      {title: "RI", folder: true, hideCheckbox:true, expanded: false,
+			                        children: [
+			                          {title: "RI 검증지표", key: "L2-QI05_0" }
+			                        ]
+			                      },
+			                      {title: "SST", folder: true, hideCheckbox:true, expanded: false,
+			                        children: [
+			                          {title: "SST 검증지표", key: "L2-QI06_0" }
+			                        ]
+			                      },
+			                    ]
+			                  }
 			                 
 			                ];
 			
@@ -402,9 +439,9 @@
       <h5><a href="#" id="logger_<c out value='${param.identifier}'/>">haha</a></h5>
 	 -->
 	  <p style="padding-left:12px; font-size: 13px;">
-	    <a href="#" id="btnDeselectAll_<c:out value='${param.identifier}'/>">Deselect all</a> -
-	    <a href="#" id="btnExpandAll_<c:out value='${param.identifier}'/>">Expand all</a> - 
-	    <a href="#" id="btnCollapseAll_<c:out value='${param.identifier}'/>">Collapse all</a>
+	    <a href="#" id="btnExpandAll_<c:out value='${param.identifier}'/>">전체 펼치기</a> - 
+	    <a href="#" id="btnCollapseAll_<c:out value='${param.identifier}'/>">전체 접기</a> - 
+	    <a href="#" id="btnDeselectAll_<c:out value='${param.identifier}'/>">그래프 전체 지우기</a>
 	  </p>
 	  <!-- 
 	  <div>Selected keys: <span class="echoSelection2">-</span></div>

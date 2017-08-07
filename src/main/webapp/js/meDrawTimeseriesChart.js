@@ -1,3 +1,5 @@
+
+
 		function getDraggableContainerHTML(leadingStr, meTitle, titleWithDStr, ITEM_SIZE){
 			var idx = $("#tabs").tabs('option', 'active');
 			
@@ -71,6 +73,8 @@
 			
 			var chartId = 't'+idx+'_ts_'+leadingStr;
 			
+			var imageTypeAndDate = "\"" +  leadingStr + "\"";
+			
 			if($('#'+divId).length){
 //				sysout('if chartWrapperHTML [#' +divId+'] is already exiests ')
 //				sysout('then RETURN;')
@@ -104,14 +108,13 @@
 			draggableDiv +=	"			<div class='box-content'>";
 			
 		/*	
+		 * nav-circlepop
+		 * 
+		 */	
 			draggableDiv +=	"				<nav class='nav-circlepop djf'>";
-//			draggableDiv +=	"               	<a class='prev' href='/item1'><span class='icon-wrap'></span></a>";
-//			draggableDiv +=	"					<a class='next' href='/item3'><span class='icon-wrap'></span></a>";
-			draggableDiv +=	"               	<a class='prev' href='#'><span class='icon-wrap'></span></a>";
-			draggableDiv +=	"					<a class='next' href='#'><span class='icon-wrap'></span></a>";
+			draggableDiv +=	"               	<a class='prev' id='carousel_prev' href='#' onclick='changeImgSrc(this.id,$(this))'><span class='icon-wrap'></span></a>";
+			draggableDiv +=	"					<a class='next' id='carousel_next' href='#' onclick='changeImgSrc(this.id,$(this))'><span class='icon-wrap'></span></a>";
 			draggableDiv +=	"				</nav>";
-		*/	
-//			draggableDiv +=	"				<div id='"+ chartId + "' class='classySnob' style='height: 330px;margin: 0 auto;'></div>";
 			draggableDiv +=	"				<div id='"+ chartId + "' class='classySnob' style=''></div>";
 			draggableDiv +=	"			</div>";
 			draggableDiv +=	"		</div>";
@@ -120,7 +123,8 @@
 			return draggableDiv;
 		}
 
-
+		
+		
 //		
 //		Object.prototype.count = function () {
 //		    var count = 0;
@@ -218,7 +222,7 @@
 						marker : {
 							enabled : true,
 							radius : 2,
-							symbol:'square' // "circle", "square", "diamond", "triangle" and "triangle-down".
+							symbol:'circle' // "circle", "square", "diamond", "triangle" and "triangle-down".
 //							,states : {
 //								hover : {
 //									enabled : true,
@@ -228,7 +232,7 @@
 				    },
 				    scatter:{
 				    	marker : {
-				    		symbol:'square',
+				    		//symbol:'square',
 							radius : 2,
 						}
 				    },
@@ -787,7 +791,7 @@
 			                    width:1,
 			                    zIndex:4,
 			                    label:{text:'outlier'}
-			                }]*/
+			                }]
 				            ,plotLines:[{
 			                    value:2.7,
 			                    color: '#ff2a2c',
@@ -795,6 +799,7 @@
 			                    zIndex:4,
 			                    label:{text:'plotLine#01'}
 			                }]
+				             */
 				        }
 				        
 					
@@ -1431,7 +1436,6 @@
 				success: function(jsonData) {
 					if(jsonData.length==0){
 						$('#'+chartId).append("<span class='clear'>No data available.</span>");
-//						$('#'+chartId).append("<div class='loader' data-initialize='loader' data-frame='7' id='myFxxkingLoader'></div>");
 						return;
 					}
 
@@ -2456,7 +2460,7 @@
 //									zoomType : 'xy',
 								},
 								title: {
-									text: 'Cloud Amount 검증 지표',
+									text: 'CA 검증 지표 (COMS vs. GTS)',
 									align: 'center',
 									style:{
 										font:'bold 16px NanumGothic'
@@ -2635,7 +2639,7 @@
 //									zoomType : 'xy',
 								},
 								title: {
-									text: 'CLD 검증지표',
+									text: 'CLD 검증 지표 (COMS vs. MOD35)',
 									align: 'center',
 									style:{
 										font:'bold 16px NanumGothic'
@@ -2858,7 +2862,7 @@
 //									zoomType : 'xy',
 								},
 								title: {
-									text: 'FOG 검증 지표',
+									text: 'FOG 검증 지표 (COMS vs. GTS)',
 									align: 'center',
 									style:{
 										font:'bold 16px NanumGothic'
@@ -2944,9 +2948,9 @@
 //									min : 0
 								} ],
 								series: [
-								         {name: 'hit',	yAxis : 0, type : 'column',
+								         {name: 'hit',	yAxis : 0, type : 'scatter',
 								        	 connectNulls:false, data: []}
-								         ,{name:'false_alarm', yAxis : 0, type : 'column',
+								         ,{name:'false_alarm', yAxis : 0, type : 'scatter',
 								        	 connectNulls:false, data: []}
 								         ,{name:'vam_num', yAxis : 1, type : 'line', dashStyle : 'Dash',  gapSize: 1,
 								        	 connectNulls:false, data: []}
@@ -2989,6 +2993,182 @@
 							map.put(chartId, _chartInstance);
 //		 		        	sysout('checked:: ' +chartId);
 							systime('addChart_L2_FOG()', 'end');
+						},
+						cache: false,
+						
+					});	
+				}
+				
+				// 3.2. FOG  COMS vs. Ground  
+				// 3.2. FOG
+				// 3.2. FOG
+				// 3.2. FOG
+				// 3.2. FOG
+				// 3.2. FOG
+				function addChart_L2_FOG2(url,dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
+					systime('addChart_L2_FOG2()', 'begin');
+					$.ajax({
+						type: 'GET',
+						dataType:'json',
+//						url: '<c:url value='/' />timeseries/retrieval/L_1_A_VR',
+						url: url,
+						data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
+						success: function(jsonData) {
+							if(jsonData.length==0){
+								$('#'+chartId).append("<span class='clear'>No data available.</span>");
+								return;
+							}
+							
+							///////////////////////////////////////////////////////////////////////////////////////////////////////
+							chartingPeriod = chartingPeriod.toUpperCase();
+//							var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
+							var chartOptions = options_visibleLine ; 
+							///////////////////////////////////////////////////////////////////////////////////////////////////////
+							
+							//chart goes here
+//							var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_singleSeries,{
+							var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+								chart : {
+//									type : 'line',
+									renderTo : chartId,  								
+//									defaultSeriesType : 'line',
+//									animation: false,
+//									plotBorderWidth : 1,
+//									plotBorderColor : '#346691', // '#346691',
+//									zoomType : 'xy',
+								},
+								title: {
+									text: 'FOG 검증 지표 (COMS vs. Ground)',
+									align: 'center',
+									style:{
+										font:'bold 16px NanumGothic'
+									}
+								},
+								subtitle: {
+									text: null,
+									align: 'center',
+									style:{
+										font:'normal 13px NanumGothic'
+									}
+								},
+								
+								
+								yAxis : [ { // Primary yAxis temperature!!!!
+									///////////////////
+									alignTicks: false,
+									endOnTick: false,
+									///////////////////
+									tickColor: '#346691',
+									tickLength: 5,
+									tickWidth: 1,
+									tickPosition: 'outside',
+									labels: {
+										align: 'right',
+										x:-10,
+										y:5
+									},
+									min: 0,
+//									max:1,
+//									tickInterval: 0.25,
+									lineWidth:0,
+									// max:3,
+									// min: -3,
+									title: {
+										text: 'Hit / false_alarm',
+										style : {
+											font:'normal 12px NanumGothic'
+										}	
+									},
+									labels:{
+										style : {
+											font:'normal 11px NanumGothic'
+										},
+										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											return Highcharts.numberFormat(this.value, 1, '.', ',');
+										}
+									}
+								}, { // Secondary yAxis precipitation mm
+									///////////////////
+									alignTicks: false,
+									endOnTick: false,
+									///////////////////
+									tickColor: '#346691',
+									tickLength: 5,
+									tickWidth: 1,
+									tickPosition: 'outside',
+									labels: {
+										align: 'right',
+										x:-10,
+										y:5
+									},
+									lineWidth:0,
+//									tickInterval: 25,
+									// max:3,
+									// min: -3,
+									title: {
+										text: 'vam_num / cor_neg',
+										style : {
+											font:'normal 12px NanumGothic'
+										}	
+									},
+									labels:{
+										style : {
+											font:'normal 11px NanumGothic'
+										},
+										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											return Highcharts.numberFormat(this.value, 0, '.', ',');
+										}
+									},
+									gridLineWidth: 0,
+									opposite : true,
+//									min : 0
+								} ],
+								series: [
+								         {name: 'hit',	yAxis : 0, type : 'scatter',
+								        	 connectNulls:false, data: []}
+								         ,{name:'false_alarm', yAxis : 0, type : 'scatter',
+								        	 connectNulls:false, data: []}
+								         ,{name:'vam_num', yAxis : 1, type : 'line', dashStyle : 'Dash',  gapSize: 1,
+								        	 connectNulls:false, data: []}
+								         ,{name:'cor_neg', yAxis : 1, type : 'line', dashStyle : 'Dash',  gapSize: 1,
+								        	 connectNulls:false, data: []}
+								         ]
+								
+							})); //haha
+							
+							//chart goes here
+							
+							
+							$.each (Object.keys(jsonData), function(idx,val){
+								eachData_HIT = [];
+								eachData_FALSE_ALARM = [];
+								eachData_VAM_NUM = [];
+								eachData_COR_NEG = [];
+								
+								var vrDataObj = jsonData[val];
+								
+								for (var i = 0; i < vrDataObj.length; i++) {
+									var dateString = vrDataObj[i].DSTR;
+									var arr = dateString.split(" ");
+									var dStr = arr[0].split("-");
+									var tStr = arr[1].split(":");
+									var d = Date.UTC(dStr[0],dStr[1]*1-1,dStr[2],tStr[0],tStr[1],tStr[2]);
+									eachData_FALSE_ALARM.push([d,parseNumericVal(vrDataObj[i].FALSE_ALARM)]);
+									eachData_VAM_NUM.push([d,parseNumericVal(vrDataObj[i].VAM_NUM)]);
+									eachData_HIT.push([d,parseNumericVal(vrDataObj[i].HIT)]);
+									eachData_COR_NEG.push([d,parseNumericVal(vrDataObj[i].COR_NEG)]);							
+								}
+								_chartInstance.series[0].setData(eachData_HIT); 
+								_chartInstance.series[1].setData(eachData_FALSE_ALARM); 
+								_chartInstance.series[2].setData(eachData_VAM_NUM); 
+								_chartInstance.series[3].setData(eachData_COR_NEG); 
+							});
+							
+							//$('#'+chartId).pleaseWait('stop');	
+							//charts.push(_chartInstance);
+							map.put(chartId, _chartInstance);
+//		 		        	sysout('checked:: ' +chartId);
+							systime('addChart_L2_FOG2()', 'end');
 						},
 						cache: false,
 						
@@ -3038,7 +3218,7 @@
 //									zoomType : 'xy',
 								},
 								title: {
-									text: 'AI 검증 지표',
+									text: 'AI 검증 지표 (COMS vs. OMI)',
 									align: 'center',
 									style:{
 										font:'bold 16px NanumGothic'
@@ -3160,7 +3340,7 @@
 									var tStr = arr[1].split(":");
 									var d = Date.UTC(dStr[0],dStr[1]*1-1,dStr[2],tStr[0],tStr[1],tStr[2]);
 									eachData_PC.push([d,parseNumericVal(vrDataObj[i].PC)]);
-									eachData_BIAS.push([d,parseNumericVal(vrDataObj[i].FAR)]);
+									eachData_BIAS.push([d,parseNumericVal(vrDataObj[i].BIAS)]);
 									eachData_POD.push([d,parseNumericVal(vrDataObj[i].POD)]);
 									eachData_VAM_NUM.push([d,parseNumericVal(vrDataObj[i].VAM_NUM)]);
 									eachData_MISS.push([d,parseNumericVal(vrDataObj[i].MISS)]);
@@ -3184,6 +3364,378 @@
 						
 					});	
 				}
+				
+				
+				// 5. RI
+				// 5. RI
+				// 5. RI
+				// PC, BIAS, POD 값을 각각 scatter 
+				// Vam_num, miss, cor_neg 오른쪽 라인
+				
+				function addChart_L2_RI(url,dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
+					systime('addChart_L2_RI()', 'begin');
+					$.ajax({
+						type: 'GET',
+						dataType:'json',
+//						url: '<c:url value='/' />timeseries/retrieval/L_1_A_VR',
+						url: url,
+						data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
+						success: function(jsonData) {
+							if(jsonData.length==0){
+								$('#'+chartId).append("<span class='clear'>No data available.</span>");
+								return;
+							}
+							
+							///////////////////////////////////////////////////////////////////////////////////////////////////////
+							chartingPeriod = chartingPeriod.toUpperCase();
+//							var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
+							var chartOptions = options_visibleLine ; 
+							///////////////////////////////////////////////////////////////////////////////////////////////////////
+							
+							//chart goes here
+//							var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_singleSeries,{
+							var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+								chart : {
+//									type : 'line',
+									renderTo : chartId,  								
+//									defaultSeriesType : 'line',
+//									animation: false,
+//									plotBorderWidth : 1,
+//									plotBorderColor : '#346691', // '#346691',
+//									zoomType : 'xy',
+								},
+								title: {
+									text: 'RI 검증 지표 (COMS vs. AWS)',
+									align: 'center',
+									style:{
+										font:'bold 16px NanumGothic'
+									}
+								},
+								subtitle: {
+									text: null,
+									align: 'center',
+									style:{
+										font:'normal 13px NanumGothic'
+									}
+								},
+								
+								
+								yAxis : [ { // Primary yAxis temperature!!!!
+									///////////////////
+									alignTicks: false,
+									endOnTick: false,
+									///////////////////
+									tickColor: '#346691',
+									tickLength: 5,
+									tickWidth: 1,
+									tickPosition: 'outside',
+									labels: {
+										align: 'right',
+										x:-10,
+										y:5
+									},
+									//min: 0,
+									//max:1,
+									//tickInterval: 0.25,
+									lineWidth:0,
+									// max:3,
+									// min: -3,
+									title: {
+										text: 'PC / R / Bias / RMSE / POD',
+										style : {
+											font:'normal 12px NanumGothic'
+										}	
+									},
+									labels:{
+										style : {
+											font:'normal 11px NanumGothic'
+										},
+										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											return Highcharts.numberFormat(this.value, 2, '.', ',');
+										}
+									}
+								}, { // Secondary yAxis precipitation mm
+									///////////////////
+									alignTicks: false,
+									endOnTick: false,
+									///////////////////
+									tickColor: '#346691',
+									tickLength: 5,
+									tickWidth: 1,
+									tickPosition: 'outside',
+									labels: {
+										align: 'right',
+										x:-10,
+										y:5
+									},
+									lineWidth:0,
+//									tickInterval: 25,
+									// max:3,
+									// min: -3,
+									title: {
+										text: 'vam_num / miss / cor_neg',
+										style : {
+											font:'normal 12px NanumGothic'
+										}	
+									},
+									labels:{
+										style : {
+											font:'normal 11px NanumGothic'
+										},
+										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											return Highcharts.numberFormat(this.value, 0, '.', ',');
+										}
+									},
+									gridLineWidth: 0,
+									opposite : true,
+//									min : 0
+								} ],
+								series: [
+								         {name: 'PC',	yAxis : 0, type : 'scatter',
+								        	 connectNulls:false, data: []}
+								         ,{name:'Bias All', yAxis : 0, type : 'scatter',
+								        	 connectNulls:false, data: []}
+								         ,{name:'RMSE All', yAxis : 0, type : 'scatter',
+								        	 connectNulls:false, data: []}
+								         ,{name:'R All', yAxis : 0, type : 'scatter',
+								        	 connectNulls:false, data: []}
+								         ,{name:'POD', yAxis : 0, type : 'scatter',
+								        	 connectNulls:false, data: []}
+								         ,{name:'vam_num', yAxis : 1, type : 'line',  gapSize: 1,
+								        	 connectNulls:false, data: []}
+								         ,{name:'miss', yAxis : 1, type : 'line',  gapSize: 1,
+								        	 connectNulls:false, data: []}
+								         ,{name:'cor_neg', yAxis : 1, type : 'line',  gapSize: 1,
+								        	 connectNulls:false, data: []}
+								         ]
+								
+							})); //haha
+							
+							//chart goes here
+							
+							$.each (Object.keys(jsonData), function(idx,val){
+								eachData_PC = [];
+								eachData_BIAS = [];
+								eachData_RMSE = [];
+								eachData_R = [];
+								eachData_POD = [];
+								eachData_VAM_NUM = [];
+								eachData_MISS = [];
+								eachData_COR_NEG = [];
+								
+								var vrDataObj = jsonData[val];
+								
+								for (var i = 0; i < vrDataObj.length; i++) {
+									var dateString = vrDataObj[i].DSTR;
+									sysout(dateString)
+									var arr = dateString.split(" ");
+									var dStr = arr[0].split("-");
+									var tStr = arr[1].split(":");
+									var d = Date.UTC(dStr[0],dStr[1]*1-1,dStr[2],tStr[0],tStr[1],tStr[2]);
+									eachData_PC.push([d,parseNumericVal(vrDataObj[i].PC)]);
+									eachData_BIAS.push([d,parseNumericVal(vrDataObj[i].BIAS_ALL)]);
+									eachData_RMSE.push([d,parseNumericVal(vrDataObj[i].RMSE_ALL)]);
+									eachData_R.push([d,parseNumericVal(vrDataObj[i].R_A)]);
+									eachData_POD.push([d,parseNumericVal(vrDataObj[i].POD)]);
+									eachData_VAM_NUM.push([d,parseNumericVal(vrDataObj[i].VAM_NUM)]);
+									eachData_MISS.push([d,parseNumericVal(vrDataObj[i].MISS)]);
+									eachData_COR_NEG.push([d,parseNumericVal(vrDataObj[i].COR_NEG)]);
+								}
+								_chartInstance.series[0].setData(eachData_PC); 
+								_chartInstance.series[1].setData(eachData_BIAS); 
+								_chartInstance.series[2].setData(eachData_RMSE); 
+								_chartInstance.series[3].setData(eachData_R); 
+								_chartInstance.series[4].setData(eachData_POD); 
+								_chartInstance.series[5].setData(eachData_VAM_NUM); 
+								_chartInstance.series[6].setData(eachData_MISS); 
+								_chartInstance.series[7].setData(eachData_COR_NEG); 
+							});
+							
+							//$('#'+chartId).pleaseWait('stop');	
+							//charts.push(_chartInstance);
+							map.put(chartId, _chartInstance);
+//		 		        	sysout('checked:: ' +chartId);
+							systime('addChart_L2_RI()', 'end');
+						},
+						cache: false,
+						
+					});	
+				}
+				
+				function addChart_L2_SST(url,dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
+					systime('addChart_L2_SST()', 'begin');
+					$.ajax({
+						type: 'GET',
+						dataType:'json',
+//						url: '<c:url value='/' />timeseries/retrieval/L_1_A_VR',
+						url: url,
+						data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
+				        success: function(jsonData) {
+				        	if(jsonData.length==0){
+				        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+				        		return;
+				        	}
+
+							///////////////////////////////////////////////////////////////////////////////////////////////////////
+							chartingPeriod = chartingPeriod.toUpperCase();
+//							var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
+							var chartOptions = options_visibleLine ; 
+							///////////////////////////////////////////////////////////////////////////////////////////////////////
+								
+				        	//chart goes here
+//							var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_singleSeries,{
+								var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+								chart : {
+//									type : 'line',
+									renderTo : chartId,  								
+//									defaultSeriesType : 'line',
+//									animation: false,
+//									plotBorderWidth : 1,
+//									plotBorderColor : '#346691', // '#346691',
+//									zoomType : 'xy',
+								},
+								title: {
+									text: 'SST 검증 지표 (COMS vs. Buoy)',
+									align: 'center',
+									style:{
+										font:'bold 16px NanumGothic'
+									}
+								},
+								subtitle: {
+									text: null,
+									align: 'center',
+									style:{
+										font:'normal 13px NanumGothic'
+									}
+								},
+
+								
+								yAxis : [ { // Primary yAxis temperature!!!!
+									///////////////////
+									alignTicks: false,
+									endOnTick: false,
+									///////////////////
+									tickColor: '#346691',
+									tickLength: 5,
+									tickWidth: 1,
+									tickPosition: 'outside',
+									labels: {
+										align: 'right',
+										x:-10,
+										y:5
+									},
+								  	// min: 0,
+								  	// max:1,
+								  	//tickInterval: 0.25,
+									lineWidth:0,
+						    		 // max:3,
+								  	// min: -3,
+									 	title: {
+										text: 'R / Bias / RMSE',
+										style : {
+											font:'normal 12px NanumGothic'
+										}	
+									},
+									labels:{
+										style : {
+											font:'normal 11px NanumGothic'
+										},
+										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+							            	return Highcharts.numberFormat(this.value, 2, '.', ',');
+							            }
+									}
+								}, { // Secondary yAxis precipitation mm
+									///////////////////
+									alignTicks: false,
+									endOnTick: false,
+									///////////////////
+									tickColor: '#346691',
+									tickLength: 5,
+									tickWidth: 1,
+									tickPosition: 'outside',
+									labels: {
+										align: 'right',
+										x:-10,
+										y:5
+									},
+									lineWidth:0,
+									tickInterval: 25,
+						    		 // max:3,
+								  	// min: -3,
+									 	title: {
+										text: 'vam_num',
+										style : {
+											font:'normal 12px NanumGothic'
+										}	
+									},
+									labels:{
+										style : {
+											font:'normal 11px NanumGothic'
+										},
+										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+							            	return Highcharts.numberFormat(this.value, 0, '.', ',');
+							            }
+									},
+									gridLineWidth: 0,
+									opposite : true,
+//									min : 0
+								} ],
+							 	series: [
+									{name: 'Bias',	yAxis : 0, type : 'scatter',
+									  color: '#003399' ,
+									  connectNulls:false, data: []}
+									  ,{name:'RMSE', yAxis : 0, type : 'scatter',
+									  	color: '#f15c80' ,
+									  	connectNulls:false, data: []}
+									  ,{name:'R', yAxis : 0, type : 'scatter',
+									  	color: '#CCCC00' ,
+									  	connectNulls:false, data: []}
+									  ,{name:'vam_num', yAxis : 1, type : 'line',  gapSize: 1,
+									  	color: '#0099CC' ,
+									  	connectNulls:false, data: []}
+							  ]
+								
+							})); //haha
+				        	
+				        	//chart goes here
+				        	
+				        	
+		 		        	$.each (Object.keys(jsonData), function(idx,val){
+					        	eachData_BIAS = [];
+					        	eachData_RMSE = [];
+					        	eachData_R = [];
+					        	eachData_VAM_NUM = [];
+					        	
+				        		var vrDataObj = jsonData[val];
+				        		
+								for (var i = 0; i < vrDataObj.length; i++) {
+									var dateString = vrDataObj[i].DSTR;
+									var arr = dateString.split(" ");
+									var dStr = arr[0].split("-");
+									var tStr = arr[1].split(":");
+									var d = Date.UTC(dStr[0],dStr[1]*1-1,dStr[2],tStr[0],tStr[1],tStr[2]);
+									eachData_BIAS.push([d,parseNumericVal(vrDataObj[i].BIAS)]);
+									eachData_RMSE.push([d,parseNumericVal(vrDataObj[i].RMSE)]);
+									eachData_R.push([d,parseNumericVal(vrDataObj[i].R)]);
+									eachData_VAM_NUM.push([d,parseNumericVal(vrDataObj[i].VAM_NUM)]);
+								}
+								_chartInstance.series[0].setData(eachData_BIAS); 
+								_chartInstance.series[1].setData(eachData_RMSE); 
+								_chartInstance.series[2].setData(eachData_R); 
+								_chartInstance.series[3].setData(eachData_VAM_NUM); 
+							});
+							
+		 		        	//$('#'+chartId).pleaseWait('stop');	
+		 		        	//charts.push(_chartInstance);
+		 		        	map.put(chartId, _chartInstance);
+//		 		        	sysout('checked:: ' +chartId);
+		 		        	systime('addChart_L2_SST()', 'end');
+						},
+				        cache: false,
+				        
+					});	
+				}
+				
 //=======================================================================================================================================		
 //=======================================================================================================================================		
 //==== Level 2 Daily Validation End =====================================================================================================
@@ -3257,6 +3809,5 @@
 		    };
 		}());
 		
-
 		
 		

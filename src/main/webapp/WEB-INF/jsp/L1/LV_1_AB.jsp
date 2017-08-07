@@ -573,6 +573,72 @@ sysout(varSelected);
 						pleaseWait(meItem);
 						var url = '<c:url value='/' />timeseries/retrieval/L_1_B_SCATT';
 						addChart_LV1B_EV_SCATT(url, dStr, d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
+					//Level 2 Level 2 Level 2 Level 2 Level 2 Level 2 	
+					//Level 2 Level 2 Level 2 Level 2 Level 2 Level 2 
+					// 1. CLA
+					// 1. CLA
+					// 1. CLA
+					} else if(typeOfChart=='L2-QI01'){ 
+						var radianceHTML =  getDraggableContainerHTML(itm, 'Cloud Amount','nodet', ITEM_SIZE);
+						$(targetDivId).append(radianceHTML);
+						pleaseWait(meItem);
+						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_CLA_DAILY_VALIDATION';
+						addChart_L2_CLA(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
+					// 2. CLD
+					// 2. CLD
+					// 2. CLD
+					}else if(typeOfChart=='L2-QI02'){ 
+						var radianceHTML =  getDraggableContainerHTML(itm, 'CLD  - COMS vs. MOD35','nodet', ITEM_SIZE);
+						$(targetDivId).append(radianceHTML);
+						pleaseWait(meItem);
+						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_CLD_DAILY_VALIDATION';
+						addChart_L2_CLD(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
+					// 3. FOG	
+					// 3. FOG	
+					// 3. FOG	
+					}else if(typeOfChart=='L2-QI03'){ 
+						// 3.1. Fog COMS vs. GTS						
+						if(detectorNum=='0'){
+							var radianceHTML =  getDraggableContainerHTML(itm, 'FOG - COMS vs. GTS','nodet', ITEM_SIZE);
+							$(targetDivId).append(radianceHTML);
+							pleaseWait(meItem);
+							var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_FOG_DAILY_VALIDATION';
+							addChart_L2_FOG(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
+						// 3.2. Fog COMS vs. Ground						
+						}else if(detectorNum=='1'){
+							var radianceHTML =  getDraggableContainerHTML(itm, 'FOG - COMS vs. Ground','nodet', ITEM_SIZE);
+							$(targetDivId).append(radianceHTML);
+							pleaseWait(meItem);
+							var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_FOG_DAILY_VALIDATION_VS_GROUND';
+							addChart_L2_FOG2(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
+						}
+					// 4. AI
+					// 4. AI
+					// 4. AI
+					}else if(typeOfChart=='L2-QI04'){ 
+						var radianceHTML =  getDraggableContainerHTML(itm, 'AI  - COMS vs. OMI','nodet', ITEM_SIZE);
+						$(targetDivId).append(radianceHTML);
+						pleaseWait(meItem);
+						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_AI_DAILY_VALIDATION';
+						addChart_L2_AI(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
+					// 5. RI
+					// 5. RI
+					// 5. RI
+					}else if(typeOfChart=='L2-QI05'){ 
+						var radianceHTML =  getDraggableContainerHTML(itm, 'RI','nodet', ITEM_SIZE);
+						$(targetDivId).append(radianceHTML);
+						pleaseWait(meItem);
+						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_RI_DAILY_VALIDATION';
+						addChart_L2_RI(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
+					// 6. SST
+					// 6. SST
+					// 6. SST
+					}else if(typeOfChart=='L2-QI06'){ 
+						var radianceHTML =  getDraggableContainerHTML(itm, 'SST  - COMS vs. Buoy','nodet', ITEM_SIZE);
+						$(targetDivId).append(radianceHTML);
+						pleaseWait(meItem);
+						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_SST_DAILY_VALIDATION';
+						addChart_L2_SST(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 					}
 					
 				});
@@ -996,7 +1062,7 @@ sysout(varSelected);
 	            	<ul id="breadcrumbs-one" class="pull-right vcenter" >
 						<li><a href="${pageContext.request.contextPath}/cmm/main/mainPage.do">Home</a></li>
 						<!-- <li><a>Level 1 A</a></li> -->
-						<li><a>품질지표 1</a></li>
+						<li><a>품질지표 모니터링</a></li>
 					</ul>
             	</div>
             </div>
@@ -1113,7 +1179,7 @@ sysout(varSelected);
                		<!-- 
 			        	<c import url="/mePageLink.do?link=L1/WHOLE_CONDITIONS" />
                		 -->
-			        	<c:import url="/mePageLink.do?link=L1/ENTIRE_CONDITIONS_L1">
+			        	<c:import url="/mePageLink.do?link=L1/ENTIRE_VARIABLES">
 			        		<c:param name="identifier" value="0"/>
 			        	</c:import>
                		</div>
@@ -1121,7 +1187,7 @@ sysout(varSelected);
                			<!-- 
 			        	<c import url="/mePageLink.do?link=L1/WHOLE_CONDITIONS" />
                			 -->
-			        	<c:import url="/mePageLink.do?link=L1/ENTIRE_CONDITIONS_L1">
+			        	<c:import url="/mePageLink.do?link=L1/ENTIRE_VARIABLES">
 			        		<c:param name="identifier" value="1"/>
 			        	</c:import>
                		</div>
@@ -1129,7 +1195,7 @@ sysout(varSelected);
 	               		<!-- 
 			        	<c import url="/mePageLink.do?link=L1/WHOLE_CONDITIONS" />
 	               		 -->
-               			<c:import url="/mePageLink.do?link=L1/ENTIRE_CONDITIONS_L1">
+               			<c:import url="/mePageLink.do?link=L1/ENTIRE_VARIABLES">
                				<c:param name="identifier" value="2"/>
 			        	</c:import>
                		</div>

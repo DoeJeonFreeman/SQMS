@@ -174,6 +174,7 @@
 			var dActualTitle = dActual.customFormat("(#YYYY#.#MM#.)");
 			var repositoryUrl = "http://intra.nmsc.kma.go.kr/emcoms/VIMG/QCM/DATA/"; 
 //			var repositoryUrl = "http://2csolution.iptime.org:8880/~doejeon/QIMS_L2MonthlyValidation/emcoms/VIMG/QCM/DATA/"; 
+//			var repositoryUrl = "http://2csolution.iptime.org:8880/~doejeon/QIMS_L2MonthlyValidation/emcoms/VIMG/QCM/DATA/"; 
 			var repositoryYmd = dActual.customFormat("/Y#YYYY#/M#MM#/D01/");
 				
 			$.each (varSelected, function(i,item){ //itm == cb name attr
@@ -196,9 +197,9 @@
 					titleStr += eachTitle;				
 					if(index != tokens.length-1) titleStr += ' - ';
 				});
-				//toastr.error(titleStr );
+//				toastr.error(titleStr );
 				
-				var imgPrefix = item.node.data.key;
+				var imgPrefix = item.node.key;
 				var varAbbr = item.node.data.abbr;
 				
 				titleStr = titleStr.replace(/\(/,"*");
@@ -219,7 +220,7 @@
 					boxContentIdentifier = boxContentIdentifier.replace(/\./g,"");
 					boxContentIdentifier = boxContentIdentifier.replace(/\//g,"");
 					boxContentIdentifier = boxContentIdentifier.replace(/ /g,""); */
-					$('#'+boxContentIdentifier).append("<span class='clear'><img class='img-responsive center-block' src='"+NMSCPath+"'/></span>")
+					$('#'+boxContentIdentifier).append("<span class='clear'><img class='img-responsive center-block imagecls' src='"+NMSCPath+"' onerror='return errOccuredWhileChangingSource(this)'/></span>")
 				}else{
 					var yyyymm = dActual.customFormat("#YYYY#.#MM#.");
 //					var currItem =  key.split('-').join(' ') ;
@@ -236,9 +237,12 @@
  		}
 					
 		
+		function errOccuredWhileChangingSource(imgObj){
+			imgObj.src = "<c:url value='/assets/noDataAvailable.png'/>";
+			return true;
+		}
 	
-		
-		
+	
 		/** pannel_dateRetrieval begin*/
 		/** pannel_dateRetrieval begin*/
 		/** pannel_dateRetrieval begin*/
@@ -305,6 +309,46 @@
 		/** pannel_dateRetrieval end*/
 		/** pannel_dateRetrieval end*/
 		
+//		function changeImgSrc(navObjId, type_n_date){
+		function changeImgSrc(navObjId,navObj){
+/* 			navObj.parent().parent().children().each(function() {
+				alert("childs")
+			});
+ */
+			//navObj.parent().next().find('img').attr('src','chsrc');
+//			alert(navObj.parent().next().attr('id'))
+//			alert(navObj.parent().next().find('img').attr('src'));
+			//navObj.parent().next().find('img').attr('src','chsrc');
+			
+// 			var arr = type_n_date.split('_');
+ 			var arr = navObj.parent().next().attr('id').split('_');
+			var ymd = arr[arr.length-1];
+			var dStr = ymd.substring(0,4)+'-'+ymd.substring(4,6)+'-'+ymd.substring(6,8);
+			var dActual = moment(dStr, 'YYYY-MM-DD').add((navObjId=='carousel_prev')? -1 : 1, 'M').toDate(); //use .toDate() to transform a moment object into a js date obj haha
+			var dActualStr = dActual.customFormat("#YYYY##MM#01");
+			var repositoryUrl = "http://intra.nmsc.kma.go.kr/emcoms/VIMG/QCM/DATA/"; 
+//			var repositoryUrl = "http://2csolution.iptime.org:8880/~doejeon/QIMS_L2MonthlyValidation/emcoms/VIMG/QCM/DATA/"; 
+			var repositoryYmd = dActual.customFormat("/Y#YYYY#/M#MM#/D01/");
+			var NMSCPath= repositoryUrl + arr[2].toUpperCase() + repositoryYmd + 'coms_mi_' + arr[2]+'_' + arr[3] + '_cn_' + dActualStr + '.png';
+//			alert('['+navObjId+']' + NMSCPath);   
+			navObj.parent().next().find('img').attr('src',NMSCPath);
+//			alert('chsrc '+ navObj.parent().next().find('img').attr('src'));
+
+			
+			/* 
+ 			var arr = type_n_date.split('_');
+			var ymd = arr[arr.length-1];
+			var dStr = ymd.substring(0,4)+'-'+ymd.substring(4,6)+'-'+ymd.substring(6,8);
+			var dActual = moment(dStr, 'YYYY-MM-DD').add((navObjId=='carousel_prev')? -1 : 1, 'M').toDate(); //use .toDate() to transform a moment object into a js date obj haha
+			var dActualStr = dActual.customFormat("#YYYY##MM#01");
+//			var repositoryUrl = "http://intra.nmsc.kma.go.kr/emcoms/VIMG/QCM/DATA/"; 
+			var repositoryUrl = "http://2csolution.iptime.org:8880/~doejeon/QIMS_L2MonthlyValidation/emcoms/VIMG/QCM/DATA/"; 
+			var repositoryYmd = dActual.customFormat("/Y#YYYY#/M#MM#/D01/");
+			var NMSCPath= repositoryUrl + arr[0].toUpperCase() + repositoryYmd + 'coms_mi_' +arr[0]+'_' + arr[1]+'_' +arr[2]+'_' + arr[3] + '_cn_' + dActualStr + '.png';
+			alert('['+type_n_date + ' :: ' + navObjId+']' + NMSCPath);  
+			 */
+		}
+
 		
 	 
 	     function initMenu() {
@@ -425,7 +469,10 @@
 			//resize draggableITem
 			//resize draggableITem
 			
-
+/* 			$('#carousel_prev').click(function(){
+				
+			});
+ */
 			
 		});
 	</script>
@@ -570,8 +617,10 @@
            		<div class="pull-right" style="padding-right:50px;"> 
 	            	<ul id="breadcrumbs-one" class="pull-right vcenter" >
 						<li><a href="${pageContext.request.contextPath}/cmm/main/mainPage.do">Home</a></li>
+						<!-- 
 						<li><a>L2 품질감시</a></li>
-						<li><a>월검증결과</a></li>
+						 -->
+						<li><a>월간 L2 품질검증</a></li>
 					</ul>
             	</div>
             </div>
