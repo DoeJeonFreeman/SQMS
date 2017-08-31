@@ -429,6 +429,14 @@
 				sysout('======> remove [' +leadingStr  + cbName.substr(cbName.indexOf("_")+1) + '] from maps'); 
 				sysout(map);
 			});
+		  	
+		  	/* $("#treeWithCheckbox_0").fancytree("getTree").getNodeByKey('L1A-QI01_0').setSelected(true); */
+		  	var params = getUrlParams();
+			sysout(params)
+			if( params.productNodeID != undefined){
+				sysout('>>>[productNodeID] is :: ' + params.productNodeID);
+				$("#treeWithCheckbox_0").fancytree("getTree").getNodeByKey(params.productNodeID).setSelected(true); 				
+			}
 		      
 		      
 	 	});

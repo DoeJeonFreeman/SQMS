@@ -185,6 +185,15 @@
 		*/
 		function getSelectedVarialbes(idx){
 			sysout('==[begin]========getSelectedVarialbes(idx)==========================//'); 
+			/* var params = getUrlParams();
+			sysout(params)
+			if( params.productNodeID != undefined){
+				sysout('>>>[productNodeID] is :: ' + params.productNodeID);
+				$("#treeWithCheckbox_0").fancytree("getTree").getNodeByKey(params.productNodeID).setSelected(true); 				
+			} */
+			
+			/* sysout(params.startDate); */
+			/* sysout(params.endDate); */
 			var selected = [];
 			var key_laedingStr = 't' + idx + '_ts_';
 			$.each(map.keys(), function( index, keyStr ){

@@ -8,7 +8,7 @@
 	Doe Jeon Freeman
 ---------------------------------------------*/
 
-var isVERBOSE = false; 
+var isVERBOSE = true; 
 
 function sysout(str) {
 	if(!isVERBOSE) return;
@@ -20,6 +20,14 @@ function systime(str, flag) {
 	if(window['console']!='undefined' &&flag=='begin') console.time(str);
 	if(window['console']!='undefined' &&flag=='end') console.timeEnd(str);
 }
+
+
+function getUrlParams() {
+    var params = {};
+    window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+    return params;
+} 
+
 
 if (!String.prototype.startsWith) {
     String.prototype.startsWith = function(searchString, position){
