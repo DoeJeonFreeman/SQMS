@@ -13,4 +13,16 @@ public interface TimeSeriesDataDAO_L2 {
 	 public ArrayList<HashMap<String,Object>> selectTimeSeriesData_L2_RI (HashMap<String, String> hashmap);
 	 public ArrayList<HashMap<String,Object>> selectTimeSeriesData_L2_SST (HashMap<String, String> hashmap);
 	 
+	 public ArrayList<HashMap<String,Object>> selectTimeSeriesData_L2_AOD (HashMap<String, String> hashmap);
+	 public ArrayList<HashMap<String,Object>> selectTimeSeriesData_L2_INS (HashMap<String, String> hashmap);
+	 public ArrayList<HashMap<String,Object>> selectTimeSeriesData_L2_LST (HashMap<String, String> hashmap);
+	 public ArrayList<HashMap<String,Object>> selectTimeSeriesData_L2_OLR (HashMap<String, String> hashmap);
+	 public ArrayList<HashMap<String,Object>> selectTimeSeriesData_L2_OLR2 (HashMap<String, String> hashmap);
+	 public ArrayList<HashMap<String,Object>> selectTimeSeriesData_L2_OLR3 (HashMap<String, String> hashmap);
+	 public ArrayList<HashMap<String,Object>> selectTimeSeriesData_L2_OLR4 (HashMap<String, String> hashmap);
+	 public ArrayList<HashMap<String,Object>> selectTimeSeriesData_L2_SSI (HashMap<String, String> hashmap);
+	 public ArrayList<HashMap<String,Object>> selectTimeSeriesData_L2_SSI2 (HashMap<String, String> hashmap);
+	 public ArrayList<HashMap<String,Object>> selectTimeSeriesData_L2_TPW (HashMap<String, String> hashmap);
+	 public ArrayList<HashMap<String,Object>> selectTimeSeriesData_L2_UTH (HashMap<String, String> hashmap);
+	 
 }	 

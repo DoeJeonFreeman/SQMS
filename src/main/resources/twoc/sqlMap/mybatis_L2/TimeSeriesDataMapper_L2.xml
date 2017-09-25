@@ -23,10 +23,10 @@
 	<!-- CLA -->
 	<!-- CLA -->
  	<select id="selectTimeSeriesData_L2_CLA" parameterType="hashmap" resultType="hashmap">
-	    select to_char(INIT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, R, BIAS, RMSE, VAM_NUM 
+	    select to_char(SAT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, R, BIAS, RMSE, VAM_NUM 
 	    	FROM CA_VS_GTS
-			WHERE INIT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
-		    		AND INIT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			WHERE SAT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND SAT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
 			ORDER BY DSTR
  	</select>
 
@@ -38,11 +38,11 @@
 	<!-- CLD -->
 	<!-- CLD -->
  	<select id="selectTimeSeriesData_L2_CLD" parameterType="hashmap" resultType="hashmap">
-	    select to_char(END_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, VAM_NUM, HIT, FALSE_ALARM, MISS, COR_NEG, 
+	    select to_char(SAT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, VAM_NUM, HIT, FALSE_ALARM, MISS, COR_NEG, 
 	    	PC, POD, FAR, PSS, HSS 
 	    	FROM CLD_MOD35
-			WHERE END_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
-    		AND END_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			WHERE SAT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+    		AND SAT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
 			ORDER BY DSTR
  	</select>
  	
@@ -53,23 +53,23 @@
 	<!-- FOG -->
 	<!-- FOG -->
  	<select id="selectTimeSeriesData_L2_FOG" parameterType="hashmap" resultType="hashmap">
-	    select to_char(INIT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, HIT, FALSE_ALARM, VAM_NUM, COR_NEG
+	    select to_char(SAT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, HIT, FALSE_ALARM, VAM_NUM, COR_NEG
 	    	FROM FOG_VS_GTS
-			WHERE INIT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
-		    		AND INIT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			WHERE SAT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND SAT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
 			ORDER BY DSTR
  	</select>
  	
 	<!--3.2. FOG -->
 	<!-- COMS vs. Ground -->
  	<select id="selectTimeSeriesData_L2_FOG2" parameterType="hashmap" resultType="hashmap">
-	    select to_char(INIT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, HIT, FALSE_ALARM, VAM_NUM, COR_NEG
+	    select to_char(SAT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, HIT, FALSE_ALARM, VAM_NUM, COR_NEG
 	    	FROM FOG_VS_GR
-			WHERE INIT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
-		    AND INIT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS') 
-		    <!-- INIT_DATE가 두 개씩 겹치는 레코드가 있어서 일단 얘네들은 제외시켰음. 대표님한테 자료처리 다시 해달라고 요청해야함. 2017.07.20. 
-		    		group by INIT_DATE, HIT, FALSE_ALARM, VAM_NUM, COR_NEG
-        			having count(INIT_DATE) &lt; 2
+			WHERE SAT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    AND SAT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS') 
+		    <!-- SAT_DATE가 두 개씩 겹치는 레코드가 있어서 일단 얘네들은 제외시켰음. 대표님한테 자료처리 다시 해달라고 요청해야함. 2017.07.20. 
+		    		group by SAT_DATE, HIT, FALSE_ALARM, VAM_NUM, COR_NEG
+        			having count(SAT_DATE) &lt; 2
 		     -->
 			ORDER BY DSTR
  	</select>
@@ -82,10 +82,10 @@
 	<!-- AI -->
 	<!-- AI -->
  	<select id="selectTimeSeriesData_L2_AI" parameterType="hashmap" resultType="hashmap">
-	    select to_char(INIT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, VAM_NUM, MISS, COR_NEG, PC, BIAS, POD
+	    select to_char(SAT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, VAM_NUM, MISS, COR_NEG, PC, BIAS, POD
 	    	FROM AI_VS_OMI
-			WHERE INIT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
-		    		AND INIT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			WHERE SAT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND SAT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
 			ORDER BY DSTR
  	</select>
  	
@@ -93,23 +93,124 @@
 	<!--5. RI -->
 	<!-- RI -->
  	<select id="selectTimeSeriesData_L2_RI" parameterType="hashmap" resultType="hashmap">
-	    select to_char(INIT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, VAM_NUM, MISS, COR_NEG, PC, BIAS_ALL,RMSE_ALL, R_A,  POD
+	    select to_char(SAT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, VAM_NUM, MISS, COR_NEG, PC, BIAS_ALL,RMSE_ALL, R_A,  POD
 	    	FROM RI_VS_AWS
-			WHERE INIT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
-		    		AND INIT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			WHERE SAT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND SAT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
 			ORDER BY DSTR
  	</select>
  	
 	<!--6. SST -->
 	<!-- SST -->
  	<select id="selectTimeSeriesData_L2_SST" parameterType="hashmap" resultType="hashmap">
-	    select to_char(INIT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, R, BIAS, RMSE, VAM_NUM 
+	    select to_char(SAT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, R, BIAS, RMSE, VAM_NUM 
 	    	FROM SST_VS_BUOY
-			WHERE INIT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
-		    		AND INIT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			WHERE SAT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND SAT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
 			ORDER BY DSTR
  	</select>
 
+
+	<!--10. AOD -->
+	<!-- AOD -->
+ 	<select id="selectTimeSeriesData_L2_AOD" parameterType="hashmap" resultType="hashmap">
+	    select to_char(SAT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, R, BIAS, RMSE, VAM_NUM 
+	    	FROM AOD_VS_MOD04
+			WHERE SAT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND SAT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			ORDER BY DSTR
+ 	</select>
+
+	<!--11. INS -->
+ 	<select id="selectTimeSeriesData_L2_INS" parameterType="hashmap" resultType="hashmap">
+	    select to_char(SAT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, R, BIAS, RMSE, VAM_NUM 
+	    	FROM INS_VS_GR
+			WHERE SAT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND SAT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			ORDER BY DSTR
+ 	</select>
+
+	<!--12. LST -->
+ 	<select id="selectTimeSeriesData_L2_LST" parameterType="hashmap" resultType="hashmap">
+	    select to_char(SAT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, R, BIAS, RMSE, VAM_NUM 
+	    	FROM LST_VS_MYD11
+			WHERE SAT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND SAT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			ORDER BY DSTR
+ 	</select>
+
+	<!--13. OLR 1 -->
+ 	<select id="selectTimeSeriesData_L2_OLR" parameterType="hashmap" resultType="hashmap">
+	    select to_char(SAT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, R, BIAS, RMSE, VAM_NUM 
+	    	FROM OLR_BEST_VS_CERES
+			WHERE SAT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND SAT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			ORDER BY DSTR
+ 	</select>
+	<!--13. OLR 2-->
+ 	<select id="selectTimeSeriesData_L2_OLR2" parameterType="hashmap" resultType="hashmap">
+	    select to_char(SAT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, R, BIAS, RMSE, VAM_NUM 
+	    	FROM OLR1_VS_CERES
+			WHERE SAT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND SAT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			ORDER BY DSTR
+ 	</select>
+	<!--13. OLR 3-->
+ 	<select id="selectTimeSeriesData_L2_OLR3" parameterType="hashmap" resultType="hashmap">
+	    select to_char(SAT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, R, BIAS, RMSE, VAM_NUM 
+	    	FROM OLR2_VS_CERES
+			WHERE SAT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND SAT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			ORDER BY DSTR
+ 	</select>
+	<!--13. OLR 4-->
+ 	<select id="selectTimeSeriesData_L2_OLR4" parameterType="hashmap" resultType="hashmap">
+	    select to_char(SAT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, R, BIAS, RMSE, VAM_NUM 
+	    	FROM OLR3_VS_CERES
+			WHERE SAT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND SAT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			ORDER BY DSTR
+ 	</select>
+ 	
+ 	
+	<!--14. SSI 1-->
+ 	<select id="selectTimeSeriesData_L2_SSI" parameterType="hashmap" resultType="hashmap">
+	    select to_char(SAT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, VAM_NUM, HIT, FALSE_ALARM, MISS, COR_NEG, 
+	    	PC, POD, FAR, TS, POFD 
+	    	FROM SSI_VS_IMS_SEAICE
+			WHERE SAT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+    		AND SAT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			ORDER BY DSTR
+ 	</select>
+ 	
+	<!--14. SSI 2-->
+ 	<select id="selectTimeSeriesData_L2_SSI2" parameterType="hashmap" resultType="hashmap">
+	    select to_char(SAT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, VAM_NUM, HIT, FALSE_ALARM, MISS, COR_NEG, 
+	    	PC, POD, FAR, TS, POFD 
+	    	FROM SSI_VS_IMS_SNOWCOVER
+			WHERE SAT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+    		AND SAT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			ORDER BY DSTR
+ 	</select>
+ 	
+	<!--15. TPW-->
+ 	<select id="selectTimeSeriesData_L2_TPW" parameterType="hashmap" resultType="hashmap">
+	    select to_char(SAT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, R, BIAS, RMSE, VAM_NUM 
+	    	FROM TPW_VS_SONDE
+			WHERE SAT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND SAT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			ORDER BY DSTR
+ 	</select>
+ 	
+	<!--16. UTH-->
+ 	<select id="selectTimeSeriesData_L2_UTH" parameterType="hashmap" resultType="hashmap">
+	    select to_char(SAT_DATE, 'YYYY-MM-DD HH24:MI:SS') as DSTR, R, BIAS, RMSE, VAM_NUM 
+	    	FROM UTH_VS_SONDE
+			WHERE SAT_DATE &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    		AND SAT_DATE &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')  	 
+			ORDER BY DSTR
+ 	</select>
+ 	
 
 
 	

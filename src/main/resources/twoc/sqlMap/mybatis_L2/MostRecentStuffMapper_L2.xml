@@ -14,7 +14,7 @@
 
   <select id="seekLatestStuff_L2Daily" parameterType="string" resultMap="up2dateObj">
   	SELECT 
-  		TO_CHAR(max(END_DATE) ,'YYYY-MM-DD HH24:MI:SS') as lateststuff
+  		TO_CHAR(max(C_DATE) ,'YYYY-MM-DD HH24:MI:SS') as lateststuff
 		FROM CLD_MOD35;
   </select>
   

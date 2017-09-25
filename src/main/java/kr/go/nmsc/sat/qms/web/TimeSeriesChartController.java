@@ -328,9 +328,377 @@ public class TimeSeriesChartController {
 
 	
 	
+	/* 10
+	 * 
+	 * AOD
+	 * 
+	 * */
+	@RequestMapping(value = "timeseries/retrieval/L_2_AOD_DAILY_VALIDATION", method=RequestMethod.GET)
+	@ResponseBody
+	public ArrayList<Vector> selectMatchingData_lvl_2_AOD(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+		
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", dBegin);
+		hashmap.put("detector", detector);
+		
+		ArrayList<HashMap<String,Object>> results = timeSeriesDataDAOService_L2.selectTimeSeriesData_L2_AOD(hashmap);
+		
+		ArrayList<Vector> arr = new ArrayList<Vector>();
+		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
+		
+		for(HashMap<String,Object> row : results){
+//			if(row.get("RMSE").toString().equals("RadianceMin")){
+				vec0.add(row);
+//			}
+//			}else if(row.get("NAME").toString().equals("RadianceSTD")){
+//				vec4.add(row);
+//			}
+		}
+		if(vec0.size()!=0)arr.add(vec0);
+		return arr;
+	}
+	
+	/* 11
+	 * 
+	 * INS
+	 * 
+	 * */
+	@RequestMapping(value = "timeseries/retrieval/L_2_INS_DAILY_VALIDATION", method=RequestMethod.GET)
+	@ResponseBody
+	public ArrayList<Vector> selectMatchingData_lvl_2_INS(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+		
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", dBegin);
+		hashmap.put("detector", detector);
+		
+		ArrayList<HashMap<String,Object>> results = timeSeriesDataDAOService_L2.selectTimeSeriesData_L2_INS(hashmap);
+		
+		ArrayList<Vector> arr = new ArrayList<Vector>();
+		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
+		
+		for(HashMap<String,Object> row : results){
+//			if(row.get("RMSE").toString().equals("RadianceMin")){
+			vec0.add(row);
+//			}
+//			}else if(row.get("NAME").toString().equals("RadianceSTD")){
+//				vec4.add(row);
+//			}
+		}
+		if(vec0.size()!=0)arr.add(vec0);
+		return arr;
+	}
+	
+	/* 12
+	 * 
+	 * LST
+	 * 
+	 * */
+	@RequestMapping(value = "timeseries/retrieval/L_2_LST_DAILY_VALIDATION", method=RequestMethod.GET)
+	@ResponseBody
+	public ArrayList<Vector> selectMatchingData_lvl_2_LST(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+		
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", dBegin);
+		hashmap.put("detector", detector);
+		
+		ArrayList<HashMap<String,Object>> results = timeSeriesDataDAOService_L2.selectTimeSeriesData_L2_LST(hashmap);
+		
+		ArrayList<Vector> arr = new ArrayList<Vector>();
+		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
+		
+		for(HashMap<String,Object> row : results){
+//			if(row.get("RMSE").toString().equals("RadianceMin")){
+			vec0.add(row);
+//			}
+//			}else if(row.get("NAME").toString().equals("RadianceSTD")){
+//				vec4.add(row);
+//			}
+		}
+		if(vec0.size()!=0)arr.add(vec0);
+		return arr;
+	}
 	
 	
 	
+	/* 13
+	 * 
+	 * OLR 1
+	 * 
+	 * */
+	@RequestMapping(value = "timeseries/retrieval/L_2_OLR_DAILY_VALIDATION", method=RequestMethod.GET)
+	@ResponseBody
+	public ArrayList<Vector> selectMatchingData_lvl_2_OLR(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+		
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", dBegin);
+		hashmap.put("detector", detector);
+		
+		ArrayList<HashMap<String,Object>> results = timeSeriesDataDAOService_L2.selectTimeSeriesData_L2_OLR(hashmap);
+		
+		ArrayList<Vector> arr = new ArrayList<Vector>();
+		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
+		
+		for(HashMap<String,Object> row : results){
+//			if(row.get("RMSE").toString().equals("RadianceMin")){
+			vec0.add(row);
+//			}
+//			}else if(row.get("NAME").toString().equals("RadianceSTD")){
+//				vec4.add(row);
+//			}
+		}
+		if(vec0.size()!=0)arr.add(vec0);
+		return arr;
+	}
+	
+	/* 13
+	 * 
+	 * OLR 2
+	 * 
+	 * */
+	@RequestMapping(value = "timeseries/retrieval/L_2_OLR2_DAILY_VALIDATION", method=RequestMethod.GET)
+	@ResponseBody
+	public ArrayList<Vector> selectMatchingData_lvl_2_OLR2(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+		
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", dBegin);
+		hashmap.put("detector", detector);
+		
+		ArrayList<HashMap<String,Object>> results = timeSeriesDataDAOService_L2.selectTimeSeriesData_L2_OLR2(hashmap);
+		
+		ArrayList<Vector> arr = new ArrayList<Vector>();
+		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
+		
+		for(HashMap<String,Object> row : results){
+//			if(row.get("RMSE").toString().equals("RadianceMin")){
+			vec0.add(row);
+//			}
+//			}else if(row.get("NAME").toString().equals("RadianceSTD")){
+//				vec4.add(row);
+//			}
+		}
+		if(vec0.size()!=0)arr.add(vec0);
+		return arr;
+	}
+	
+	
+	/* 13
+	 * 
+	 * OLR 3
+	 * 
+	 * */
+	@RequestMapping(value = "timeseries/retrieval/L_2_OLR3_DAILY_VALIDATION", method=RequestMethod.GET)
+	@ResponseBody
+	public ArrayList<Vector> selectMatchingData_lvl_2_OLR3(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+		
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", dBegin);
+		hashmap.put("detector", detector);
+		
+		ArrayList<HashMap<String,Object>> results = timeSeriesDataDAOService_L2.selectTimeSeriesData_L2_OLR3(hashmap);
+		
+		ArrayList<Vector> arr = new ArrayList<Vector>();
+		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
+		
+		for(HashMap<String,Object> row : results){
+//			if(row.get("RMSE").toString().equals("RadianceMin")){
+			vec0.add(row);
+//			}
+//			}else if(row.get("NAME").toString().equals("RadianceSTD")){
+//				vec4.add(row);
+//			}
+		}
+		if(vec0.size()!=0)arr.add(vec0);
+		return arr;
+	}
+	
+	/* 13
+	 * 
+	 * OLR 4
+	 * 
+	 * */
+	@RequestMapping(value = "timeseries/retrieval/L_2_OLR4_DAILY_VALIDATION", method=RequestMethod.GET)
+	@ResponseBody
+	public ArrayList<Vector> selectMatchingData_lvl_2_OLR4(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+		
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", dBegin);
+		hashmap.put("detector", detector);
+		
+		ArrayList<HashMap<String,Object>> results = timeSeriesDataDAOService_L2.selectTimeSeriesData_L2_OLR4(hashmap);
+		
+		ArrayList<Vector> arr = new ArrayList<Vector>();
+		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
+		
+		for(HashMap<String,Object> row : results){
+//			if(row.get("RMSE").toString().equals("RadianceMin")){
+			vec0.add(row);
+//			}
+//			}else if(row.get("NAME").toString().equals("RadianceSTD")){
+//				vec4.add(row);
+//			}
+		}
+		if(vec0.size()!=0)arr.add(vec0);
+		return arr;
+	}
+	
+	
+	/* 
+	 * 14
+	 * 
+	 * SSI
+	 * 
+	 * */
+	@RequestMapping(value = "timeseries/retrieval/L_2_SSI_DAILY_VALIDATION", method=RequestMethod.GET)
+	@ResponseBody
+//	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
+	public ArrayList<Vector> selectMatchingData_lvl_2_SSI(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+		
+		
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", dBegin);
+		hashmap.put("detector", detector);
+		
+		ArrayList<HashMap<String,Object>> results = timeSeriesDataDAOService_L2.selectTimeSeriesData_L2_SSI(hashmap);
+		
+		//ㅠ 
+		ArrayList<Vector> arr = new ArrayList<Vector>();
+		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
+		
+		for(HashMap<String,Object> row : results){
+//			if(row.get("RMSE").toString().equals("RadianceMin")){
+			vec0.add(row);
+//			}
+//			}else if(row.get("NAME").toString().equals("RadianceSTD")){
+//				vec4.add(row);
+//			}
+		}
+		if(vec0.size()!=0)arr.add(vec0);
+//		if(vec1.size()!=0)arr.add(vec1);
+//		if(vec4.size()!=0)arr.add(vec4);
+		return arr;
+	}
+	/* 
+	 * 14
+	 * 
+	 * SSI
+	 * 
+	 * */
+	@RequestMapping(value = "timeseries/retrieval/L_2_SSI2_DAILY_VALIDATION", method=RequestMethod.GET)
+	@ResponseBody
+//	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
+	public ArrayList<Vector> selectMatchingData_lvl_2_SSI2(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+		
+		
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", dBegin);
+		hashmap.put("detector", detector);
+		
+		ArrayList<HashMap<String,Object>> results = timeSeriesDataDAOService_L2.selectTimeSeriesData_L2_SSI2(hashmap);
+		
+		//ㅠ 
+		ArrayList<Vector> arr = new ArrayList<Vector>();
+		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
+		
+		for(HashMap<String,Object> row : results){
+//			if(row.get("RMSE").toString().equals("RadianceMin")){
+			vec0.add(row);
+//			}
+//			}else if(row.get("NAME").toString().equals("RadianceSTD")){
+//				vec4.add(row);
+//			}
+		}
+		if(vec0.size()!=0)arr.add(vec0);
+//		if(vec1.size()!=0)arr.add(vec1);
+//		if(vec4.size()!=0)arr.add(vec4);
+		return arr;
+	}
+	
+	
+	/* 15
+	 * 
+	 * TPW
+	 * 
+	 * */
+	@RequestMapping(value = "timeseries/retrieval/L_2_TPW_DAILY_VALIDATION", method=RequestMethod.GET)
+	@ResponseBody
+	public ArrayList<Vector> selectMatchingData_lvl_2_TPW(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+		
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", dBegin);
+		hashmap.put("detector", detector);
+		
+		ArrayList<HashMap<String,Object>> results = timeSeriesDataDAOService_L2.selectTimeSeriesData_L2_TPW(hashmap);
+		
+		ArrayList<Vector> arr = new ArrayList<Vector>();
+		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
+		
+		for(HashMap<String,Object> row : results){
+//			if(row.get("RMSE").toString().equals("RadianceMin")){
+			vec0.add(row);
+//			}
+//			}else if(row.get("NAME").toString().equals("RadianceSTD")){
+//				vec4.add(row);
+//			}
+		}
+		if(vec0.size()!=0)arr.add(vec0);
+		return arr;
+	}
+	
+	/* 16
+	 * 
+	 * UTH
+	 * 
+	 * */
+	@RequestMapping(value = "timeseries/retrieval/L_2_UTH_DAILY_VALIDATION", method=RequestMethod.GET)
+	@ResponseBody
+	public ArrayList<Vector> selectMatchingData_lvl_2_UTH(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+		
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", dBegin);
+		hashmap.put("detector", detector);
+		
+		ArrayList<HashMap<String,Object>> results = timeSeriesDataDAOService_L2.selectTimeSeriesData_L2_UTH(hashmap);
+		
+		ArrayList<Vector> arr = new ArrayList<Vector>();
+		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
+		
+		for(HashMap<String,Object> row : results){
+//			if(row.get("RMSE").toString().equals("RadianceMin")){
+			vec0.add(row);
+//			}
+//			}else if(row.get("NAME").toString().equals("RadianceSTD")){
+//				vec4.add(row);
+//			}
+		}
+		if(vec0.size()!=0)arr.add(vec0);
+		return arr;
+	}
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////LEVEL 2 DAILY VALIDATION//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////LEVEL 2 DAILY VALIDATION//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////LEVEL 2 DAILY VALIDATION//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////LEVEL 2 DAILY VALIDATION//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////LEVEL 2 DAILY VALIDATION//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////LEVEL 2 DAILY VALIDATION//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
 	

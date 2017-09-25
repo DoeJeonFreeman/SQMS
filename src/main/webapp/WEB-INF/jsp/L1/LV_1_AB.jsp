@@ -648,8 +648,117 @@ sysout(varSelected);
 						pleaseWait(meItem);
 						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_SST_DAILY_VALIDATION';
 						addChart_L2_SST(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
-					}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+					// 10. AOD
+					// 10. AOD
+					// 10. AOD
+					}else if(typeOfChart=='L2-QI10'){ 
+						var radianceHTML =  getDraggableContainerHTML(itm, 'AOD  - COMS vs. MOD04','nodet', ITEM_SIZE);
+						$(targetDivId).append(radianceHTML);
+						pleaseWait(meItem);
+						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_AOD_DAILY_VALIDATION';
+						var title = 'AOD 검증지표 (COMS vs. MOD04)';
+						addChart_L2_Type4(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);	
+					// 11. INS
+					// 11. INS
+					// 11. INS
+					}else if(typeOfChart=='L2-QI11'){ 
+						var radianceHTML =  getDraggableContainerHTML(itm, 'INS  - COMS vs. Ground','nodet', ITEM_SIZE);
+						$(targetDivId).append(radianceHTML);
+						pleaseWait(meItem);
+						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_INS_DAILY_VALIDATION';
+						var title = 'INS 검증지표 (COMS vs. Ground)';
+						addChart_L2_Type4(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);	
+					// 12. LST
+					// 12. LST
+					// 12. LST
+					}else if(typeOfChart=='L2-QI12'){ 
+						var radianceHTML =  getDraggableContainerHTML(itm, 'LST  - COMS vs. MYD11','nodet', ITEM_SIZE);
+						$(targetDivId).append(radianceHTML);
+						pleaseWait(meItem);
+						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_LST_DAILY_VALIDATION';
+						var title = 'LST 검증지표 (COMS vs. MYD11)';
+						addChart_L2_Type4(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);	
+					// 13. OLR	
+					// 13. OLR	
+					// 13. OLR	
+					}else if(typeOfChart=='L2-QI13'){ 
+						// 13.1. Fog COMS vs. GTS						
+						if(detectorNum=='0'){
+							var radianceHTML =  getDraggableContainerHTML(itm, 'OLR - OLR Best vs. CERES','nodet', ITEM_SIZE);
+							$(targetDivId).append(radianceHTML);
+							pleaseWait(meItem);
+							var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_OLR_DAILY_VALIDATION';
+							var title = 'OLR 검증지표 (OLR OLR Best vs. CERES)';
+							addChart_L2_Type4(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);	
+						// 13.2. Fog COMS vs. Ground						
+						}else if(detectorNum=='1'){
+							var radianceHTML =  getDraggableContainerHTML(itm, 'OLR - OLR Chanel 1 vs. CERES','nodet', ITEM_SIZE);
+							$(targetDivId).append(radianceHTML);
+							pleaseWait(meItem);
+							var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_OLR2_DAILY_VALIDATION';
+							var title = 'OLR 검증지표 (OLR OLR Chanel 1 vs. CERES)';
+							addChart_L2_Type4(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);	
+						// 13.3. Fog COMS vs. Ground						
+						}else if(detectorNum=='2'){
+							var radianceHTML =  getDraggableContainerHTML(itm, 'OLR - OLR Chanel 2 vs. CERES','nodet', ITEM_SIZE);
+							$(targetDivId).append(radianceHTML);
+							pleaseWait(meItem);
+							var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_OLR3_DAILY_VALIDATION';
+							var title = 'OLR 검증지표 (OLR OLR Chanel 2 vs. CERES)';
+							addChart_L2_Type4(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);	
+						// 13.4. Fog COMS vs. Ground						
+						}else if(detectorNum=='3'){
+							var radianceHTML =  getDraggableContainerHTML(itm, 'OLR OLR Chanel 3 vs. CERES','nodet', ITEM_SIZE);
+							$(targetDivId).append(radianceHTML);
+							pleaseWait(meItem);
+							var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_OLR4_DAILY_VALIDATION';
+							var title = 'OLR 검증지표 (OLR OLR Chanel 3 vs. CERES)';
+							addChart_L2_Type4(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);	
+						}
+					// 14. SSI	
+					// 14. SSI	
+					// 14. SSI	
+					}else if(typeOfChart=='L2-QI14'){ 
+						// 14.1. vs. IMS Sea Ice						
+						if(detectorNum=='0'){
+							var radianceHTML =  getDraggableContainerHTML(itm, 'SSI - COMS vs.IMS Sea ice','nodet', ITEM_SIZE);
+							$(targetDivId).append(radianceHTML);
+							pleaseWait(meItem);
+							var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_SSI_DAILY_VALIDATION';
+							var title = 'SSI 검증지표 (COMS vs. IMS Snow cover)';
+							addChart_L2_Type10(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);					
+						// 14.2. vs. IMS Snow cover
+						}else if(detectorNum=='1'){
+							var radianceHTML =  getDraggableContainerHTML(itm, 'SSI - COMS vs. IMS Snow cover','nodet', ITEM_SIZE);
+							$(targetDivId).append(radianceHTML);
+							pleaseWait(meItem);
+							var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_SSI2_DAILY_VALIDATION';
+							var title = 'SSI 검증지표 (COMS vs. IMS Snow cover)';
+							addChart_L2_Type10(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);					
+						}
 					
+					// 15. TPW
+					// 15. TPW
+					// 15. TPW
+					}else if(typeOfChart=='L2-QI15'){ 
+						var radianceHTML =  getDraggableContainerHTML(itm, 'TPW  - COMS vs. Sonde','nodet', ITEM_SIZE);
+						$(targetDivId).append(radianceHTML);
+						pleaseWait(meItem);
+						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_TPW_DAILY_VALIDATION';
+						var title = 'TPW 검증지표 (COMS vs. Sonde)';
+						addChart_L2_Type4(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);	
+					// 16. UTH
+					// 16. UTH
+					// 16. UTH
+					}else if(typeOfChart=='L2-QI16'){ 
+						var radianceHTML =  getDraggableContainerHTML(itm, 'UTH  - COMS vs. Sonde','nodet', ITEM_SIZE);
+						$(targetDivId).append(radianceHTML);
+						pleaseWait(meItem);
+						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_UTH_DAILY_VALIDATION';
+						var title = 'UTH 검증지표 (COMS vs. Sonde)';
+						addChart_L2_Type4(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);				
+					}	
 				});
 			//}
 			WinMove();

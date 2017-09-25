@@ -243,35 +243,79 @@
 			                    children: [
 			                      {title: "AI", folder: true, hideCheckbox:true, expanded: false,
 			                        children: [
-			                          {title: "AI 검증지표", key: "L2-QI04_0" }
+			                          {title: "COMS vs. OMI", key: "L2-QI04_0" }
 			                        ]
 			                      },
 			                      {title: "CA", folder: true, hideCheckbox:true, expanded: false,
 			                        children: [
-			                          {title: "CA 검증지표", key: "L2-QI01_0" }
+			                          {title: "COMS vs. GTS", key: "L2-QI01_0" }
 			                        ]
 			                      },
 			                      {title: "CLD", folder: true, hideCheckbox:true, expanded: false,
 			                        children: [
-			                          {title: "CLD 검증지표", key: "L2-QI02_0" }
+			                          {title: "COMS vs. MOD35", key: "L2-QI02_0" }
 			                        ]
 			                      },
 			                      {title: "FOG", folder: true, hideCheckbox:true, expanded: false,
 			                        children: [
-			                          {title: "FOG 검증지표(COMS vs. GTS)", key: "L2-QI03_0" },
-			                          {title: "FOG 검증지표(COMS vs. Ground)", key: "L2-QI03_1" }
+			                          {title: "COMS vs. GTS",    key: "L2-QI03_0" },
+			                          {title: "COMS vs. Ground", key: "L2-QI03_1" }
 			                        ]
 			                      },
 			                      {title: "RI", folder: true, hideCheckbox:true, expanded: false,
 			                        children: [
-			                          {title: "RI 검증지표", key: "L2-QI05_0" }
+			                          {title: "COMS vs. AWS", key: "L2-QI05_0" }
 			                        ]
 			                      },
 			                      {title: "SST", folder: true, hideCheckbox:true, expanded: false,
 			                        children: [
-			                          {title: "SST 검증지표", key: "L2-QI06_0" }
+			                          {title: "COMS vs. Buoy", key: "L2-QI06_0" }
 			                        ]
 			                      },
+			                      
+			                      // 2017. 09. 23.
+			                      // 2017. 09. 23.
+			                      {title: "AOD", folder: true, hideCheckbox:true, expanded: false,
+			                        children: [
+			                          {title: "COMS vs. MOD4", key: "L2-QI10_0" }
+			                        ]
+			                      },
+			                      {title: "INS", folder: true, hideCheckbox:true, expanded: false,
+			                        children: [
+			                          {title: "COMS vs. Ground", key: "L2-QI11_0" }
+			                        ]
+			                      },
+			                      {title: "LST", folder: true, hideCheckbox:true, expanded: false,
+			                        children: [
+			                          {title: "COMS vs. MYD11", key: "L2-QI12_0" }
+			                        ]
+			                      },
+			                      {title: "OLR", folder: true, hideCheckbox:true, expanded: false,
+			                        children: [
+			                          {title: "OLR BEST vs. CERES", key: "L2-QI13_0" },
+			                          {title: "OLR 1 vs. CERES", 	   key: "L2-QI13_1" },
+			                          {title: "OLR 2 vs. CERES",    key: "L2-QI13_2" },
+			                          {title: "OLR 3 vs. CERES",    key: "L2-QI13_3" }
+			                        ]
+			                      },
+			                      {title: "SSI", folder: true, hideCheckbox:true, expanded: false,
+			                        children: [
+			                          {title: "COMS vs. IMS Sea ice", 	   key: "L2-QI14_0" },
+			                          {title: "COMS vs. IMS Snow cover",  key: "L2-QI14_1" }
+			                        ]
+			                      },
+			                      {title: "TPW", folder: true, hideCheckbox:true, expanded: false,
+			                        children: [
+			                          {title: "COMS vs. Sonde", key: "L2-QI15_0" }
+			                        ]
+			                      },
+			                      {title: "UTH", folder: true, hideCheckbox:true, expanded: false ,
+			                        children: [
+			                          {title: "COMS vs. Sonde", key: "L2-QI16_0" }
+			                        ]
+			                      }
+			                   	  // 2017. 09. 23.
+			                   	  // 2017. 09. 23.
 			                    ]
 			                  }
 			                 
