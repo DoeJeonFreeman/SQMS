@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 public interface TimeSeriesDataMapper {
     
+	 ArrayList<HashMap<String,Object>> selectTimeSeriesData_L1A_MoonSlopeFactor(HashMap<String, String> hashmap);
+	 
 	 ArrayList<HashMap<String,Object>> selectTimeSeriesData_L1A_VSNR(HashMap<String, String> hashmap);
 	 ArrayList<HashMap<String,Object>> selectTimeSeriesData_L1A_VSNR_Alternative(HashMap<String, String> hashmap);
 	 ArrayList<HashMap<String,Object>> selectTimeSeriesData_L1A_VR(HashMap<String, String> hashmap);

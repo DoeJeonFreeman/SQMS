@@ -82,14 +82,24 @@
 	}
 </style>    
     
-    
-<!-- 2c.doe.hicharts-->
+<!-- 
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/highcharts-more.js"></script>
+<script src="${pageContext.request.contextPath}/js/highchart/modules/boost.src.latest.custom.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script src="http://highcharts.github.io/export-csv/export-csv.js"></script>
+ -->    
+
+<!-- 2c.doe.hicharts
+-->
 	<script src="${pageContext.request.contextPath}/js/highchart/highcharts.js"></script>
 	<script src="${pageContext.request.contextPath}/js/highchart/highcharts-more.js"></script>
+<!-- 
 	<script src="${pageContext.request.contextPath}/js/highchart/modules/boost.src.djf.custom.js"></script>
+ -->	
 	<script src="${pageContext.request.contextPath}/js/highchart/modules/exporting.js"></script>
 	<script src="${pageContext.request.contextPath}/js/highchart/modules/offline-exporting.js"></script>
-	<script src="${pageContext.request.contextPath}/js/highchart/modules/export-csv.js"></script>
+	<script src="${pageContext.request.contextPath}/js/highchart/modules/export-csv.djf.custom.js"></script>
 	
 	
 	<!-- minimal ajax loading spinner 
@@ -103,7 +113,7 @@
 
 	<script type="text/javascript">
 		
-		var ITEM_SIZE = 6; //     4 || 6 || 12
+		var ITEM_SIZE = 12; //     4 || 6 || 12
 	
 		function addJstlImportTagDynamically(){
 			//$('#TSCWrapper0').html('<c import url="/mePageLink.do?link=L1/WHOLE_CONDITIONS" />');
@@ -424,11 +434,10 @@
 	
 	
 		/**
+		 *
 		 * */
 		function pleaseWait(targetDiv){
-			
-			sysout('pleaseWait(targetDiv):: #'+targetDiv);
-			
+		  //sysout('pleaseWait(targetDiv):: #'+targetDiv);
 			var opts = {
 					  lines: 13 // The number of lines to draw
 					, length:  18//38 // The length of each line
@@ -451,7 +460,6 @@
 					, hwaccel: false // Whether to use hardware acceleration
 					, position: 'absolute' // Element positioning
 			}
-			
 			var meSpinner = new Spinner(opts).spin();
 			$('#'+targetDiv).append(meSpinner.el);
 		} 
@@ -484,52 +492,58 @@ sysout(varSelected);
 					var meItem = 't' + $("#tabs").tabs('option', 'active') + '_ts_' + itm;
 					
 					if(typeOfChart=='L1A-QI01'){
-						var vsnrHTML =  getDraggableContainerHTML(itm, 'Visible SNR ',detectorNum, ITEM_SIZE);
+						var vsnrHTML =  getDraggableContainerHTML(itm, 'Visible SNR ','nodet', ITEM_SIZE);
 						$(targetDivId).append(vsnrHTML);
 						pleaseWait(meItem);
-						var url_VSNR = '<c:url value='/' />timeseries/retrieval/L_1_A_VSNR';
+						var url_VSNR = '${pageContext.request.contextPath}/timeseries/retrieval/L_1_A_VSNR';
 						addChart_VSNR(url_VSNR,dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					}else if(typeOfChart=='L1A-QI02'){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Visible Radiance ',detectorNum, ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url_VR = '<c:url value='/' />timeseries/retrieval/L_1_A_VR';
+						var url_VR = '${pageContext.request.contextPath}/timeseries/retrieval/L_1_A_VR';
 						addChart_VRadiance(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					}else if(typeOfChart=='L1A-QI03'){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Visible PRNU ',detectorNum, ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url_VPRNU = '<c:url value='/' />timeseries/retrieval/L_1_A_VisblePRNU';
+						var url_VPRNU = '${pageContext.request.contextPath}/timeseries/retrieval/L_1_A_VisblePRNU';
 						addChart_VisiblePRNU(url_VPRNU, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					}else if(typeOfChart=='L1A-QI04'){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'IR Radiance',detectorNum, ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url = '<c:url value='/' />timeseries/retrieval/L_1_A_IRRS';
+						var url = '${pageContext.request.contextPath}/timeseries/retrieval/L_1_A_IRRS';
 						addChart_IRRS(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					}else if(typeOfChart=='L1A-QI05'){
-						var radianceHTML =  getDraggableContainerHTML(itm, 'IR NEDT',detectorNum, ITEM_SIZE);
+						var radianceHTML =  getDraggableContainerHTML(itm, 'IR NEDT','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url = '<c:url value='/' />timeseries/retrieval/L_1_A_IRNEDT';
+						var url = '${pageContext.request.contextPath}/timeseries/retrieval/L_1_A_NEDT';
 						addChart_IR_NEDT(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					}else if(typeOfChart=='L1A-QI06'){
-						var radianceHTML =  getDraggableContainerHTML(itm, 'IR PRNU',detectorNum, ITEM_SIZE);
+						var radianceHTML =  getDraggableContainerHTML(itm, 'IR PRNU (Reference Detector: Detector A)','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url = '<c:url value='/' />timeseries/retrieval/L_1_A_IRPRNU';
+						var url = '${pageContext.request.contextPath}/timeseries/retrieval/L_1_A_IRPRNU';
 						addChart_IR_PRNU(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
+					}else if(typeOfChart=='L1A-QI07'){
+						var radianceHTML =  getDraggableContainerHTML(itm, 'Moon Slope',detectorNum, ITEM_SIZE);
+						$(targetDivId).append(radianceHTML);
+						pleaseWait(meItem);
+						var url = '${pageContext.request.contextPath}/timeseries/retrieval/L_1_A_MOON_SLOPE';
+						addChart_MOON_SLOPE(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 				//Level 1 A Environment Variables	
 					}else if(typeOfChart.startsWith("L1A-EV")){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Level 1 A ENV','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url = '<c:url value='/' />timeseries/retrieval/L_1_A_ENV';
+						var url = '${pageContext.request.contextPath}/timeseries/retrieval/L_1_A_ENV';
 						addChart_L1A_ENV(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 				//Level 1 A Environment Variables	
 						
@@ -542,28 +556,28 @@ sysout(varSelected);
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Number of Valid Landmarks','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url = '<c:url value='/' />timeseries/retrieval/L_1_B_NVL';
+						var url = '${pageContext.request.contextPath}/timeseries/retrieval/L_1_B_NVL';
 						addChart_LV1B_QI_NumOfLandmarks(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					}else if(typeOfChart=='L1B-QI03'){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Landmark Residual - Average (EW/NS)','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url = '<c:url value='/' />timeseries/retrieval/L_1_B_RAVG';
+						var url = '${pageContext.request.contextPath}/timeseries/retrieval/L_1_B_RAVG';
 						addChart_LV1B_QI_ResidualAvg(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 					//Residual Standard Deviation (EW/NS)	
 					}else if(typeOfChart=='L1B-QI04'){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Residual Standard Deviation','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url = '<c:url value='/' />timeseries/retrieval/L_1_B_STDDEV';
+						var url = '${pageContext.request.contextPath}/timeseries/retrieval/L_1_B_STDDEV';
 						addChart_LV1B_QI_ResidualStdDev(url, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 					//Residual Quadratic Distance 	
 					}else if(typeOfChart=='L1B-QI05'){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Residual Quadratic Distance','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url = '<c:url value='/' />timeseries/retrieval/L_1_B_QUADDIST';
+						var url = '${pageContext.request.contextPath}/timeseries/retrieval/L_1_B_QUADDIST';
 						addChart_LV1B_QI_ResidualQuadraticDistance(url, dStr, d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						
 					//Level 1 B ENV	
@@ -573,14 +587,14 @@ sysout(varSelected);
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Spacecraft Position','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url = '<c:url value='/' />timeseries/retrieval/L_1_B_SCPOS';
+						var url = '${pageContext.request.contextPath}/timeseries/retrieval/L_1_B_SCPOS';
 						addChart_LV1B_EV_SCPOS(url, dStr, d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 					//Spacecraft Attitude	
 					}else if(typeOfChart=='L1B-EV02'){
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Spacecraft Attitude','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url = '<c:url value='/' />timeseries/retrieval/L_1_B_SCATT';
+						var url = '${pageContext.request.contextPath}/timeseries/retrieval/L_1_B_SCATT';
 						addChart_LV1B_EV_SCATT(url, dStr, d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 					//Level 2 Level 2 Level 2 Level 2 Level 2 Level 2 	
 					//Level 2 Level 2 Level 2 Level 2 Level 2 Level 2 
@@ -591,7 +605,7 @@ sysout(varSelected);
 						var radianceHTML =  getDraggableContainerHTML(itm, 'Cloud Amount','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_CLA_DAILY_VALIDATION';
+						var url_VR = '${pageContext.request.contextPath}/timeseries/retrieval/L_2_CLA_DAILY_VALIDATION';
 						addChart_L2_CLA(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 					// 2. CLD
 					// 2. CLD
@@ -600,7 +614,7 @@ sysout(varSelected);
 						var radianceHTML =  getDraggableContainerHTML(itm, 'CLD  - COMS vs. MOD35','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_CLD_DAILY_VALIDATION';
+						var url_VR = '${pageContext.request.contextPath}/timeseries/retrieval/L_2_CLD_DAILY_VALIDATION';
 						addChart_L2_CLD(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 					// 3. FOG	
 					// 3. FOG	
@@ -611,14 +625,14 @@ sysout(varSelected);
 							var radianceHTML =  getDraggableContainerHTML(itm, 'FOG - COMS vs. GTS','nodet', ITEM_SIZE);
 							$(targetDivId).append(radianceHTML);
 							pleaseWait(meItem);
-							var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_FOG_DAILY_VALIDATION';
+							var url_VR = '${pageContext.request.contextPath}/timeseries/retrieval/L_2_FOG_DAILY_VALIDATION';
 							addChart_L2_FOG(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						// 3.2. Fog COMS vs. Ground						
 						}else if(detectorNum=='1'){
 							var radianceHTML =  getDraggableContainerHTML(itm, 'FOG - COMS vs. Ground','nodet', ITEM_SIZE);
 							$(targetDivId).append(radianceHTML);
 							pleaseWait(meItem);
-							var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_FOG_DAILY_VALIDATION_VS_GROUND';
+							var url_VR = '${pageContext.request.contextPath}/timeseries/retrieval/L_2_FOG_DAILY_VALIDATION_VS_GROUND';
 							addChart_L2_FOG2(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 						}
 					// 4. AI
@@ -628,7 +642,7 @@ sysout(varSelected);
 						var radianceHTML =  getDraggableContainerHTML(itm, 'AI  - COMS vs. OMI','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_AI_DAILY_VALIDATION';
+						var url_VR = '${pageContext.request.contextPath}/timeseries/retrieval/L_2_AI_DAILY_VALIDATION';
 						addChart_L2_AI(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 					// 5. RI
 					// 5. RI
@@ -637,7 +651,7 @@ sysout(varSelected);
 						var radianceHTML =  getDraggableContainerHTML(itm, 'RI','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_RI_DAILY_VALIDATION';
+						var url_VR = '${pageContext.request.contextPath}/timeseries/retrieval/L_2_RI_DAILY_VALIDATION';
 						addChart_L2_RI(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 					// 6. SST
 					// 6. SST
@@ -646,7 +660,7 @@ sysout(varSelected);
 						var radianceHTML =  getDraggableContainerHTML(itm, 'SST  - COMS vs. Buoy','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_SST_DAILY_VALIDATION';
+						var url_VR = '${pageContext.request.contextPath}/timeseries/retrieval/L_2_SST_DAILY_VALIDATION';
 						addChart_L2_SST(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod);					
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 					// 10. AOD
@@ -656,7 +670,7 @@ sysout(varSelected);
 						var radianceHTML =  getDraggableContainerHTML(itm, 'AOD  - COMS vs. MOD04','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_AOD_DAILY_VALIDATION';
+						var url_VR = '${pageContext.request.contextPath}/timeseries/retrieval/L_2_AOD_DAILY_VALIDATION';
 						var title = 'AOD 검증지표 (COMS vs. MOD04)';
 						addChart_L2_Type4(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);	
 					// 11. INS
@@ -666,7 +680,7 @@ sysout(varSelected);
 						var radianceHTML =  getDraggableContainerHTML(itm, 'INS  - COMS vs. Ground','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_INS_DAILY_VALIDATION';
+						var url_VR = '${pageContext.request.contextPath}/timeseries/retrieval/L_2_INS_DAILY_VALIDATION';
 						var title = 'INS 검증지표 (COMS vs. Ground)';
 						addChart_L2_Type4(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);	
 					// 12. LST
@@ -676,7 +690,7 @@ sysout(varSelected);
 						var radianceHTML =  getDraggableContainerHTML(itm, 'LST  - COMS vs. MYD11','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_LST_DAILY_VALIDATION';
+						var url_VR = '${pageContext.request.contextPath}/timeseries/retrieval/L_2_LST_DAILY_VALIDATION';
 						var title = 'LST 검증지표 (COMS vs. MYD11)';
 						addChart_L2_Type4(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);	
 					// 13. OLR	
@@ -688,7 +702,7 @@ sysout(varSelected);
 							var radianceHTML =  getDraggableContainerHTML(itm, 'OLR - OLR Best vs. CERES','nodet', ITEM_SIZE);
 							$(targetDivId).append(radianceHTML);
 							pleaseWait(meItem);
-							var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_OLR_DAILY_VALIDATION';
+							var url_VR = '${pageContext.request.contextPath}/timeseries/retrieval/L_2_OLR_DAILY_VALIDATION';
 							var title = 'OLR 검증지표 (OLR OLR Best vs. CERES)';
 							addChart_L2_Type4(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);	
 						// 13.2. Fog COMS vs. Ground						
@@ -696,7 +710,7 @@ sysout(varSelected);
 							var radianceHTML =  getDraggableContainerHTML(itm, 'OLR - OLR Chanel 1 vs. CERES','nodet', ITEM_SIZE);
 							$(targetDivId).append(radianceHTML);
 							pleaseWait(meItem);
-							var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_OLR2_DAILY_VALIDATION';
+							var url_VR = '${pageContext.request.contextPath}/timeseries/retrieval/L_2_OLR2_DAILY_VALIDATION';
 							var title = 'OLR 검증지표 (OLR OLR Chanel 1 vs. CERES)';
 							addChart_L2_Type4(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);	
 						// 13.3. Fog COMS vs. Ground						
@@ -704,7 +718,7 @@ sysout(varSelected);
 							var radianceHTML =  getDraggableContainerHTML(itm, 'OLR - OLR Chanel 2 vs. CERES','nodet', ITEM_SIZE);
 							$(targetDivId).append(radianceHTML);
 							pleaseWait(meItem);
-							var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_OLR3_DAILY_VALIDATION';
+							var url_VR = '${pageContext.request.contextPath}/timeseries/retrieval/L_2_OLR3_DAILY_VALIDATION';
 							var title = 'OLR 검증지표 (OLR OLR Chanel 2 vs. CERES)';
 							addChart_L2_Type4(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);	
 						// 13.4. Fog COMS vs. Ground						
@@ -712,7 +726,7 @@ sysout(varSelected);
 							var radianceHTML =  getDraggableContainerHTML(itm, 'OLR OLR Chanel 3 vs. CERES','nodet', ITEM_SIZE);
 							$(targetDivId).append(radianceHTML);
 							pleaseWait(meItem);
-							var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_OLR4_DAILY_VALIDATION';
+							var url_VR = '${pageContext.request.contextPath}/timeseries/retrieval/L_2_OLR4_DAILY_VALIDATION';
 							var title = 'OLR 검증지표 (OLR OLR Chanel 3 vs. CERES)';
 							addChart_L2_Type4(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);	
 						}
@@ -725,7 +739,7 @@ sysout(varSelected);
 							var radianceHTML =  getDraggableContainerHTML(itm, 'SSI - COMS vs.IMS Sea ice','nodet', ITEM_SIZE);
 							$(targetDivId).append(radianceHTML);
 							pleaseWait(meItem);
-							var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_SSI_DAILY_VALIDATION';
+							var url_VR = '${pageContext.request.contextPath}/timeseries/retrieval/L_2_SSI_DAILY_VALIDATION';
 							var title = 'SSI 검증지표 (COMS vs. IMS Snow cover)';
 							addChart_L2_Type10(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);					
 						// 14.2. vs. IMS Snow cover
@@ -733,7 +747,7 @@ sysout(varSelected);
 							var radianceHTML =  getDraggableContainerHTML(itm, 'SSI - COMS vs. IMS Snow cover','nodet', ITEM_SIZE);
 							$(targetDivId).append(radianceHTML);
 							pleaseWait(meItem);
-							var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_SSI2_DAILY_VALIDATION';
+							var url_VR = '${pageContext.request.contextPath}/timeseries/retrieval/L_2_SSI2_DAILY_VALIDATION';
 							var title = 'SSI 검증지표 (COMS vs. IMS Snow cover)';
 							addChart_L2_Type10(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);					
 						}
@@ -745,7 +759,7 @@ sysout(varSelected);
 						var radianceHTML =  getDraggableContainerHTML(itm, 'TPW  - COMS vs. Sonde','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_TPW_DAILY_VALIDATION';
+						var url_VR = '${pageContext.request.contextPath}/timeseries/retrieval/L_2_TPW_DAILY_VALIDATION';
 						var title = 'TPW 검증지표 (COMS vs. Sonde)';
 						addChart_L2_Type4(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);	
 					// 16. UTH
@@ -755,7 +769,7 @@ sysout(varSelected);
 						var radianceHTML =  getDraggableContainerHTML(itm, 'UTH  - COMS vs. Sonde','nodet', ITEM_SIZE);
 						$(targetDivId).append(radianceHTML);
 						pleaseWait(meItem);
-						var url_VR = '<c:url value='/' />timeseries/retrieval/L_2_UTH_DAILY_VALIDATION';
+						var url_VR = '${pageContext.request.contextPath}/timeseries/retrieval/L_2_UTH_DAILY_VALIDATION';
 						var title = 'UTH 검증지표 (COMS vs. Sonde)';
 						addChart_L2_Type4(url_VR, dStr,d_xDaysAgo,'tabidxdoesntneedanymore', detectorNum, meItem, chartingPeriod,title);				
 					}	
@@ -872,6 +886,11 @@ sysout(varSelected);
 	          }
 	        );
 	      }
+		
+		
+		
+		
+		
 		
 	</script>
 	
@@ -1025,7 +1044,7 @@ sysout(varSelected);
 			//sysout('[charts.length after drawTimesereis() ] ' + charts.length);
 			//resize draggableITem
 			//resize draggableITem
-			var itemSize=6;
+			var itemSize=12;
 			$('#control_resize_small').click(function() {
 				rowItem_resizable(4);
 			});
@@ -1054,6 +1073,7 @@ sysout(varSelected);
 			}; 
 			//resize draggableITem
 			//resize draggableITem
+			
 			
 
 			
@@ -1153,9 +1173,9 @@ sysout(varSelected);
 	            		
 	            	<div id="chartingPeriodSelector" class="dropdown select pull-left" style="margin-left: 3px;margin-right: 3px">&nbsp;&nbsp;&nbsp;Charting Periods: &nbsp;
 					    <button class="  btn-small dropdown-toggle " type="button" id="menu1" data-toggle="dropdown" style="margin-top:6px;">
-					    	<span class="selected" id="1" value="DAILY">Daily</span><span class="caret"></span>
-				    	</button>
-					    <ul class="dropdown-menu option" role="menu" >
+					    		<span class="selected" id="1" value="DAILY">Daily</span><span class="caret"></span>
+				    		</button>
+					    <ul id="chartingPeriodSelector_ul" class="dropdown-menu option" role="menu" >
 					      <li id="1" role="presentation" value="DAILY"><a role="menuitem" tabindex="-1" >Daily</a></li>
 					      <li id="2" role="presentation" value="WEEKLY"><a role="menuitem" tabindex="-1" >Weekly</a></li>
 					      <li id="3" role="presentation" value="MONTHLY"><a role="menuitem" tabindex="-1" >Monthly</a></li>

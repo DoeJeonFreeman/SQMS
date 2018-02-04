@@ -58,7 +58,9 @@
 						</security:authorize>
             		
             			<li>
+            		<!-- 
             				<a onclick="javascript:fn_main_headPageMove('8318','cmm/sitemap')"><i class="fa fa-sitemap fa-fw"></i> Site map </a>
+            		 -->
             			</li>
               			<c:choose>
 							<c:when test="${empty check}">

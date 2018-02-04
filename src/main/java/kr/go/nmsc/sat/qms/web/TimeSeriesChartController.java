@@ -701,7 +701,26 @@ public class TimeSeriesChartController {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	
+	//Level 1 A Moon Slope
+	@RequestMapping(value = "timeseries/retrieval/L_1_A_MOON_SLOPE", method=RequestMethod.GET)
+	@ResponseBody
+	public ArrayList<Vector> selectMatchingData_MoonSlope(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+		
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", dBegin);
+		hashmap.put("detector", detector);
+		ArrayList<HashMap<String,Object>> results = timeSeriesDataDAOService.selectTimeSeriesData_L1A_MoonSlopeFactor(hashmap);
+		
+		ArrayList<Vector> arr = new ArrayList<Vector>();
+		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
+		
+		for(HashMap<String,Object> row : results){
+			vec0.add(row);
+		}
+		if(vec0.size()!=0)arr.add(vec0);
+		return arr;
+	}
 	
 	
 	
@@ -734,16 +753,122 @@ public class TimeSeriesChartController {
 			String currDate= row.get("DSTR").toString();
 			if(row.get("DT_"+detector)==null){ continue; }
 			double currVal = Double.parseDouble(row.get("DT_"+detector).toString());
-//			vMap.put("DSTR", currDate);
-//			vMap.put("D_0", currVal - Double.parseDouble(row.get("DT_0").toString()));
-//			vMap.put("D_1", currVal - Double.parseDouble(row.get("DT_1").toString()));
-//			vMap.put("D_2", currVal - Double.parseDouble(row.get("DT_2").toString()));
-//			vMap.put("D_3", currVal - Double.parseDouble(row.get("DT_3").toString()));
-//			vMap.put("D_4", currVal - Double.parseDouble(row.get("DT_4").toString()));
-//			vMap.put("D_5", currVal - Double.parseDouble(row.get("DT_5").toString()));
-//			vMap.put("D_6", currVal - Double.parseDouble(row.get("DT_6").toString()));
-//			vMap.put("D_7", currVal - Double.parseDouble(row.get("DT_7").toString()));
-//			vec.add(vMap);
+
+			
+			if(row.get("DT_0")!=null){
+				HashMap<String,Object> vMap0 = new HashMap<String,Object>();
+				vMap0.put("D", currDate);
+//				vMap0.put("V", currVal - Double.parseDouble(row.get("DT_0").toString()));
+				vMap0.put("V", Double.parseDouble(row.get("DT_0").toString()));
+				vec0.add(vMap0);
+			}
+			
+			if(row.get("DT_1")!=null){
+				HashMap<String,Object> vMap1 = new HashMap<String,Object>();
+				vMap1.put("D", currDate);
+//				vMap1.put("V", currVal - Double.parseDouble(row.get("DT_1").toString()));
+				vMap1.put("V", Double.parseDouble(row.get("DT_1").toString()));
+				vec1.add(vMap1);
+			}
+			
+			if(row.get("DT_2")!=null){
+				HashMap<String,Object> vMap2 = new HashMap<String,Object>();
+				vMap2.put("D", currDate);
+//				vMap2.put("V", currVal - Double.parseDouble(row.get("DT_2").toString()));
+				vMap2.put("V", Double.parseDouble(row.get("DT_2").toString()));
+				vec2.add(vMap2);
+			}
+			
+			if(row.get("DT_3")!=null){
+				HashMap<String,Object> vMap3 = new HashMap<String,Object>();
+				vMap3.put("D", currDate);
+//				vMap3.put("V", currVal - Double.parseDouble(row.get("DT_3").toString()));
+				vMap3.put("V", Double.parseDouble(row.get("DT_3").toString()));
+				vec3.add(vMap3);
+			}
+			
+			if(row.get("DT_4")!=null){
+				HashMap<String,Object> vMap4 = new HashMap<String,Object>();
+				vMap4.put("D", currDate);
+//				vMap4.put("V", currVal - Double.parseDouble(row.get("DT_4").toString()));
+				vMap4.put("V",Double.parseDouble(row.get("DT_4").toString()));
+				vec4.add(vMap4);
+			}
+			
+			if(row.get("DT_5")!=null){
+				HashMap<String,Object> vMap5 = new HashMap<String,Object>();
+				vMap5.put("D", currDate);
+//				vMap5.put("V", currVal - Double.parseDouble(row.get("DT_5").toString()));
+				vMap5.put("V",Double.parseDouble(row.get("DT_5").toString()));
+				vec5.add(vMap5);
+			}
+			
+			if(row.get("DT_6")!=null){
+				HashMap<String,Object> vMap6 = new HashMap<String,Object>();
+				vMap6.put("D", currDate);
+//				vMap6.put("V", currVal - Double.parseDouble(row.get("DT_6").toString()));
+				vMap6.put("V",Double.parseDouble(row.get("DT_6").toString()));
+				vec6.add(vMap6);
+			}
+			
+			if(row.get("DT_7")!=null){
+				HashMap<String,Object> vMap7 = new HashMap<String,Object>();
+				vMap7.put("D", currDate);
+//				vMap7.put("V", currVal - Double.parseDouble(row.get("DT_7").toString()));
+				vMap7.put("V",Double.parseDouble(row.get("DT_7").toString()));
+				vec7.add(vMap7);
+			}
+			
+		}
+		
+		if(vec0.size()!=0)arr.add(vec0);
+		if(vec1.size()!=0)arr.add(vec1);
+		if(vec2.size()!=0)arr.add(vec2);
+		if(vec3.size()!=0)arr.add(vec3);
+		if(vec4.size()!=0)arr.add(vec4);
+		if(vec5.size()!=0)arr.add(vec5);
+		if(vec6.size()!=0)arr.add(vec6);
+		if(vec7.size()!=0)arr.add(vec7);
+		return arr;
+	}
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 * Level 1 A Visible PRNU
+	 * 
+	 * */
+	@RequestMapping(value = "timeseries/retrieval/L_1_A_VisblePRNU", method=RequestMethod.GET)
+	@ResponseBody
+//	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
+	public ArrayList<Vector> selectMatchingData_VsiblePRNU(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", dBegin);
+		
+		ArrayList<HashMap<String,Object>> results = timeSeriesDataDAOService.selectTimeSeriesData_L1A_VisPRNU(hashmap);
+		ArrayList<Vector> arr = new ArrayList<Vector>();
+		Vector<HashMap<String, Object>> vec = new Vector<HashMap<String,Object>>();
+		
+		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
+		Vector<HashMap<String, Object>> vec1 = new Vector<HashMap<String,Object>>();
+		Vector<HashMap<String, Object>> vec2 = new Vector<HashMap<String,Object>>();
+		Vector<HashMap<String, Object>> vec3 = new Vector<HashMap<String,Object>>();
+		Vector<HashMap<String, Object>> vec4 = new Vector<HashMap<String,Object>>();
+		Vector<HashMap<String, Object>> vec5 = new Vector<HashMap<String,Object>>();
+		Vector<HashMap<String, Object>> vec6 = new Vector<HashMap<String,Object>>();
+		Vector<HashMap<String, Object>> vec7 = new Vector<HashMap<String,Object>>();
+////		
+		
+		for(HashMap<String,Object> row : results){
+			
+			HashMap<String,Object> vMap = new HashMap<String,Object> (); 
+			String currDate= row.get("DSTR").toString();
+			if(row.get("DT_"+detector)==null){ continue; }
+			double currVal = Double.parseDouble(row.get("DT_"+detector).toString());
+
 			
 			if(row.get("DT_0")!=null){
 				HashMap<String,Object> vMap0 = new HashMap<String,Object>();
@@ -813,6 +938,31 @@ public class TimeSeriesChartController {
 		if(vec7.size()!=0)arr.add(vec7);
 		return arr;
 	}
+	
+	
+	/* DEPRECATED 2018.01.23.
+	@RequestMapping(value = "timeseries/retrieval/L_1_A_VisblePRNU", method=RequestMethod.GET)
+	@ResponseBody
+//	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
+	public ArrayList<Vector> selectMatchingData_VsiblePRNU(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
+		
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("targetDate", targetDate);
+		hashmap.put("dBegin", dBegin);
+		hashmap.put("detector", detector);
+		ArrayList<HashMap<String,Object>> results = timeSeriesDataDAOService.selectTimeSeriesData_L1A_VisPRNU(hashmap);
+		
+		//ㅠ 
+		ArrayList<Vector> arr = new ArrayList<Vector>();
+		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
+		
+		for(HashMap<String,Object> row : results){
+			vec0.add(row);
+		}
+		if(vec0.size()!=0)arr.add(vec0);
+		return arr;
+	}
+	*/
 	
 //	@RequestMapping(value = "timeseries/retrieval/L_1_A_VSNR", method=RequestMethod.GET)
 //	@ResponseBody
@@ -1013,29 +1163,6 @@ public class TimeSeriesChartController {
 	
 	
 	
-	/*
-	 * Level 1 A Visible PRNU*/
-	@RequestMapping(value = "timeseries/retrieval/L_1_A_VisblePRNU", method=RequestMethod.GET)
-	@ResponseBody
-//	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
-	public ArrayList<Vector> selectMatchingData_VsiblePRNU(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
-		
-		HashMap<String, String> hashmap = new HashMap<String, String>();
-		hashmap.put("targetDate", targetDate);
-		hashmap.put("dBegin", dBegin);
-		hashmap.put("detector", detector);
-		ArrayList<HashMap<String,Object>> results = timeSeriesDataDAOService.selectTimeSeriesData_L1A_VisPRNU(hashmap);
-		
-		//ㅠ 
-		ArrayList<Vector> arr = new ArrayList<Vector>();
-		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
-		
-		for(HashMap<String,Object> row : results){
-				vec0.add(row);
-		}
-		if(vec0.size()!=0)arr.add(vec0);
-		return arr;
-	}
 	
 	
 	
@@ -1045,21 +1172,54 @@ public class TimeSeriesChartController {
 	@ResponseBody
 //	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
 	public ArrayList<Vector> selectMatchingData_IR_PRNU(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
-		
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put("targetDate", targetDate);
 		hashmap.put("dBegin", dBegin);
-		hashmap.put("detector", detector);
+		hashmap.put("channel", channel);
 		ArrayList<HashMap<String,Object>> results = timeSeriesDataDAOService.selectTimeSeriesData_L1A_IRPRNU(hashmap);
-		
 		//ㅠ 
 		ArrayList<Vector> arr = new ArrayList<Vector>();
 		Vector<HashMap<String, Object>> vec0 = new Vector<HashMap<String,Object>>();
+		Vector<HashMap<String, Object>> vec1 = new Vector<HashMap<String,Object>>();
+		Vector<HashMap<String, Object>> vec2 = new Vector<HashMap<String,Object>>();
+		Vector<HashMap<String, Object>> vec3 = new Vector<HashMap<String,Object>>();
+		
 		
 		for(HashMap<String,Object> row : results){
-			vec0.add(row);
+			String currDate= row.get("DSTR").toString();
+			if(row.get("A220")!=null){
+				HashMap<String,Object> vm = new HashMap<String,Object>();
+				vm.put("DSTR", currDate);
+				vm.put("VALUE", Double.parseDouble(row.get("A220").toString()));
+				vm.put("SNAME", "220K (Detector A)");
+				vec0.add(vm);
+			}
+			if(row.get("B220")!=null){
+				HashMap<String,Object> vm = new HashMap<String,Object>();
+				vm.put("DSTR", currDate);
+				vm.put("VALUE", Double.parseDouble(row.get("B220").toString()));
+				vm.put("SNAME", "220K (Detector B)");
+				vec1.add(vm);
+			}
+			if(row.get("A300")!=null){
+				HashMap<String,Object> vm = new HashMap<String,Object>();
+				vm.put("DSTR", currDate);
+				vm.put("VALUE", Double.parseDouble(row.get("A300").toString()));
+				vm.put("SNAME", "300K (Detector A)");
+				vec2.add(vm);
+			}
+			if(row.get("B300")!=null){
+				HashMap<String,Object> vm = new HashMap<String,Object>();
+				vm.put("DSTR", currDate);
+				vm.put("VALUE", Double.parseDouble(row.get("B300").toString()));
+				vm.put("SNAME", "300K (Detector B)");
+				vec3.add(vm);
+			}
 		}
-		if(vec0.size()!=0)arr.add(vec0);
+		if(vec0.size()!=0)arr.add(vec0); // Detecor A - 220K
+		if(vec1.size()!=0)arr.add(vec1); // Detecor B - 220K
+		if(vec2.size()!=0)arr.add(vec2); // Detecor A - 300K
+		if(vec3.size()!=0)arr.add(vec3); // Detecor B - 300K
 		return arr;
 	}
 	
@@ -1067,7 +1227,7 @@ public class TimeSeriesChartController {
 	
 	/*
 	 * Level 1 A IR NEDT*/
-	@RequestMapping(value = "timeseries/retrieval/L_1_A_IRNEDT", method=RequestMethod.GET)
+	@RequestMapping(value = "timeseries/retrieval/L_1_A_NEDT", method=RequestMethod.GET)
 	@ResponseBody
 //	public ArrayList<HashMap<String,Object>> selectMatchingData(@RequestParam("targetDate") String targetDate,String menuId, String submenuId, String imgMode,  ModelMap model) throws Exception{
 	public ArrayList<Vector> selectMatchingData_IR_NEDT(@RequestParam("targetDate") String targetDate, String dBegin, String channel, String detector,  ModelMap model) throws Exception{
@@ -1075,7 +1235,7 @@ public class TimeSeriesChartController {
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put("targetDate", targetDate);
 		hashmap.put("dBegin", dBegin);
-		hashmap.put("detector", detector);
+		hashmap.put("channel", channel);
 		ArrayList<HashMap<String,Object>> results = timeSeriesDataDAOService.selectTimeSeriesData_L1A_IRNEDT(hashmap);
 		
 		//ㅠ 
@@ -1087,20 +1247,49 @@ public class TimeSeriesChartController {
 		
 		
 		for(HashMap<String,Object> row : results){
-			if(row.get("CHANNEL").toString().equals("2")){
-				vec0.add(row);
-			}else if(row.get("CHANNEL").toString().equals("3")){
-				vec1.add(row);
-			}else if(row.get("CHANNEL").toString().equals("4")){
-				vec2.add(row);
-			}else if(row.get("CHANNEL").toString().equals("5")){
-				vec3.add(row);
+//			if(row.get("CHANNEL").toString().equals("2")){	     // A220
+//				vec0.add(row);
+//			}else if(row.get("CHANNEL").toString().equals("3")){  // B220
+//				vec1.add(row);
+//			}else if(row.get("CHANNEL").toString().equals("4")){  // A300
+//				vec2.add(row);
+//			}else if(row.get("CHANNEL").toString().equals("5")){  // B300
+//				vec3.add(row);
+//			}
+			String currDate= row.get("DSTR").toString();
+			if(row.get("A220")!=null){
+				HashMap<String,Object> vm = new HashMap<String,Object>();
+				vm.put("DSTR", currDate);
+				vm.put("VALUE", Double.parseDouble(row.get("A220").toString()));
+				vm.put("SNAME", "220K (Detector A)");
+				vec0.add(vm);
+			}
+			if(row.get("B220")!=null){
+				HashMap<String,Object> vm = new HashMap<String,Object>();
+				vm.put("DSTR", currDate);
+				vm.put("VALUE", Double.parseDouble(row.get("B220").toString()));
+				vm.put("SNAME", "220K (Detector B)");
+				vec1.add(vm);
+			}
+			if(row.get("A300")!=null){
+				HashMap<String,Object> vm = new HashMap<String,Object>();
+				vm.put("DSTR", currDate);
+				vm.put("VALUE", Double.parseDouble(row.get("A300").toString()));
+				vm.put("SNAME", "300K (Detector A)");
+				vec2.add(vm);
+			}
+			if(row.get("B300")!=null){
+				HashMap<String,Object> vm = new HashMap<String,Object>();
+				vm.put("DSTR", currDate);
+				vm.put("VALUE", Double.parseDouble(row.get("B300").toString()));
+				vm.put("SNAME", "300K (Detector B)");
+				vec3.add(vm);
 			}
 		}
-		if(vec0.size()!=0)arr.add(vec0);
-		if(vec1.size()!=0)arr.add(vec1);
-		if(vec2.size()!=0)arr.add(vec2);
-		if(vec3.size()!=0)arr.add(vec3);
+		if(vec0.size()!=0)arr.add(vec0); // Detecor A - 220K
+		if(vec1.size()!=0)arr.add(vec1); // Detecor B - 220K
+		if(vec2.size()!=0)arr.add(vec2); // Detecor A - 300K
+		if(vec3.size()!=0)arr.add(vec3); // Detecor B - 300K
 		return arr;
 	}
 	

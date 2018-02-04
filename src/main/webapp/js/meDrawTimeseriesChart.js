@@ -7,7 +7,7 @@
 //			var divTitle =  meTitle.split('-').join(' ') + ' ' ;
 //			divTitle = divTitle.split('_').join(' - ');
 		 	var divTitle =  meTitle;
-			divTitle += (titleWithDStr=='nodet')? '' : ' (Detector '+titleWithDStr+')'
+			divTitle += (titleWithDStr=='nodet')? '' : ' (Detector '+(titleWithDStr*1+1)+')'
 		 	
 			
 			var chartId = 't'+idx+'_ts_'+leadingStr;
@@ -112,8 +112,8 @@
 		 * 
 		 */	
 			draggableDiv +=	"				<nav class='nav-circlepop djf'>";
-			draggableDiv +=	"               	<a class='prev' id='carousel_prev' href='#' onclick='changeImgSrc(this.id,$(this))'><span class='icon-wrap'></span></a>";
-			draggableDiv +=	"					<a class='next' id='carousel_next' href='#' onclick='changeImgSrc(this.id,$(this))'><span class='icon-wrap'></span></a>";
+			draggableDiv +=	"               		<a class='prev' id='carousel_prev'  onclick='changeImgSrc(this.id,$(this))'><span class='icon-wrap'></span></a>";
+			draggableDiv +=	"					<a class='next' id='carousel_next'  onclick='changeImgSrc(this.id,$(this))'><span class='icon-wrap'></span></a>";
 			draggableDiv +=	"				</nav>";
 			draggableDiv +=	"				<div id='"+ chartId + "' class='classySnob' style=''></div>";
 			draggableDiv +=	"			</div>";
@@ -718,10 +718,7 @@
 				url: url,
 				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 		        success: function(jsonData) {
-		        	if(jsonData.length==0){
-		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
-		        		return;
-		        	}
+
 					var _vsnrChart = $('#'+chartId).highcharts(); 
 					
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -731,6 +728,12 @@
 						
 		        	//chart goes here
 					var _chartInstance;    				
+				 	if(jsonData.length==0){
+				        	map.put(chartId, _chartInstance);
+			        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+			        		return;
+			        	}
+					
 					_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
 //							type : 'scatter',
@@ -744,14 +747,15 @@
 //							zoomType : 'xy',
 						},
 						title: {
-				            text: 'Visible SNR (Image Pixel-to-Pixel Non-Uniformity)',
+				            text: 'Visible SNR',
 				            align: 'center',
 				            style:{
 				            	font:'bold 16px NanumGothic'
 				            }
 				        },
 				        subtitle: {
-				            text: '(Reference Detector: Visible Detector ' + detector + ')',
+//				            text: '(Reference Detector: Visible Detector ' + detector + ')',
+				            text: null,
 				            align: 'center',
 				            style:{
 				            	font:'normal 13px NanumGothic'
@@ -771,20 +775,27 @@
 			    	        },
 			    	        lineWidth:0,
 			    	
-				            title: {
-				                text: 'Value',
-			                	style : {
-			                		font:'normal 12px NanumGothic'
-			                	}	
+			            title: {
+			                text: null,
+		                	style : {
+		                		font:'normal 12px NanumGothic'
+		                	}	
+			            },
+			            labels:{
+				            style : {
+			            		font:'normal 11px NanumGothic'
 				            },
-				            labels:{
-					            style : {
-				            		font:'normal 11px NanumGothic'
-					            },
-					            formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-					            	return Highcharts.numberFormat(this.value, 2, '.', ',');
-					            }
-			            	}
+//				            formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+				            		//return Highcharts.numberFormat(this.value, 2, '.', ',');
+//				            }
+			            	},
+			            	plotLines:[{
+			                    value:10,
+			                    color: '#ff2a2c',
+			                    width:1,
+			                    zIndex:4,
+			                    label:{text:'Requirement'}
+		                }]
 				            /*,plotLines:[{
 			                    value:2.7,
 			                    color: '#ff0000',
@@ -809,12 +820,14 @@
 		        	//chart goes here
 //					console.time('asyncRender');
 					$.each (Object.keys(jsonData), function(idx,val){
-			        	var eachData = [];
-		        		var vrDataObj = jsonData[val];
+				        	var eachData = [];
+			        		var vrDataObj = jsonData[val];
+		        	/*
 		        		if( val.substr(-1) ===  detector) {
 //		        			sysout('detNum is ' + detector + '  if( val.substr(-1) ===  detector) { return; }');
 		        			return;
 	        			}
+	        		*/	
 		        		/////////////////////////////////////////////////////////////////////
 						for (var k = 0; k < vrDataObj.length; k++) {
 							var d = /^(\d{4})\-(\d{2})\-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/.exec(vrDataObj[k].D);
@@ -822,7 +835,8 @@
 							eachData.push([d, parseNumericVal(vrDataObj[k].V)]);
 						}
 						 _chartInstance.addSeries({
-			        			name: 'Deteoctor ' + idx*1,
+//			        			name: 'Deteoctor ' + idx*1,
+			        			name: 'Deteoctor ' + (idx*1+1),
 			        			data: eachData
 	        			});
 	//					 _chartInstance.series[idx*1].setData(eachData); 
@@ -844,30 +858,34 @@
 		}
 		
 		
-		function addChart_VRadiance(url,dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
-			systime('addChart_VRadiance()', 'begin');
+		function addChart_VisiblePRNU(url,dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
+			systime('addChart_VisiblePRNU()', 'begin');
 			$.ajax({
 				type: 'GET',
 				dataType:'json',
-//				url: '<c:url value='/' />timeseries/retrieval/L_1_A_VR',
-				url: url,
-				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
+				url: url,	
+//				url: '<c:url value='/' />timeseries/retrieval/L_1_A_VisblePRNU',
+				data:'targetDate=' + dStr +'&dBegin=' + dBegin +  '&channel=1&detector='+ detector,
 		        success: function(jsonData) {
-		        	if(jsonData.length==0){
-		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
-		        		return;
-		        	}
-
+//		        	if(jsonData.length==0){
+//		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//		        		return;
+//		        	}
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 					chartingPeriod = chartingPeriod.toUpperCase();
 					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 						
-		        	//chart goes here
-//					var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_singleSeries,{
-						var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+					var _chartInstance;    				
+				 	if(jsonData.length==0){
+				        	map.put(chartId, _chartInstance);
+			        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+			        		return;
+			        	}
+					
+					_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
-//							type : 'line',
+//							type : 'scatter',
 							renderTo : chartId,  								
 //							defaultSeriesType : 'line',
 //							animation: false,
@@ -876,14 +894,14 @@
 //							zoomType : 'xy',
 						},
 						title: {
-							text: 'Visible Radiance',
+							text: 'Visible PRNU',
 							align: 'center',
 							style:{
 								font:'bold 16px NanumGothic'
 							}
 						},
 						subtitle: {
-							text: '(Detector ' + detector + ')',
+				            text: '(Reference Detector: Detector ' + ((detector*1)+1) + ')',
 							align: 'center',
 							style:{
 								font:'normal 13px NanumGothic'
@@ -905,7 +923,7 @@
 				    		 // max:3,
 						  	// min: -3,
 							 	title: {
-								text: 'Value',
+								text: null,
 								style : {
 									font:'normal 12px NanumGothic'
 								}	
@@ -914,9 +932,134 @@
 								style : {
 									font:'normal 11px NanumGothic'
 								},
-								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-					            	return Highcharts.numberFormat(this.value, 0, '.', ',');
-					            }
+//								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+					            	//return Highcharts.numberFormat(this.value, 2, '.', ',');
+//					            }
+							},	
+							plotLines:[{
+				                    value:0.8,
+				                    color: '#ff2a2c',
+				                    width:1,
+				                    zIndex:4,
+				                    label:{text:'Specification'}
+			                }]
+						}
+				
+					})); //haha
+		        	
+		        	//chart goes here
+		        	
+				$.each (Object.keys(jsonData), function(idx,val){
+			        	var eachData = [];
+		        		var vrDataObj = jsonData[val];
+		        		if( val.substr(-1) ===  detector) {
+	//	        			sysout('detNum is ' + detector + '  if( val.substr(-1) ===  detector) { return; }');
+		        			return;
+	        			}
+	        		/////////////////////////////////////////////////////////////////////
+					for (var k = 0; k < vrDataObj.length; k++) {
+						var d = /^(\d{4})\-(\d{2})\-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/.exec(vrDataObj[k].D);
+						d = Date.UTC(d[1],d[2]*1-1,d[3],d[4],d[5],d[6]);
+						eachData.push([d, parseNumericVal(vrDataObj[k].V)]);
+					}
+					 _chartInstance.addSeries({
+//		        			name: 'Deteoctor ' + idx*1,
+		        			name: 'Deteoctor ' + (idx*1+1),
+		        			data: eachData
+        			});
+//					 _chartInstance.series[idx*1].setData(eachData); 
+				});
+	        	
+	      		//$('#'+chartId).pleaseWait('stop');	
+	      		//charts.push(_chartInstance);
+//	      		var idx = 't' + $("#tabs").tabs('option', 'active') + '_';
+	      		map.put(chartId, _chartInstance);
+ 		        	systime('addChart_VisiblePRNU()', 'end');
+				},
+		        cache: false,
+		        
+			});	
+		}
+		
+		
+		function addChart_VRadiance(url,dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
+			systime('addChart_VRadiance()', 'begin');
+			$.ajax({
+				type: 'GET',
+				dataType:'json',
+//				url: '<c:url value='/' />timeseries/retrieval/L_1_A_VR',
+				url: url,
+				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
+		        success: function(jsonData) {
+//		        	if(jsonData.length==0){
+//		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//		        		return;
+//		        	}
+
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+					chartingPeriod = chartingPeriod.toUpperCase();
+					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
+					///////////////////////////////////////////////////////////////////////////////////////////////////////
+						
+					var _chartInstance;    				
+				 	if(jsonData.length==0){
+				        	map.put(chartId, _chartInstance);
+			        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+			        		return;
+			        	}
+					
+					_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+						chart : {
+//							type : 'line',
+							renderTo : chartId,  								
+//							defaultSeriesType : 'line',
+//							animation: false,
+//							plotBorderWidth : 1,
+//							plotBorderColor : '#346691', // '#346691',
+//							zoomType : 'xy',
+						},
+						title: {
+							text: 'Visible Radiance',
+							align: 'center',
+							style:{
+								font:'bold 16px NanumGothic'
+							}
+						},
+						subtitle: {
+							text: '(Detector ' + (detector*1+1) + ')',
+							align: 'center',
+							style:{
+								font:'normal 13px NanumGothic'
+							}
+						},
+						yAxis: {
+							//get rid of horizontal grid lines haha
+							//gridLineWidth: 0,
+							tickColor: '#346691',
+							tickLength: 5,
+							tickWidth: 1,
+							tickPosition: 'inside',
+							labels: {
+								align: 'right',
+								x:-10,
+								y:5
+							},
+							lineWidth:0,
+				    		 // max:3,
+						  	// min: -3,
+							 	title: {
+								text: null,
+								style : {
+									font:'normal 12px NanumGothic'
+								}	
+							},
+							labels:{
+								style : {
+									font:'normal 11px NanumGothic'
+								},
+//								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+									//return Highcharts.numberFormat(this.value, 0, '.', ',');
+//					            }
 							},	
 						},
 					 	series: [
@@ -969,10 +1112,8 @@
 		}
 		
 		
-		
-		
-		function addChart_VisiblePRNU(url,dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
-			systime('addChart_VisiblePRNU()', 'begin');
+		function addChart_MOON_SLOPE(url,dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
+			systime('addChart_moonSlope()', 'begin');
 			$.ajax({
 				type: 'GET',
 				dataType:'json',
@@ -980,16 +1121,17 @@
 //				url: '<c:url value='/' />timeseries/retrieval/L_1_A_VisblePRNU',
 				data:'targetDate=' + dStr +'&dBegin=' + dBegin +  '&channel=1&detector='+ detector,
 		        success: function(jsonData) {
-		        	if(jsonData.length==0){
-		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
-		        		return;
-		        	}
 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 					chartingPeriod = chartingPeriod.toUpperCase();
 					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
-						
+					var _chartInstance;    				
+				 	if(jsonData.length==0){
+				        	map.put(chartId, _chartInstance);
+			        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+			        		return;
+			        	}	
 		        	
 		        	//chart goes here
 					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
@@ -1003,14 +1145,14 @@
 //							zoomType : 'xy',
 						},
 						title: {
-							text: 'Visible PRNU',
+							text: 'Moon Slope',
 							align: 'center',
 							style:{
 								font:'bold 16px NanumGothic'
 							}
 						},
 						subtitle: {
-							text: '(Detector ' + detector + ')',
+							text: '(Detector ' + (detector*1+1) + ')',
 							align: 'center',
 							style:{
 								font:'normal 13px NanumGothic'
@@ -1032,7 +1174,7 @@
 				    		 // max:3,
 						  	// min: -3,
 							 	title: {
-								text: 'Value',
+								text: null,
 								style : {
 									font:'normal 12px NanumGothic'
 								}	
@@ -1041,17 +1183,17 @@
 								style : {
 									font:'normal 11px NanumGothic'
 								},
-								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-					            	return Highcharts.numberFormat(this.value, 2, '.', ',');
-					            }
+//								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+									//return Highcharts.numberFormat(this.value, 2, '.', ',');
+//					            }
 							},	
-							plotLines:[{
-				                    value:0.8,
-				                    color: '#ff2a2c',
-				                    width:1,
-				                    zIndex:4,
-				                    label:{text:'Specification'}
-			                }]
+//							plotLines:[{
+//				                    value:0.8,
+//				                    color: '#ff2a2c',
+//				                    width:1,
+//				                    zIndex:4,
+//				                    label:{text:'Specification'}
+//			                }]
 						}
 				
 					})); //haha
@@ -1066,24 +1208,22 @@
 							d = Date.UTC(d[1],d[2]*1-1,d[3],d[4],d[5],d[6]);
 							eachData.push([d,parseNumericVal(vrDataObj[i].VALUE)]);
 						}
-						//_chartInstance.series[idx].setData(eachData); 
-						 /* 
-						 */
 						 _chartInstance.addSeries({
 			        			name: 'Detector ' + detector,
 			        			data: eachData
-	        			}); 
-					});
+						 }); 
+				});
 					
  		        	//$('#'+chartId).pleaseWait('stop');	
  		        	//charts.push(_chartInstance);
  		        	map.put(chartId, _chartInstance);
- 		        	systime('addChart_VisiblePRNU()', 'end');
+ 		        	systime('addChart_moonSlope()', 'end');
 				},
 		        cache: false,
 		        
 			});	
 		}
+		
 		
 		
 		
@@ -1096,18 +1236,25 @@
 				url:url,
 				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 		        success: function(jsonData) {
-		        	if(jsonData.length==0){
-		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
-		        		return;
-		        	}
+//		        	if(jsonData.length==0){
+//		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//		        		return;
+//		        	}
 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 					chartingPeriod = chartingPeriod.toUpperCase();
 					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 							        	
-		        	//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+					
+					var _chartInstance;    				
+				 	if(jsonData.length==0){
+				        	map.put(chartId, _chartInstance);
+			        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+			        		return;
+			        	}
+					
+					_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
 //							type : 'line',
 							renderTo : chartId,  								
@@ -1125,7 +1272,7 @@
 							}
 						},
 						subtitle: {
-							text: '(Detector ' + detector + ')',
+							text: '(Detector ' + (detector*1+1) + ')',
 							align: 'center',
 							style:{
 								font:'normal 13px NanumGothic'
@@ -1147,7 +1294,7 @@
 				    		 // max:3,
 						  	// min: -3,
 							 	title: {
-								text: 'Value',
+								text: null,
 								style : {
 									font:'normal 12px NanumGothic'
 								}	
@@ -1156,9 +1303,9 @@
 								style : {
 									font:'normal 11px NanumGothic'
 								},
-								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-					            	return Highcharts.numberFormat(this.value, 0, '.', ',');
-					            }
+//								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+									//return Highcharts.numberFormat(this.value, 0, '.', ',');
+//					            }
 							},	
 						}
 					 	
@@ -1194,7 +1341,15 @@
 		}
 		
 		
-		
+		function getAppropriateChannelName(cid){
+			if(cid=='2') return 'SWIR';
+			else if(cid=='3') return 'VW';
+			else if(cid=='4') return 'IR1';
+			else if(cid=='5') return 'IR2';
+		}
+		/**
+		 * 채널넘버(SWIR,WV,IR1,IR2)는 기존 detector로 받자(노드 키 새로 만들기 귀찮) 
+		 * */
 		function addChart_IR_NEDT(url, dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
 			systime('addChart_IR_NEDT()', 'begin');
 			$.ajax({
@@ -1202,20 +1357,25 @@
 				dataType:'json',
 //				url: '<c:url value='/' />timeseries/retrieval/L_1_A_IRNEDT',
 				url: url,
-				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
+				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel='+detector+'&detector='+ detector,
 		        success: function(jsonData) {
-		        	if(jsonData.length==0){
-		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
-		        		return;
-		        	}
+//		        	if(jsonData.length==0){
+//		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//		        		return;
+//		        	}
 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 					chartingPeriod = chartingPeriod.toUpperCase();
 					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 					
-		        	//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+					var _chartInstance;    				
+				 	if(jsonData.length==0){
+				        	map.put(chartId, _chartInstance);
+			        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+			        		return;
+			        	}
+					_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
 //							type : 'line',
 							renderTo : chartId,  								
@@ -1226,14 +1386,14 @@
 //							zoomType : 'xy',
 						},
 						title: {
-							text: 'IR NEDT (220K)',
+							text: getAppropriateChannelName(detector) + ' NEDT',
 							align: 'center',
 							style:{
 								font:'bold 16px NanumGothic'
 							}
 						},
 						subtitle: {
-							text: '(Detector ' + detector + ')',
+							text: '(Channel ' + detector + ')',
 							align: 'center',
 							style:{
 								font:'normal 13px NanumGothic'
@@ -1255,7 +1415,7 @@
 				    		 // max:3,
 						  	// min: -3,
 							 	title: {
-								text: 'Value',
+								text: null,
 								style : {
 									font:'normal 12px NanumGothic'
 								}	
@@ -1264,9 +1424,9 @@
 								style : {
 									font:'normal 11px NanumGothic'
 								},
-								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-					            	return Highcharts.numberFormat(this.value, 0, '.', ',');
-					            }
+//								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+					            		//return Highcharts.numberFormat(this.value, 0, '.', ',');
+//					            }
 							}	
 						}
 					 
@@ -1286,7 +1446,7 @@
 						 /* 
 						 */
 						 _chartInstance.addSeries({
-			        			name: 'Channel ' + vrDataObj[0].CHANNEL,
+			        			name: vrDataObj[0].SNAME,
 			        			data: eachData
 	        			}); 
 					});
@@ -1307,31 +1467,37 @@
 		
 		
 		
-		
-		
+		/**
+		 * 채널넘버(SWIR,WV,IR1,IR2)는 기존 detector로 받자(노드 키 새로 만들기 귀찮) 
+		 * */
 		function addChart_IR_PRNU(url,dStr, dBegin, tabIndex,detector,chartId, chartingPeriod){
 			systime('addChart_IR_PRNU()', 'begin');
 			$.ajax({
 				type: 'GET',
 				dataType:'json',
-				//url: '<c:url value='/' />timeseries/retrieval/L_1_A_IRPRNU',
+//				url: '<c:url value='/' />timeseries/retrieval/L_1_A_IRNEDT',
 				url: url,
-				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
+				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel='+detector+'&detector='+ detector,
 		        success: function(jsonData) {
-		        	if(jsonData.length==0){
-		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
-		        		return;
-		        	}
+//		        	if(jsonData.length==0){
+//		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//		        		return;
+//		        	}
 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 					chartingPeriod = chartingPeriod.toUpperCase();
 					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 					
-		        	//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+					var _chartInstance;    				
+				 	if(jsonData.length==0){
+				        	map.put(chartId, _chartInstance);
+			        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+			        		return;
+			        	}
+					_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
-//							type : 'scatter',
+//							type : 'line',
 							renderTo : chartId,  								
 //							defaultSeriesType : 'line',
 //							animation: false,
@@ -1340,14 +1506,14 @@
 //							zoomType : 'xy',
 						},
 						title: {
-							text: 'IR PRNU',
+							text: getAppropriateChannelName(detector) + ' PRNU',
 							align: 'center',
 							style:{
 								font:'bold 16px NanumGothic'
 							}
 						},
 						subtitle: {
-							text: '(Detector ' + detector + ')',
+							text: '(Channel ' + detector + ')',
 							align: 'center',
 							style:{
 								font:'normal 13px NanumGothic'
@@ -1369,7 +1535,7 @@
 				    		 // max:3,
 						  	// min: -3,
 							 	title: {
-								text: 'Value',
+								text: null,
 								style : {
 									font:'normal 12px NanumGothic'
 								}	
@@ -1378,16 +1544,12 @@
 								style : {
 									font:'normal 11px NanumGothic'
 								},
-								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-					            	return Highcharts.numberFormat(this.value, 4, '.', ',');
-					            }
+//								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+									//return Highcharts.numberFormat(this.value, 0, '.', ',');
+//					            }
 							}	
 						}
-					    ,series: [
-									{name:'IR PRNU',
-									     color:'#7cb5ec',
-									     connectNulls:false, data: []}
-						 ]
+					 
 					})); //haha
 		        	
 		        	//chart goes here
@@ -1400,14 +1562,14 @@
 							d = Date.UTC(d[1],d[2]*1-1,d[3],d[4],d[5],d[6]);
 							eachData.push([d,parseNumericVal(vrDataObj[i].VALUE)]);
 						}
-						
-						_chartInstance.series[idx*1].setData(eachData); 
-						
-						/* _chartInstance.addSeries({
-			        			name: vrDataObj[0].TYPENAME,
+						//_chartInstance.series[idx].setData(eachData); 
+						 /* 
+						 */
+						 _chartInstance.addSeries({
+			        			name: vrDataObj[0].SNAME,
 			        			data: eachData
-	        			}); */
-					});
+						 }); 
+				});
 					
  		        	//$('#'+chartId).pleaseWait('stop');	
  		        	//charts.push(_chartInstance);
@@ -1434,18 +1596,22 @@
 				url: url,
 				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&ENVType='+ ENVTypeCode,
 				success: function(jsonData) {
-					if(jsonData.length==0){
-						$('#'+chartId).append("<span class='clear'>No data available.</span>");
-						return;
-					}
+//					if(jsonData.length==0){
+//						$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//						return;
+//					}
 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 					chartingPeriod = chartingPeriod.toUpperCase();
 					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
-							        	
-					//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+					var _chartInstance;    				
+				 	if(jsonData.length==0){
+				        	map.put(chartId, _chartInstance);
+			        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+			        		return;
+			        	}
+					_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{		        	
 						chart : {
 //							type : 'scatter',
 							renderTo : chartId,  								
@@ -1495,9 +1661,9 @@
 								style : {
 									font:'normal 11px NanumGothic'
 								},
-								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-									return Highcharts.numberFormat(this.value, 3, '.', ',');
-								}
+//								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+									//return Highcharts.numberFormat(this.value, 3, '.', ',');
+//								}
 							}	
 								
 							
@@ -1559,7 +1725,7 @@
 					
 					//$('#'+chartId).pleaseWait('stop');	
 					//charts.push(_chartInstance);
-					map.put(chartId, _chartInstance);
+//					map.put(chartId, _chartInstance);
 					systime('addChart_L1A_ENV()', 'end');
 				},
 				cache: false,
@@ -1646,19 +1812,23 @@
 				url: url,
 				data: 'targetDate=' + dStr +'&dBegin=' + dBegin +  '&imgMode=1&menuId=l1b&submenuId=nVL',
 		        success: function(jsonData) {
-					if(jsonData.length==0){
-		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
-		        		return;
-		        	}
+//					if(jsonData.length==0){
+//		        			$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//		        			return;
+//		        		}
 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 					chartingPeriod = chartingPeriod.toUpperCase();
 //					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
 					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries_L1B_QI : options_multipleSeries_scatter; 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
-						
-		        	//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+					var _chartInstance;    				
+				 	if(jsonData.length==0){
+				        	map.put(chartId, _chartInstance);
+			        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+			        		return;
+			        	}
+					_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
 //							type : 'line',
 							renderTo : chartId,  							
@@ -1706,9 +1876,9 @@
 					            style : {
 				            		font:'normal 11px NanumGothic'
 					            },
-					            formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-					            	return Highcharts.numberFormat(this.value, 0, '.', ',');
-					            }
+//					            formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+					            		//return Highcharts.numberFormat(this.value, 0, '.', ',');
+//					            }
 			            	},	
 				        },
 					
@@ -1754,7 +1924,7 @@
 					});
 		        	//$('#'+chartId).pleaseWait('stop');
 		        	//charts.push(_chartInstance);
-		        	map.put(chartId, _chartInstance);
+//		        	map.put(chartId, _chartInstance);
 		        	systime('addChart_LV1B_QI_NumOfLandmarks()', 'end');
 				},
 		        cache: false	
@@ -1773,10 +1943,10 @@
 				url: url,
 				data: 'targetDate=' + dStr + '&dBegin=' + dBegin + '&imgMode=1&menuId=l1b&submenuId=nVL',
 				success: function(jsonData) {
-					if(jsonData.length==0){
-						$('#'+chartId).append("<span class='clear'>No data available.</span>");
-						return;
-					}
+//					if(jsonData.length==0){
+//						$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//						return;
+//					}
 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 					chartingPeriod = chartingPeriod.toUpperCase();
@@ -1784,8 +1954,13 @@
 					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries_L1B_QI : options_multipleSeries_scatter; 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 						
-					//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+					var _chartInstance;    				
+				 	if(jsonData.length==0){
+				        	map.put(chartId, _chartInstance);
+			        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+			        		return;
+			        	}
+					_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
 //							type : 'line',
 							renderTo : chartId,  							
@@ -1833,9 +2008,9 @@
 								style : {
 									font:'normal 11px NanumGothic'
 								},
-								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-									return Highcharts.numberFormat(this.value, 5, '.', ',');
-								}
+//								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+									//return Highcharts.numberFormat(this.value, 5, '.', ',');
+//								}
 							},	
 						},
 						
@@ -1876,7 +2051,7 @@
 					});
 					//$('#'+chartId).pleaseWait('stop');
 					//charts.push(_chartInstance);
-					map.put(chartId, _chartInstance);
+//					map.put(chartId, _chartInstance);
 					systime('addChart_LV1B_QI_ResidualStdDev()', 'end');
 				},
 				cache: false	
@@ -1894,10 +2069,10 @@
 				url: url,
 				data: 'targetDate=' + dStr + '&dBegin=' + dBegin + '&imgMode=1&menuId=l1b&submenuId=nVL',
 				success: function(jsonData) {
-					if(jsonData.length==0){
-						$('#'+chartId).append("<span class='clear'>No data available.</span>");
-						return;
-					}
+//					if(jsonData.length==0){
+//						$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//						return;
+//					}
 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 					chartingPeriod = chartingPeriod.toUpperCase();
@@ -1905,8 +2080,13 @@
 					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries_L1B_QI : options_multipleSeries_scatter; 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 						
-					//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+					var _chartInstance;    				
+				 	if(jsonData.length==0){
+				        	map.put(chartId, _chartInstance);
+			        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+			        		return;
+			        	}
+					_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
 //							type : 'line',
 							renderTo : chartId,  							
@@ -1954,9 +2134,9 @@
 								style : {
 									font:'normal 11px NanumGothic'
 								},
-								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-									return Highcharts.numberFormat(this.value, 5, '.', ',');
-								}
+//								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+									//return Highcharts.numberFormat(this.value, 5, '.', ',');
+//								}
 							},	
 						},
 						
@@ -1998,7 +2178,7 @@
 					});
 					//$('#'+chartId).pleaseWait('stop');
 					//charts.push(_chartInstance);
-					map.put(chartId, _chartInstance);
+//					map.put(chartId, _chartInstance);
 					systime('addChart_LV1B_QI_ResidualQuadraticDistance()', 'end');
 				},
 				cache: false	
@@ -2017,10 +2197,10 @@
 				url: url,
 				data: 'targetDate=' + dStr + '&dBegin=' + dBegin + '&imgMode=1&menuId=l1b&submenuId=RAVG',
 				success: function(jsonData) {
-					if(jsonData.length==0){
-						$('#'+chartId).append("<span class='clear'>No data available.</span>");
-						return;
-					}
+//					if(jsonData.length==0){
+//						$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//						return;
+//					}
 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 					chartingPeriod = chartingPeriod.toUpperCase();
@@ -2028,8 +2208,13 @@
 					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries_L1B_QI : options_multipleSeries_scatter; 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 						
-					//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+					var _chartInstance;    				
+				 	if(jsonData.length==0){
+				        	map.put(chartId, _chartInstance);
+			        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+			        		return;
+			        	}
+					_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
 //							type : 'line',
 							renderTo : chartId,  							
@@ -2078,9 +2263,9 @@
 								style : {
 									font:'normal 11px NanumGothic'
 								},
-								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-					            	return Highcharts.numberFormat(this.value, 5, '.', ',');
-					            }
+//								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+									//return Highcharts.numberFormat(this.value, 5, '.', ',');
+//					            }
 							},	
 						}
 						
@@ -2164,9 +2349,9 @@
 						_chartInstance.series[idx*2+1].setData(eachData2);// 1 3 ..
 					});
 					
-					//$('#'+chartId).pleaseWait('stop');
+					//$('#'+chartId).('stop');
 					//charts.push(_chartInstance);
-					map.put(chartId, _chartInstance);
+//					map.put(chartId, _chartInstance);
 					systime('addChart_LV1B_QI_ResidualAvg()', 'end');
 				},
 				cache: false	
@@ -2186,18 +2371,24 @@
 //				url: '<c:url value='/' />timeseries/retrieval/L_1_A_VisblePRNU',
 				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 		        success: function(jsonData) {
-		        	if(jsonData.length==0){
-		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
-		        		return;
-		        	}
+//		        	if(jsonData.length==0){
+//		        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//		        		return;
+//		        	}
 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 					chartingPeriod = chartingPeriod.toUpperCase();
 					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 						
-		        	//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+					
+					var _chartInstance;    				
+				 	if(jsonData.length==0){
+				        	map.put(chartId, _chartInstance);
+			        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+			        		return;
+			        	}
+					_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
 //							type : 'scatter',
 							renderTo : chartId,  								
@@ -2246,9 +2437,9 @@
 								style : {
 									font:'normal 11px NanumGothic'
 								},
-								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-					            	return Highcharts.numberFormat(this.value, 0, '.', ',');
-					            }
+//								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+									//return Highcharts.numberFormat(this.value, 0, '.', ',');
+//					            }
 							},	
 						}
 					 
@@ -2294,18 +2485,24 @@
 //				url: '<c:url value='/' />timeseries/retrieval/L_1_A_VisblePRNU',
 				data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 				success: function(jsonData) {
-					if(jsonData.length==0){
-						$('#'+chartId).append("<span class='clear'>No data available.</span>");
-						return;
-					}
+//					if(jsonData.length==0){
+//						$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//						return;
+//					}
 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 					chartingPeriod = chartingPeriod.toUpperCase();
 					var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
 					///////////////////////////////////////////////////////////////////////////////////////////////////////
 						
+					var _chartInstance;    				
+				 	if(jsonData.length==0){
+				        	map.put(chartId, _chartInstance);
+			        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+			        		return;
+			        	}
+					_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 					//chart goes here
-					var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 						chart : {
 //							type : 'line',
 							renderTo : chartId,  								
@@ -2345,7 +2542,7 @@
 							// max:3,
 							// min: -3,
 							title: {
-								text: 'Value',
+								text: null,
 								style : {
 									font:'normal 12px NanumGothic'
 								}	
@@ -2354,9 +2551,9 @@
 								style : {
 									font:'normal 11px NanumGothic'
 								},
-								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-									return Highcharts.numberFormat(this.value, 2, '.', ',');
-								}
+//								formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+									//return Highcharts.numberFormat(this.value, 2, '.', ',');
+//								}
 							}	
 							
 							
@@ -2405,7 +2602,7 @@
 					
 					//$('#'+chartId).pleaseWait('stop');	
 					//charts.push(_chartInstance);
-					map.put(chartId, _chartInstance);
+//					map.put(chartId, _chartInstance);
 					systime('addChart_LV1B_EV_SCATT()', 'end');
 				},
 				cache: false,
@@ -2436,10 +2633,10 @@
 						url: url,
 						data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 				        success: function(jsonData) {
-				        	if(jsonData.length==0){
-				        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
-				        		return;
-				        	}
+//				        	if(jsonData.length==0){
+//				        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//				        		return;
+//				        	}
 
 							///////////////////////////////////////////////////////////////////////////////////////////////////////
 							chartingPeriod = chartingPeriod.toUpperCase();
@@ -2447,9 +2644,15 @@
 							var chartOptions = options_visibleLine ; 
 							///////////////////////////////////////////////////////////////////////////////////////////////////////
 								
+							
+							var _chartInstance;    				
+						 	if(jsonData.length==0){
+						        	map.put(chartId, _chartInstance);
+					        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+					        		return;
+					        	}
+							_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 				        	//chart goes here
-//							var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_singleSeries,{
-								var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 								chart : {
 //									type : 'line',
 									renderTo : chartId,  								
@@ -2505,9 +2708,9 @@
 										style : {
 											font:'normal 11px NanumGothic'
 										},
-										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-							            	return Highcharts.numberFormat(this.value, 2, '.', ',');
-							            }
+//										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											//return Highcharts.numberFormat(this.value, 2, '.', ',');
+//							            }
 									}
 								}, { // Secondary yAxis precipitation mm
 									///////////////////
@@ -2537,9 +2740,9 @@
 										style : {
 											font:'normal 11px NanumGothic'
 										},
-										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-							            	return Highcharts.numberFormat(this.value, 0, '.', ',');
-							            }
+//										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											//return Highcharts.numberFormat(this.value, 0, '.', ',');
+//							            }
 									},
 									gridLineWidth: 0,
 									opposite : true,
@@ -2616,19 +2819,24 @@
 						url: url,
 						data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 						success: function(jsonData) {
-							if(jsonData.length==0){
-								$('#'+chartId).append("<span class='clear'>No data available.</span>");
-								return;
-							}
+//							if(jsonData.length==0){
+//								$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//								return;
+//							}
 							///////////////////////////////////////////////////////////////////////////////////////////////////////
 							chartingPeriod = chartingPeriod.toUpperCase();
 //							var chartOptions = (chartingPeriod=="DAILY")? options_multipleSeries : options_multipleSeries_scatter; 
 							var chartOptions = options_visibleLine ; 
 							///////////////////////////////////////////////////////////////////////////////////////////////////////
 							
+							var _chartInstance;    				
+						 	if(jsonData.length==0){
+						        	map.put(chartId, _chartInstance);
+					        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+					        		return;
+					        	}
+							_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 							//chart goes here
-//							var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_singleSeries,{
-							var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 								chart : {
 //									type : 'line',
 									renderTo : chartId,  								
@@ -2684,9 +2892,9 @@
 										style : {
 											font:'normal 11px NanumGothic'
 										},
-										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-											return Highcharts.numberFormat(this.value, 2, '.', ',');
-										}
+//										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											//return Highcharts.numberFormat(this.value, 2, '.', ',');
+//										}
 									}
 								}, { 
 									// Secondary yAxis precipitation 
@@ -2719,9 +2927,9 @@
 										style : {
 											font:'normal 11px NanumGothic'
 										},
-										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-											return Highcharts.numberFormat(this.value, 0, '.', ',');
-										}
+//										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											//return Highcharts.numberFormat(this.value, 0, '.', ',');
+//										}
 									},
 									gridLineWidth: 0,
 									opposite : true,
@@ -2838,10 +3046,10 @@
 						url: url,
 						data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 						success: function(jsonData) {
-							if(jsonData.length==0){
-								$('#'+chartId).append("<span class='clear'>No data available.</span>");
-								return;
-							}
+//							if(jsonData.length==0){
+//								$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//								return;
+//							}
 							
 							///////////////////////////////////////////////////////////////////////////////////////////////////////
 							chartingPeriod = chartingPeriod.toUpperCase();
@@ -2849,9 +3057,13 @@
 							var chartOptions = options_visibleLine ; 
 							///////////////////////////////////////////////////////////////////////////////////////////////////////
 							
-							//chart goes here
-//							var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_singleSeries,{
-							var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+							var _chartInstance;    				
+						 	if(jsonData.length==0){
+						        	map.put(chartId, _chartInstance);
+					        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+					        		return;
+					        	}
+							_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 								chart : {
 //									type : 'line',
 									renderTo : chartId,  								
@@ -2907,9 +3119,9 @@
 										style : {
 											font:'normal 11px NanumGothic'
 										},
-										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-											return Highcharts.numberFormat(this.value, 1, '.', ',');
-										}
+//										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											//return Highcharts.numberFormat(this.value, 1, '.', ',');
+//										}
 									}
 								}, { // Secondary yAxis precipitation mm
 									///////////////////
@@ -2939,9 +3151,9 @@
 										style : {
 											font:'normal 11px NanumGothic'
 										},
-										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-											return Highcharts.numberFormat(this.value, 0, '.', ',');
-										}
+//										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											//return Highcharts.numberFormat(this.value, 0, '.', ',');
+//										}
 									},
 									gridLineWidth: 0,
 									opposite : true,
@@ -3014,10 +3226,10 @@
 						url: url,
 						data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 						success: function(jsonData) {
-							if(jsonData.length==0){
-								$('#'+chartId).append("<span class='clear'>No data available.</span>");
-								return;
-							}
+//							if(jsonData.length==0){
+//								$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//								return;
+//							}
 							
 							///////////////////////////////////////////////////////////////////////////////////////////////////////
 							chartingPeriod = chartingPeriod.toUpperCase();
@@ -3025,9 +3237,14 @@
 							var chartOptions = options_visibleLine ; 
 							///////////////////////////////////////////////////////////////////////////////////////////////////////
 							
+							var _chartInstance;    				
+						 	if(jsonData.length==0){
+						        	map.put(chartId, _chartInstance);
+					        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+					        		return;
+					        	}
+							_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 							//chart goes here
-//							var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_singleSeries,{
-							var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 								chart : {
 //									type : 'line',
 									renderTo : chartId,  								
@@ -3083,9 +3300,9 @@
 										style : {
 											font:'normal 11px NanumGothic'
 										},
-										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-											return Highcharts.numberFormat(this.value, 1, '.', ',');
-										}
+//										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											//return Highcharts.numberFormat(this.value, 1, '.', ',');
+//										}
 									}
 								}, { // Secondary yAxis precipitation mm
 									///////////////////
@@ -3115,9 +3332,9 @@
 										style : {
 											font:'normal 11px NanumGothic'
 										},
-										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-											return Highcharts.numberFormat(this.value, 0, '.', ',');
-										}
+//										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											//return Highcharts.numberFormat(this.value, 0, '.', ',');
+//										}
 									},
 									gridLineWidth: 0,
 									opposite : true,
@@ -3194,10 +3411,10 @@
 						url: url,
 						data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 						success: function(jsonData) {
-							if(jsonData.length==0){
-								$('#'+chartId).append("<span class='clear'>No data available.</span>");
-								return;
-							}
+//							if(jsonData.length==0){
+//								$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//								return;
+//							}
 							
 							///////////////////////////////////////////////////////////////////////////////////////////////////////
 							chartingPeriod = chartingPeriod.toUpperCase();
@@ -3205,9 +3422,15 @@
 							var chartOptions = options_visibleLine ; 
 							///////////////////////////////////////////////////////////////////////////////////////////////////////
 							
+							var _chartInstance;    				
+						 	if(jsonData.length==0){
+						        	map.put(chartId, _chartInstance);
+					        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+					        		return;
+					        	}
+							_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+							
 							//chart goes here
-//							var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_singleSeries,{
-							var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 								chart : {
 //									type : 'line',
 									renderTo : chartId,  								
@@ -3263,9 +3486,9 @@
 										style : {
 											font:'normal 11px NanumGothic'
 										},
-										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-											return Highcharts.numberFormat(this.value, 2, '.', ',');
-										}
+//										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											//return Highcharts.numberFormat(this.value, 2, '.', ',');
+//										}
 									}
 								}, { // Secondary yAxis precipitation mm
 									///////////////////
@@ -3295,9 +3518,9 @@
 										style : {
 											font:'normal 11px NanumGothic'
 										},
-										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-											return Highcharts.numberFormat(this.value, 0, '.', ',');
-										}
+//										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											//return Highcharts.numberFormat(this.value, 0, '.', ',');
+//										}
 									},
 									gridLineWidth: 0,
 									opposite : true,
@@ -3381,10 +3604,10 @@
 						url: url,
 						data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 						success: function(jsonData) {
-							if(jsonData.length==0){
-								$('#'+chartId).append("<span class='clear'>No data available.</span>");
-								return;
-							}
+//							if(jsonData.length==0){
+//								$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//								return;
+//							}
 							
 							///////////////////////////////////////////////////////////////////////////////////////////////////////
 							chartingPeriod = chartingPeriod.toUpperCase();
@@ -3392,9 +3615,15 @@
 							var chartOptions = options_visibleLine ; 
 							///////////////////////////////////////////////////////////////////////////////////////////////////////
 							
+							var _chartInstance;    				
+						 	if(jsonData.length==0){
+						        	map.put(chartId, _chartInstance);
+					        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+					        		return;
+					        	}
+							_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+							
 							//chart goes here
-//							var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_singleSeries,{
-							var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 								chart : {
 //									type : 'line',
 									renderTo : chartId,  								
@@ -3450,9 +3679,9 @@
 										style : {
 											font:'normal 11px NanumGothic'
 										},
-										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-											return Highcharts.numberFormat(this.value, 2, '.', ',');
-										}
+//										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											//return Highcharts.numberFormat(this.value, 2, '.', ',');
+//										}
 									}
 								}, { // Secondary yAxis precipitation mm
 									///////////////////
@@ -3482,9 +3711,9 @@
 										style : {
 											font:'normal 11px NanumGothic'
 										},
-										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-											return Highcharts.numberFormat(this.value, 0, '.', ',');
-										}
+//										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											//return Highcharts.numberFormat(this.value, 0, '.', ',');
+//										}
 									},
 									gridLineWidth: 0,
 									opposite : true,
@@ -3571,10 +3800,10 @@
 						url: url,
 						data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 				        success: function(jsonData) {
-				        	if(jsonData.length==0){
-				        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
-				        		return;
-				        	}
+//					        	if(jsonData.length==0){
+//					        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//					        		return;
+//					        	}
 
 							///////////////////////////////////////////////////////////////////////////////////////////////////////
 							chartingPeriod = chartingPeriod.toUpperCase();
@@ -3582,9 +3811,14 @@
 							var chartOptions = options_visibleLine ; 
 							///////////////////////////////////////////////////////////////////////////////////////////////////////
 								
+							var _chartInstance;    				
+						 	if(jsonData.length==0){
+						        	map.put(chartId, _chartInstance);
+					        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+					        		return;
+					        	}
+							_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 				        	//chart goes here
-//							var _chartInstance = new Highcharts.Chart($.extend(true, {}, options_singleSeries,{
-								var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 								chart : {
 //									type : 'line',
 									renderTo : chartId,  								
@@ -3640,9 +3874,9 @@
 										style : {
 											font:'normal 11px NanumGothic'
 										},
-										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-							            	return Highcharts.numberFormat(this.value, 2, '.', ',');
-							            }
+//										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											//return Highcharts.numberFormat(this.value, 2, '.', ',');
+//							            }
 									}
 								}, { // Secondary yAxis precipitation mm
 									///////////////////
@@ -3672,9 +3906,9 @@
 										style : {
 											font:'normal 11px NanumGothic'
 										},
-										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-							            	return Highcharts.numberFormat(this.value, 0, '.', ',');
-							            }
+//										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+							            		//return Highcharts.numberFormat(this.value, 0, '.', ',');
+//							            }
 									},
 									gridLineWidth: 0,
 									opposite : true,
@@ -3745,16 +3979,21 @@
 						url: url,
 						data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 				        success: function(jsonData) {
-				        	if(jsonData.length==0){
-				        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
-				        		return;
-				        	}
+//				        	if(jsonData.length==0){
+//				        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//				        		return;
+//				        	}
 							///////////////////////////////////////////////////////////////////////////////////////////////////////
 							chartingPeriod = chartingPeriod.toUpperCase();
 							var chartOptions = options_visibleLine ; 
 							///////////////////////////////////////////////////////////////////////////////////////////////////////
-				        	//chart goes here
-								var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
+							var _chartInstance;    				
+						 	if(jsonData.length==0){
+						        	map.put(chartId, _chartInstance);
+					        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+					        		return;
+					        	}
+							_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 								chart : {
 									renderTo : chartId,  								
 								},
@@ -3804,9 +4043,9 @@
 										style : {
 											font:'normal 11px NanumGothic'
 										},
-										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-							            	return Highcharts.numberFormat(this.value, 2, '.', ',');
-							            }
+//										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											//return Highcharts.numberFormat(this.value, 2, '.', ',');
+//							            }
 									}
 								}, { // Secondary yAxis precipitation mm
 									///////////////////
@@ -3836,9 +4075,9 @@
 										style : {
 											font:'normal 11px NanumGothic'
 										},
-										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-							            	return Highcharts.numberFormat(this.value, 0, '.', ',');
-							            }
+//										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											//return Highcharts.numberFormat(this.value, 0, '.', ',');
+//							            }
 									},
 									gridLineWidth: 0,
 									opposite : true,
@@ -3912,17 +4151,23 @@
 						url: url,
 						data:'targetDate=' + dStr + '&dBegin=' + dBegin + '&channel=1&detector='+ detector,
 						success: function(jsonData) {
-							if(jsonData.length==0){
-								$('#'+chartId).append("<span class='clear'>No data available.</span>");
-								return;
-							}
+//							if(jsonData.length==0){
+//								$('#'+chartId).append("<span class='clear'>No data available.</span>");
+//								return;
+//							}
 							///////////////////////////////////////////////////////////////////////////////////////////////////////
 							chartingPeriod = chartingPeriod.toUpperCase();
 							var chartOptions = options_visibleLine ; 
 							///////////////////////////////////////////////////////////////////////////////////////////////////////
 							
+							var _chartInstance;    				
+						 	if(jsonData.length==0){
+						        	map.put(chartId, _chartInstance);
+					        		$('#'+chartId).append("<span class='clear'>No data available.</span>");
+					        		return;
+					        	}
+							_chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 							//chart goes here
-							var _chartInstance = new Highcharts.Chart($.extend(true, {}, chartOptions,{
 								chart : {
 									renderTo : chartId,  								
 								},
@@ -3972,9 +4217,9 @@
 										style : {
 											font:'normal 11px NanumGothic'
 										},
-										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-											return Highcharts.numberFormat(this.value, 2, '.', ',');
-										}
+//										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											//return Highcharts.numberFormat(this.value, 2, '.', ',');
+//										}
 									}
 								}, { 
 									// Secondary yAxis precipitation 
@@ -4007,9 +4252,9 @@
 										style : {
 											font:'normal 11px NanumGothic'
 										},
-										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
-											return Highcharts.numberFormat(this.value, 0, '.', ',');
-										}
+//										formatter: function() { //numberFormat (Number number, [Number decimals], [String decimalPoint], [String thousandsSep])
+											//return Highcharts.numberFormat(this.value, 0, '.', ',');
+//										}
 									},
 									gridLineWidth: 0,
 									opposite : true,

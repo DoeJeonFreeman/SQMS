@@ -56,7 +56,7 @@
 		$(function(){
 			
 			  var treeData = [
-							{title: "대기운동벡터 (AMV)", folder: true, hideCheckbox:true, expanded: true,
+							{title: "대기운동벡터 (AMV)", folder: true, hideCheckbox:true, expanded: false,
 							    children: [
 							               
 							               
@@ -3009,7 +3009,7 @@
 			                  /////////////////////////////////////////////////////////////////////////////////////////
 			                  /////////////////////////////////////////////////////////////////////////////////////////
 			                  /////////////////////////////////////////////////////////////////////////////////////////
-			                  {title: "황사 탐지 (AI)", folder: true, hideCheckbox:true, expanded: true,
+			                  {title: "황사 탐지 (AI)", folder: true, hideCheckbox:true, expanded: false,
 			                    children: [
 			                      {title: "Scatter Plot", folder: true, hideCheckbox:true,
 			                        children: [
@@ -3031,7 +3031,7 @@
 			                      }
 			                    ]
 			                  },
-			                  {title: "에어로졸 광학두께 (AOD)", folder: true, hideCheckbox:true, expanded: true,
+			                  {title: "에어로졸 광학두께 (AOD)", folder: true, hideCheckbox:true, expanded: false,
 			                    children: [
 			                      {title: "Statistical Map", folder: true, hideCheckbox:true,
 			                        children: [
@@ -3061,7 +3061,7 @@
 			                      }
 			                    ]
 			                  },
-			                  {title: "운량 (CA)", folder: true, hideCheckbox:true, expanded: true,
+			                  {title: "운량 (CA)", folder: true, hideCheckbox:true, expanded: false,
 			                    children: [
 			                      {title: "Statistical Map", folder: true, hideCheckbox:true,
 			                        children: [
@@ -3089,7 +3089,7 @@
 			                      }
 			                    ]
 			                  },
-			                  {title: "위성 관측 운량 (CF)", folder: true, hideCheckbox:true, expanded: true,
+			                  {title: "위성 관측 운량 (CF)", folder: true, hideCheckbox:true, expanded: false,
 				                    children: [
 				                      {title: "Statistical Map", folder: true, hideCheckbox:true,
 				                        children: [
@@ -3120,7 +3120,7 @@
 				                      }
 				                    ]
 				                  },
-			                  {title: "구름 탐지 (CLD)", folder: true, hideCheckbox:true, expanded: true,
+			                  {title: "구름 탐지 (CLD)", folder: true, hideCheckbox:true, expanded: false,
 			                    children: [
 			                      {title: "Scatter Plot", folder: true, hideCheckbox:true,
 			                        children: [
@@ -3139,7 +3139,7 @@
 			                      }
 			                    ]
 			                  },
-			                  {title: "구름 광학 두께 (COT)", folder: true, hideCheckbox:true, expanded: true,
+			                  {title: "구름 광학 두께 (COT)", folder: true, hideCheckbox:true, expanded: false,
 				                    children: [
 				                      {title: "Statistical Map", folder: true, hideCheckbox:true,
 				                        children: [
@@ -3170,7 +3170,7 @@
 			                  },
 			                  
 			                  
-     			       	  	  {title: "구름상 (CP)", folder: true, hideCheckbox:true, expanded: true,
+     			       	  	  {title: "구름상 (CP)", folder: true, hideCheckbox:true, expanded: false,
 			                  	children: [
 									  {title: "Daily Trend", folder: true, hideCheckbox:true,
 									    children: [
@@ -3231,7 +3231,7 @@
 			                    ]
      			       	  	  },
 			                  
-     			       	  	  {title: "운형 (CT)", folder: true, hideCheckbox:true, expanded: true,
+     			       	  	  {title: "운형 (CT)", folder: true, hideCheckbox:true, expanded: false,
 			                  	children: [
 									  {title: "Daily Trend", folder: true, hideCheckbox:true,
 									    children: [
@@ -3264,7 +3264,7 @@
 			                    ]
      			       	  	  },
 			                  
-     			       	  	  {title: "운정 기압 (CTP)", folder: true, hideCheckbox:true, expanded: true,
+     			       	  	  {title: "운정 기압 (CTP)", folder: true, hideCheckbox:true, expanded: false,
 			                  	children: [
 									{title: "Statistical Map", folder: true, hideCheckbox:true,
 									    children: [
@@ -3326,7 +3326,7 @@
 			                    ]
      			       	  	  },
 			                  
-     			       	  	  {title: "운정 온도 (CTT)", folder: true, hideCheckbox:true, expanded: true,
+     			       	  	  {title: "운정 온도 (CTT)", folder: true, hideCheckbox:true, expanded: false,
 			                  	children: [
 									{title: "Statistical Map", folder: true, hideCheckbox:true,
 									    children: [
@@ -3390,7 +3390,7 @@
 			                  
 			                  
 			                  //fog goes here
-     			       	  	  {title: "안개 (FOG)", folder: true, hideCheckbox:true, expanded: true,
+     			       	  	  {title: "안개 (FOG)", folder: true, hideCheckbox:true, expanded: false,
 			                    children: [
 			                      {title: "Statistical Map", folder: true, hideCheckbox:true,
 			                        children: [
@@ -3420,7 +3420,7 @@
 			                  },     			       	  	  
 			                  
      			       	  	  //
-	     			       	  {title: "표면도달일사량 (INS)", folder: true, hideCheckbox:true, expanded: true,
+	     			       	  {title: "표면도달일사량 (INS)", folder: true, hideCheckbox:true, expanded: false,
 				                  	children: [
 										{title: "Statistical Map", folder: true, hideCheckbox:true,
 										    children: [
@@ -3539,7 +3539,7 @@
 				                    ]
 	   			       	  	  },
 				                  
-	   			       	  	  {title: "지표면 온도 (LST)", folder: true, hideCheckbox:true, expanded: true,
+	   			       	  	  {title: "지표면 온도 (LST)", folder: true, hideCheckbox:true, expanded: false,
 				                  	children: [
 										{title: "Statistical Map", folder: true, hideCheckbox:true,
 										    children: [
@@ -3596,7 +3596,7 @@
 				                    ]
 	   			       	  	  },
 				                  
-	   			       	  	  {title: "지구 방출 복사량 (OLR)", folder: true, hideCheckbox:true, expanded: true,
+	   			       	  	  {title: "지구 방출 복사량 (OLR)", folder: true, hideCheckbox:true, expanded: false,
 				                  	children: [
 										{title: "Statistical Map", folder: true, hideCheckbox:true,
 										    children: [
@@ -3653,7 +3653,7 @@
 				                    ]
 	   			       	  	  },
 				                  
-	   			       	  	  {title: "강우 강도 (RI)", folder: true, hideCheckbox:true, expanded: true,
+	   			       	  	  {title: "강우 강도 (RI)", folder: true, hideCheckbox:true, expanded: false,
 				                  	children: [
 										{title: "Statistical Map", folder: true, hideCheckbox:true,
 										    children: [
@@ -3749,7 +3749,7 @@
 										}
 				                    ]
 	   			       	  	  },
-	   			       	  	  {title: "해빙 및 적설 (SSI)", folder: true, hideCheckbox:true, expanded: true,
+	   			       	  	  {title: "해빙 및 적설 (SSI)", folder: true, hideCheckbox:true, expanded: false,
 				                  	children: [
 										{title: "Daily Trend", folder: true, hideCheckbox:true,
 										    children: [
@@ -3785,7 +3785,7 @@
 										}
 				                    ]
 	   			       	  	  },
-	   			       	  	  {title: "해수면 온도 (SST)", folder: true, hideCheckbox:true, expanded: true,
+	   			       	  	  {title: "해수면 온도 (SST)", folder: true, hideCheckbox:true, expanded: false,
 				                  	children: [
 										{title: "Statistical Map", folder: true, hideCheckbox:true,
 										    children: [
@@ -3837,7 +3837,7 @@
 										}
 				                    ]
 	   			       	  	  },
-	   			       	  	  {title: "가강수량 (TPW)", folder: true, hideCheckbox:true, expanded: true,
+	   			       	  	  {title: "가강수량 (TPW)", folder: true, hideCheckbox:true, expanded: false,
 				                  	children: [
 										{title: "Scatter Plot", folder: true, hideCheckbox:true,
 											children: [
@@ -3856,7 +3856,7 @@
 										}           
 				                    ]
 	   			       	  	  },
-	   			       	  	  {title: "상층수증기량 (UTH)", folder: true, hideCheckbox:true, expanded: true,
+	   			       	  	  {title: "상층수증기량 (UTH)", folder: true, hideCheckbox:true, expanded: false,
 				                  	children: [
 										{title: "Scatter Plot", folder: true, hideCheckbox:true,
 											children: [

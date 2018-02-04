@@ -38,6 +38,169 @@
     /**
      * Get the data rows as a two dimensional array
      */
+    
+    /**
+     * 
+     * 2017.12.22.
+     * Csv export with boost turned on produces empty results.
+     * https://github.com/highcharts/export-csv/issues/116
+     * http://jsfiddle.net/2Jyn5/375/
+     * 
+     * 
+     * 
+     *     var H = Highcharts;
+    Highcharts.Chart.prototype.getDataRows = function() {
+      var options = (this.options.exporting || {}).csv || {},
+        xAxis,
+        xAxes = this.xAxis,
+        rows = {},
+        each = H.each,
+        pick = H.pick,
+        rowArr = [],
+        dataRows,
+        names = [],
+        i,
+        x,
+        xTitle,
+        // Options
+        dateFormat = options.dateFormat || '%Y-%m-%d %H:%M:%S',
+        columnHeaderFormatter = options.columnHeaderFormatter || function(item, key, keyLength) {
+          if (item instanceof Highcharts.Axis) {
+            return (item.options.title && item.options.title.text) ||
+              (item.isDatetimeAxis ? 'DateTime' : 'Category');
+          }
+          return item ?
+            item.name + (keyLength > 1 ? ' (' + key + ')' : '') :
+            'Category';
+        },
+        xAxisIndices = [];
+
+      // Loop the series and index values
+      i = 0;
+      each(this.series, function(series) {
+        var keys = series.options.keys,
+          pointArrayMap = keys || series.pointArrayMap || ['y'],
+          valueCount = pointArrayMap.length,
+          requireSorting = series.requireSorting,
+          categoryMap = {},
+          xAxisIndex = Highcharts.inArray(series.xAxis, xAxes),
+          j;
+
+        // Map the categories for value axes
+        each(pointArrayMap, function(prop) {
+          categoryMap[prop] = (series[prop + 'Axis'] && series[prop + 'Axis'].categories) || [];
+        });
+
+        if (series.options.includeInCSVExport !== false && series.visible !== false) { // #55
+
+          // Build a lookup for X axis index and the position of the first
+          // series that belongs to that X axis. Includes -1 for non-axis
+          // series types like pies.
+          if (!Highcharts.find(xAxisIndices, function(index) {
+              return index[0] === xAxisIndex;
+            })) {
+            xAxisIndices.push([xAxisIndex, i]);
+          }
+
+          // Add the column headers, usually the same as series names
+          j = 0;
+          while (j < valueCount) {
+            names.push(columnHeaderFormatter(series, pointArrayMap[j], pointArrayMap.length));
+            j = j + 1;
+          }
+
+          each(series.processedYData, function(point, pIdx) {
+            var key = requireSorting ? series.processedXData[pIdx] : pIdx,
+              prop,
+              val;
+            j = 0;
+            if (!rows[key]) {
+              // Generate the row
+              rows[key] = [];
+              // Contain the X values from one or more X axes
+              rows[key].xValues = [];
+            }
+            rows[key].x = series.processedXData[pIdx];
+            rows[key].xValues[xAxisIndex] = series.processedXData[pIdx];
+
+            // Pies, funnels, geo maps etc. use point name in X row
+            if (!series.xAxis || series.exportKey === 'name') {
+              rows[key].name = point.name;
+            }
+
+            while (j < valueCount) {
+              prop = pointArrayMap[j]; // y, z etc
+              val = series.processedYData[pIdx];
+              rows[key][i + j] = pick(categoryMap[prop][val], val); // Pick a Y axis category if present
+              j = j + 1;
+            }
+          });
+          i = i + j;
+        }
+      });
+      // Make a sortable array
+      for (x in rows) {
+        if (rows.hasOwnProperty(x)) {
+          rowArr.push(rows[x]);
+        }
+      }
+
+      var binding, xAxisIndex, column;
+      dataRows = [names];
+
+      i = xAxisIndices.length;
+      while (i--) { // Start from end to splice in
+        xAxisIndex = xAxisIndices[i][0];
+        column = xAxisIndices[i][1];
+        xAxis = xAxes[xAxisIndex];
+
+        // Sort it by X values
+        rowArr.sort(function(a, b) {
+          return a.xValues[xAxisIndex] - b.xValues[xAxisIndex];
+        });
+
+        // Add header row
+        xTitle = columnHeaderFormatter(xAxis);
+        //dataRows = [[xTitle].concat(names)];
+        dataRows[0].splice(column, 0, xTitle);
+
+        // Add the category column
+        each(rowArr, function(row) {
+
+          var category = row.name;
+          if (!category) {
+            if (xAxis.isDatetimeAxis) {
+              if (row.x instanceof Date) {
+                row.x = row.x.getTime();
+              }
+              category = Highcharts.dateFormat(dateFormat, row.x);
+            } else if (xAxis.categories) {
+              category = pick(
+                xAxis.names[row.x],
+                xAxis.categories[row.x],
+                row.x
+              )
+            } else {
+              category = row.x;
+            }
+          }
+
+          // Add the X/date/category
+          row.splice(column, 0, category);
+        });
+      }
+      dataRows = dataRows.concat(rowArr);
+
+      return dataRows;
+    };
+     * 
+     * */
+
+    
+//DEPRECATED////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     Highcharts.Chart.prototype.getDataRows = function () {
         var options = (this.options.exporting || {}).csv || {},
             xAxis = this.xAxis[0],
@@ -148,6 +311,10 @@
 
         return dataRows;
     };
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+    
+    
 
     /**
      * Get a CSV string

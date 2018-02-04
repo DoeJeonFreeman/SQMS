@@ -30,9 +30,14 @@
 		    font-style: italic;
 		}
 	</style>
+	
+<!-- 
+	<c set value='${param.identifier}' var="tabID"/>
+	<input id="tabIndexID" type="hidden" value="${tabID}"/>
+ -->	
+	
 	<script type="text/javascript">
 		
-
 /* 		
  * 		it doesnt work
  		function getSelectedVarialbes(idx){
@@ -72,65 +77,83 @@
 		$(function(){
 			
 			var treeData = [
-			                  {title: "Level1A 품질지표", folder: true, hideCheckbox:true, expanded: true,
+			                  {title: "Level1A 품질지표", folder: true, hideCheckbox:true, expanded: false,
 			                    children: [
 			                      {title: "Visible SNR", folder: true, hideCheckbox:true,
 			                        children: [
-			                          {title: "Detector 0", key: "L1A-QI01_0" },
-			                          {title: "Detector 1", key: "L1A-QI01_1" },
-			                          {title: "Detector 2", key: "L1A-QI01_2" },
-			                          {title: "Detector 3", key: "L1A-QI01_3" },
-			                          {title: "Detector 4", key: "L1A-QI01_4" },
-			                          {title: "Detector 5", key: "L1A-QI01_5" },
-			                          {title: "Detector 6", key: "L1A-QI01_6" },
-			                          {title: "Detector 7", key: "L1A-QI01_7" }
+			                          {title: "Visible SNR", key: "L1A-QI01_0" }
+			                          /* 
+			                          {title: "Detector 1", key: "L1A-QI01_0" }
+			                          ,{title: "Detector 2", key: "L1A-QI01_1" },
+			                          {title: "Detector 3", key: "L1A-QI01_2" },
+			                          {title: "Detector 4", key: "L1A-QI01_3" },
+			                          {title: "Detector 5", key: "L1A-QI01_4" },
+			                          {title: "Detector 6", key: "L1A-QI01_5" },
+			                          {title: "Detector 7", key: "L1A-QI01_6" },
+			                          {title: "Detector 8", key: "L1A-QI01_7" } */
 			                        ]
 			                      },
 			                      {title: "Visible Radiance", folder: true, hideCheckbox:true,
 			                        children: [
-			                          {title: "Detector 0", key: "L1A-QI02_0" },
-			                          {title: "Detector 1", key: "L1A-QI02_1" },
-			                          {title: "Detector 2", key: "L1A-QI02_2" },
-			                          {title: "Detector 3", key: "L1A-QI02_3" },
-			                          {title: "Detector 4", key: "L1A-QI02_4" },
-			                          {title: "Detector 5", key: "L1A-QI02_5" },
-			                          {title: "Detector 6", key: "L1A-QI02_6" },
-			                          {title: "Detector 7", key: "L1A-QI02_7" }
+			                          {title: "Detector 1", key: "L1A-QI02_0" },
+			                          {title: "Detector 2", key: "L1A-QI02_1" },
+			                          {title: "Detector 3", key: "L1A-QI02_2" },
+			                          {title: "Detector 4", key: "L1A-QI02_3" },
+			                          {title: "Detector 5", key: "L1A-QI02_4" },
+			                          {title: "Detector 6", key: "L1A-QI02_5" },
+			                          {title: "Detector 7", key: "L1A-QI02_6" },
+			                          {title: "Detector 8", key: "L1A-QI02_7" }
 			                        ]
 			                      },
 			                      {title: "Visible PRNU", folder: true, hideCheckbox:true,
 			                        children: [
-			                          {title: "Detector 0", key: "L1A-QI03_0" },
-			                          {title: "Detector 1", key: "L1A-QI03_1" },
-			                          {title: "Detector 2", key: "L1A-QI03_2" },
-			                          {title: "Detector 3", key: "L1A-QI03_3" },
-			                          {title: "Detector 4", key: "L1A-QI03_4" },
-			                          {title: "Detector 5", key: "L1A-QI03_5" },
-			                          {title: "Detector 6", key: "L1A-QI03_6" },
-			                          {title: "Detector 7", key: "L1A-QI03_7" }
+			                          {title: "Detector 1", key: "L1A-QI03_0" },
+			                          {title: "Detector 2", key: "L1A-QI03_1" },
+			                          {title: "Detector 3", key: "L1A-QI03_2" },
+			                          {title: "Detector 4", key: "L1A-QI03_3" },
+			                          {title: "Detector 5", key: "L1A-QI03_4" },
+			                          {title: "Detector 6", key: "L1A-QI03_5" },
+			                          {title: "Detector 7", key: "L1A-QI03_6" },
+			                          {title: "Detector 8", key: "L1A-QI03_7" }
 			                        ]
 			                      },
 			                      {title: "IR Radiance", folder: true, hideCheckbox:true,
 			                        children: [
-			                          {title: "Detector 0", key: "L1A-QI04_0" },
-			                          {title: "Detector 1", key: "L1A-QI04_1" }
+			                          {title: "Detector 1", key: "L1A-QI04_0" },
+			                          {title: "Detector 2", key: "L1A-QI04_1" }
 			                        ]
 			                      },
 			                      {title: "IR NEDT", folder: true, hideCheckbox:true,
 			                        children: [
-			                          {title: "Detector 0", key: "L1A-QI05_0" },
-			                          {title: "Detector 1", key: "L1A-QI05_1" }
+			                          {title: "SWIR NEDT", key: "L1A-QI05_2" },
+			                          {title: "WV NEDT",  key: "L1A-QI05_3" },
+			                          {title: "IR1 NEDT", key: "L1A-QI05_4" },
+			                          {title: "IR2 NEDT", key: "L1A-QI05_5" }
 			                        ]
 			                      },
 			                      {title: "IR PRNU", folder: true, hideCheckbox:true,
 			                        children: [
-			                          {title: "Detector 0", key: "L1A-QI06_0" },
-			                          {title: "Detector 1", key: "L1A-QI06_1" }
+			                        	 {title: "SWIR PRNU", 	 key: "L1A-QI06_2" },
+			                          {title: "WV PRNU",  key: "L1A-QI06_3" },
+			                          {title: "IR1 PRNU", key: "L1A-QI06_4" },
+			                          {title: "IR2 PRNU", key: "L1A-QI06_5" }
 			                        ]
 			                      },
+			                      {title: "Moon Slope", folder: true, hideCheckbox:true,
+			                        children: [
+			                        	 {title: "Detector 1", key: "L1A-QI07_0" },
+			                          {title: "Detector 2", key: "L1A-QI07_1" },
+			                          {title: "Detector 3", key: "L1A-QI07_2" },
+			                          {title: "Detector 4", key: "L1A-QI07_3" },
+			                          {title: "Detector 5", key: "L1A-QI07_4" },
+			                          {title: "Detector 6", key: "L1A-QI07_5" },
+			                          {title: "Detector 7", key: "L1A-QI07_6" },
+			                          {title: "Detector 8", key: "L1A-QI07_7" }
+			                        ]
+			                      }
 			                    ]
 			                  },
-			                  {title: "Level1A 환경정보", folder: true, hideCheckbox:true, expanded: true,
+			                  {title: "Level1A 환경정보", folder: true, hideCheckbox:true, expanded: false,
 			                    children: [
 			                      {title: "Telescope Primary Temperature", folder: true, hideCheckbox:true,
 			                        children: [
@@ -172,13 +195,15 @@
 			                      }
 			                    ]
 			                  },
-			                  {title: "Level1B 품질지표", folder: true, hideCheckbox:true, expanded: true,
+			                  {title: "Level1B 품질지표", folder: true, hideCheckbox:true, expanded: false,
 			                    children: [
+			                        /* 
 			                      {title: "N-S Residual", folder: true, hideCheckbox:true,
-			                        /* children: [
+			                        children: [
 			                          {title: "None", key: "L1B-QI01_0" }
-			                        ] */
+			                        ] 
 			                      },
+			                      */
 			                      {title: "Number of Valid Landmarks", folder: true, hideCheckbox:true,
 			                        children: [
 			                          {title: "No. Landmarks", key: "L1B-QI02_0" }
@@ -199,20 +224,24 @@
 			                        children: [
 			                          {title: "Quadratic Distance", key: "L1B-QI05_0" }
 			                        ]
-			                      },
+			                      }
+			                      /*
+			                      ,
 			                      {title: "Residual Statistics per ROI", folder: true, hideCheckbox:true,
-			                       /*  children: [
+			                         children: [
 			                          {title: "None", key: "L1A-QI06_0" }
-			                        ] */
+			                        ]
 			                      },
 			                      {title: "IMC Data", folder: true, hideCheckbox:true,
-			                       /*  children: [
+			                         
+			                       children: [
 			                          {title: "None", key: "L1A-QI07_0" }
-			                        ] */
+			                        ] 
 			                      }
+			                      */
 			                    ]
 			                  },
-			                  {title: "Level1B 환경정보", folder: true, hideCheckbox:true, expanded: true,
+			                  {title: "Level1B 환경정보", folder: true, hideCheckbox:true, expanded: false,
 			                    children: [
 			                      {title: "Spacecraft Position (at Image Center)", folder: true, hideCheckbox:true,
 			                        children: [
@@ -225,21 +254,17 @@
 			                          {title: "Attitude(deg)", key: "L1B-EV02_0" }
 			                        ]
 			                      },
+			                      /*
 			                      {title: "Pixel UTC (Last)", folder: true, hideCheckbox:true,
-			                      /*   children: [
-			                          {title: "current", key: "current_01_id" },
-			                        ] */
 			                      },
 			                      {title: "Spacecraft Veclocity ", folder: true, hideCheckbox:true,
-			                      /*   children: [
-			                          {title: "current", key: "current_01_id" },
-			                        ] */
 			                      },
+			                      */
 			                    ]
 			                  }
 			                 //Level 2 Daily validation 
 			                 //Level 2 Daily validation 
-               				 ,{title: "Level 2 일검증결과 ", folder: true, hideCheckbox:true, expanded: true,
+               				 ,{title: "Level 2 일검증결과 ", folder: true, hideCheckbox:true, expanded: false,
 			                    children: [
 			                      {title: "AI", folder: true, hideCheckbox:true, expanded: false,
 			                        children: [
@@ -474,14 +499,34 @@
 				sysout(map);
 			});
 		  	
+			var tabIndexID ="<c:out value='${param.identifier}'/>";
 		  	/* $("#treeWithCheckbox_0").fancytree("getTree").getNodeByKey('L1A-QI01_0').setSelected(true); */
 		  	var params = getUrlParams();
-			sysout(params)
-			if( params.productNodeID != undefined){
-				sysout('>>>[productNodeID] is :: ' + params.productNodeID);
-				$("#treeWithCheckbox_0").fancytree("getTree").getNodeByKey(params.productNodeID).setSelected(true); 				
+			if(tabIndexID*1 == 0){
+				sysout(params)
+				if(params.productNodeID != undefined){
+					sysout('>>>[productNodeID] is :: ' + params.productNodeID);
+					if(params.startDate != undefined){
+						
+						var latestStuff = ($("#meNMSCDemo").val().split('-').join(''))*1;
+						var paramDate = ((params.startDate).split('-').join(''))*1;
+						
+						if(paramDate <= latestStuff){
+							$('#meNMSCDemo').val(params.startDate);
+						}
+						
+					}
+					if(params.period != undefined){
+						var preiods = ["DAILY","WEEKLY","MONTHLY","QUARTERLY"];
+						if($.inArray(params.period.toUpperCase(), preiods) != -1){
+							$('#chartingPeriodSelector .selected').attr('value',params.period.toUpperCase());
+			        			$('#chartingPeriodSelector .selected').text(params.period.toUpperCase());
+						}
+					}
+					
+					$("#treeWithCheckbox_0").fancytree("getTree").getNodeByKey(params.productNodeID).setSelected(true); 				
+				}
 			}
-		      
 		      
 	 	});
 	</script>

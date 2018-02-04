@@ -143,13 +143,8 @@
 			    selected.push($(this).attr('name'));
 			}); 
  			sysout(treeSelected);
- 			
 			return selected;			
 		}
-	
-		
-	
-	
 	
 		
 		var sampleImages = ["http://seaice.kma.go.kr/data/IMG/ROUGH/Y2016/dmsp_ssmis_rou_20161112.png",
@@ -173,7 +168,6 @@
 			var dActualStr = dActual.customFormat("#YYYY##MM#01");
 			var dActualTitle = dActual.customFormat("(#YYYY#.#MM#.)");
 			var repositoryUrl = "http://intra.nmsc.kma.go.kr/emcoms/VIMG/QCM/DATA/"; 
-//			var repositoryUrl = "http://2csolution.iptime.org:8880/~doejeon/QIMS_L2MonthlyValidation/emcoms/VIMG/QCM/DATA/"; 
 //			var repositoryUrl = "http://2csolution.iptime.org:8880/~doejeon/QIMS_L2MonthlyValidation/emcoms/VIMG/QCM/DATA/"; 
 			var repositoryYmd = dActual.customFormat("/Y#YYYY#/M#MM#/D01/");
 				
@@ -256,9 +250,9 @@
 		
 		var minDate = new Date(2016,1,01);
 		var recentStuffArr = "${extSeries.compbegindate4Cal}".split('-');
-		var mostRecentDate = new Date(recentStuffArr[0],recentStuffArr[1]-1,recentStuffArr[2]); 
+	    var mostRecentDate = new Date(recentStuffArr[0],recentStuffArr[1]-1,recentStuffArr[2]); 
 		//L1A 환경정보 표출땜에 ㅎ
-//		var mostRecentDate = new Date(2015,10,17);
+		//var mostRecentDate = new Date(2016,2,8);
 		/* //sysout(mostRecentDate instanceof Date && !isNaN(mostRecentDate.valueOf())) */
 		
 		function getDateCalculated(whichOperator){
@@ -311,42 +305,27 @@
 		
 //		function changeImgSrc(navObjId, type_n_date){
 		function changeImgSrc(navObjId,navObj){
-/* 			navObj.parent().parent().children().each(function() {
-				alert("childs")
-			});
- */
-			//navObj.parent().next().find('img').attr('src','chsrc');
-//			alert(navObj.parent().next().attr('id'))
-//			alert(navObj.parent().next().find('img').attr('src'));
-			//navObj.parent().next().find('img').attr('src','chsrc');
 			
-// 			var arr = type_n_date.split('_');
+			
  			var arr = navObj.parent().next().attr('id').split('_');
+ 			//alert(navObj.parent().next().attr('id'));   /* t0_ts_fog_zzz_m_f11600_20160301 */
 			var ymd = arr[arr.length-1];
+			var currentDateStringAttr = navObj.parent().next().attr('currentDateString');
+			if (typeof currentDateStringAttr !== typeof undefined && currentDateStringAttr !== false) {
+				//alert(navObj.parent().next().attr('currentDateString'));
+				ymd = navObj.parent().next().attr('currentDateString');
+			}
 			var dStr = ymd.substring(0,4)+'-'+ymd.substring(4,6)+'-'+ymd.substring(6,8);
 			var dActual = moment(dStr, 'YYYY-MM-DD').add((navObjId=='carousel_prev')? -1 : 1, 'M').toDate(); //use .toDate() to transform a moment object into a js date obj haha
 			var dActualStr = dActual.customFormat("#YYYY##MM#01");
-			var repositoryUrl = "http://intra.nmsc.kma.go.kr/emcoms/VIMG/QCM/DATA/"; 
+			var repositoryUrl = "http://1.nmsc.kma.go.kr/emcoms/VIMG/QCM/DATA/"; 
 //			var repositoryUrl = "http://2csolution.iptime.org:8880/~doejeon/QIMS_L2MonthlyValidation/emcoms/VIMG/QCM/DATA/"; 
 			var repositoryYmd = dActual.customFormat("/Y#YYYY#/M#MM#/D01/");
-			var NMSCPath= repositoryUrl + arr[2].toUpperCase() + repositoryYmd + 'coms_mi_' + arr[2]+'_' + arr[3] + '_cn_' + dActualStr + '.png';
+			var NMSCPath= repositoryUrl + arr[2].toUpperCase() + repositoryYmd + 'coms_mi_' + arr[2]+'_' + arr[3] + '_' + arr[4]+'_' + arr[5] + '_cn_' + dActualStr + '.png';
 //			alert('['+navObjId+']' + NMSCPath);   
 			navObj.parent().next().find('img').attr('src',NMSCPath);
-//			alert('chsrc '+ navObj.parent().next().find('img').attr('src'));
+			navObj.parent().next().attr('currentDateString', dActualStr);
 
-			
-			/* 
- 			var arr = type_n_date.split('_');
-			var ymd = arr[arr.length-1];
-			var dStr = ymd.substring(0,4)+'-'+ymd.substring(4,6)+'-'+ymd.substring(6,8);
-			var dActual = moment(dStr, 'YYYY-MM-DD').add((navObjId=='carousel_prev')? -1 : 1, 'M').toDate(); //use .toDate() to transform a moment object into a js date obj haha
-			var dActualStr = dActual.customFormat("#YYYY##MM#01");
-//			var repositoryUrl = "http://intra.nmsc.kma.go.kr/emcoms/VIMG/QCM/DATA/"; 
-			var repositoryUrl = "http://2csolution.iptime.org:8880/~doejeon/QIMS_L2MonthlyValidation/emcoms/VIMG/QCM/DATA/"; 
-			var repositoryYmd = dActual.customFormat("/Y#YYYY#/M#MM#/D01/");
-			var NMSCPath= repositoryUrl + arr[0].toUpperCase() + repositoryYmd + 'coms_mi_' +arr[0]+'_' + arr[1]+'_' +arr[2]+'_' + arr[3] + '_cn_' + dActualStr + '.png';
-			alert('['+type_n_date + ' :: ' + navObjId+']' + NMSCPath);  
-			 */
 		}
 
 		
@@ -486,38 +465,6 @@
 <body id="fabulousbdtc"  >
 	<noscript>자바스크립트를 지원하지 않는 브라우저에서는 일부 기능을 사용하실 수 없습니다.</noscript>	
 	<!-- 전체 레이어 시작 -->
-	<div class="svg-wrap hidden">
-		<svg width="64" height="64" viewBox="0 0 64 64">
-			<path id="arrow-left-1" d="M46.077 55.738c0.858 0.867 0.858 2.266 0 3.133s-2.243 0.867-3.101 0l-25.056-25.302c-0.858-0.867-0.858-2.269 0-3.133l25.056-25.306c0.858-0.867 2.243-0.867 3.101 0s0.858 2.266 0 3.133l-22.848 23.738 22.848 23.738z" />
-		</svg>
-		<svg width="64" height="64" viewBox="0 0 64 64">
-			<path id="arrow-right-1" d="M17.919 55.738c-0.858 0.867-0.858 2.266 0 3.133s2.243 0.867 3.101 0l25.056-25.302c0.858-0.867 0.858-2.269 0-3.133l-25.056-25.306c-0.858-0.867-2.243-0.867-3.101 0s-0.858 2.266 0 3.133l22.848 23.738-22.848 23.738z" />
-		</svg>
-		<svg width="64" height="64" viewBox="0 0 64 64">
-			<path id="arrow-left-2" d="M26.667 10.667q1.104 0 1.885 0.781t0.781 1.885q0 1.125-0.792 1.896l-14.104 14.104h41.563q1.104 0 1.885 0.781t0.781 1.885-0.781 1.885-1.885 0.781h-41.563l14.104 14.104q0.792 0.771 0.792 1.896 0 1.104-0.781 1.885t-1.885 0.781q-1.125 0-1.896-0.771l-18.667-18.667q-0.771-0.813-0.771-1.896t0.771-1.896l18.667-18.667q0.792-0.771 1.896-0.771z" />
-		</svg>
-		<svg width="64" height="64" viewBox="0 0 64 64">
-			<path id="arrow-right-2" d="M37.333 10.667q1.125 0 1.896 0.771l18.667 18.667q0.771 0.771 0.771 1.896t-0.771 1.896l-18.667 18.667q-0.771 0.771-1.896 0.771-1.146 0-1.906-0.76t-0.76-1.906q0-1.125 0.771-1.896l14.125-14.104h-41.563q-1.104 0-1.885-0.781t-0.781-1.885 0.781-1.885 1.885-0.781h41.563l-14.125-14.104q-0.771-0.771-0.771-1.896 0-1.146 0.76-1.906t1.906-0.76z" />
-		</svg>
-		<svg width="64" height="64" viewBox="0 0 64 64">
-			<path id="arrow-left-3" d="M44.797 17.28l0.003 29.44-25.6-14.72z" />
-		</svg>
-		<svg width="64" height="64" viewBox="0 0 64 64">
-			<path id="arrow-right-3" d="M19.203 17.28l-0.003 29.44 25.6-14.72z" />
-		</svg>
-		<svg width="64" height="64" viewBox="0 0 64 64">
-			<path id="arrow-left-4" d="M15.946 48l0.003-10.33 47.411 0.003v-11.37h-47.414l0.003-10.304-15.309 16z" />
-		</svg>
-		<svg width="64" height="64" viewBox="0 0 64 64">
-			<path id="arrow-right-4" d="M48.058 48l-0.003-10.33-47.414 0.003v-11.37h47.418l-0.003-10.304 15.306 16z" />
-		</svg>
-		<svg width="64" height="64" viewBox="0 0 64 64">
-			<path id="arrow-left-5" d="M48 10.667q1.104 0 1.885 0.781t0.781 1.885-0.792 1.896l-16.771 16.771 16.771 16.771q0.792 0.792 0.792 1.896t-0.781 1.885-1.885 0.781q-1.125 0-1.896-0.771l-18.667-18.667q-0.771-0.771-0.771-1.896t0.771-1.896l18.667-18.667q0.771-0.771 1.896-0.771zM32 10.667q1.104 0 1.885 0.781t0.781 1.885-0.792 1.896l-16.771 16.771 16.771 16.771q0.792 0.792 0.792 1.896t-0.781 1.885-1.885 0.781q-1.125 0-1.896-0.771l-18.667-18.667q-0.771-0.771-0.771-1.896t0.771-1.896l18.667-18.667q0.771-0.771 1.896-0.771z" />
-		</svg>
-		<svg width="64" height="64" viewBox="0 0 64 64">
-			<path id="arrow-right-5" d="M29.333 10.667q1.104 0 1.875 0.771l18.667 18.667q0.792 0.792 0.792 1.896t-0.792 1.896l-18.667 18.667q-0.771 0.771-1.875 0.771t-1.885-0.781-0.781-1.885q0-1.125 0.771-1.896l16.771-16.771-16.771-16.771q-0.771-0.771-0.771-1.896 0-1.146 0.76-1.906t1.906-0.76zM13.333 10.667q1.104 0 1.875 0.771l18.667 18.667q0.792 0.792 0.792 1.896t-0.792 1.896l-18.667 18.667q-0.771 0.771-1.875 0.771t-1.885-0.781-0.781-1.885q0-1.125 0.771-1.896l16.771-16.771-16.771-16.771q-0.771-0.771-0.771-1.896 0-1.146 0.76-1.906t1.906-0.76z" />
-		</svg>
-	</div>
 	
 	
 	
@@ -687,8 +634,8 @@
         		    "showDropdowns": true,
         		    "startDate": "<c:out value="${extSeries.compbegindate4Cal}" />", 
         		    "endDate" : "<c:out value="${extSeries.compbegindate4Cal}" />",
-//        		    "startDate": "2013-08-09", 
-//        		    "endDate" : "2013-08-09",
+//        		    "startDate": "2016-02-08", 
+ //       		    "endDate" : "2016-02-08",
 					"minDate" : minDate.customFormat("#YYYY#-#MM#-#DD#"),
         		    "maxDate": "<c:out value="${extSeries.compbegindate4Cal}" />"     //today
         			}, function(start, end, label) {

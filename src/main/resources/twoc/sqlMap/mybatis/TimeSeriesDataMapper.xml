@@ -23,26 +23,90 @@
 			&gt; >
 					WHERE IMGREFDT BETWEEN TO_DATE('2013-08-03', 'YYYY-MM-DD') AND TO_DATE('2013-08-09', 'YYYY-MM-DD')
 			 -->
+			 
+			 
+	<select id="selectTimeSeriesData_L1A_MoonSlopeFactor" parameterType="hashmap" resultType="hashmap">
+	       Select
+	       	 TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, bag.detector, bag.paramvalue as VALUE 
+			from cpp_radio_param_bag_t bag, cpp_img_product_t ipt
+			where ipt.id = bag.imageproduct
+				and bag.paramtype = 1 
+				and ipt.instrumentmode=4 
+				and bag.channel=1 
+                and ipt.platform=1 
+                AND Detector=${detector}
+				AND IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+			    	AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+			order by ipt.imgref 
+	</select>
+			 
+			 
+			 
+    <!-- 1 -->			 
 	<select id="selectTimeSeriesData_L1A_VSNR_Alternative" parameterType="hashmap" resultType="hashmap">
 	    SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR,     
-	    	max(case when Detector=0 then Value else null end) as DT_0, 
-	    	max(case when Detector=1 then Value else null end) as DT_1, 
-	    	max(case when Detector=2 then Value else null end) as DT_2, 
-	    	max(case when Detector=3 then Value else null end) as DT_3, 
-	    	max(case when Detector=4 then Value else null end) as DT_4, 
-	    	max(case when Detector=5 then Value else null end) as DT_5, 
-	    	max(case when Detector=6 then Value else null end) as DT_6, 
-	    	max(case when Detector=7 then Value else null end) as DT_7 
-			FROM CPP_RADIODETPARAM_V 
-			WHERE Channel=1 AND Name='SNR' 
-			AND Detector IN (0,1,2,3,4,5,6,7) 
-			AND PID=1 
-			AND INSTRUMENTMODE='LA' 
-		    		AND IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
-		    		AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
-			GROUP BY IMGREFDT 
-			ORDER BY DSTR
+		    	max(case when Detector=0 then Value else null end) as DT_0, 
+		    	max(case when Detector=1 then Value else null end) as DT_1, 
+		    	max(case when Detector=2 then Value else null end) as DT_2, 
+		    	max(case when Detector=3 then Value else null end) as DT_3, 
+		    	max(case when Detector=4 then Value else null end) as DT_4, 
+		    	max(case when Detector=5 then Value else null end) as DT_5, 
+		    	max(case when Detector=6 then Value else null end) as DT_6, 
+		    	max(case when Detector=7 then Value else null end) as DT_7 
+				FROM CPP_RADIODETPARAM_V 
+				WHERE Channel=1 AND Name='SNR' 
+				AND Detector IN (0,1,2,3,4,5,6,7) 
+				AND PID=1 
+				AND INSTRUMENTMODE='LA' 
+			    		AND IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+			    		AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+				GROUP BY IMGREFDT 
+				ORDER BY DSTR
  	</select>
+ 	
+ 	
+  <!--2 Visible PRNU-->
+  <!--2 Visible PRNU-->
+  <!--2 Visible PRNU-->
+  <select id="selectTimeSeriesData_L1A_VisPRNU" parameterType="hashmap" resultType="hashmap">
+           SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, 
+	   		max(case when Detector=0 then Value else null end) as DT_0, 
+            max(case when Detector=1 then Value else null end) as DT_1, 
+            max(case when Detector=2 then Value else null end) as DT_2, 
+            max(case when Detector=3 then Value else null end) as DT_3, 
+            max(case when Detector=4 then Value else null end) as DT_4, 
+            max(case when Detector=5 then Value else null end) as DT_5, 
+            max(case when Detector=6 then Value else null end) as DT_6, 
+            max(case when Detector=7 then Value else null end) as DT_7  
+            FROM CPP_RADIODETPARAM_V
+			    WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+			    	AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+                   AND PID=1
+                   AND INSTRUMENTMODE='LA'
+                   AND INSTRUMENT='V'
+                   AND Channel=1
+                   AND TID IN (25)
+	       GROUP BY IMGREFDT
+	       ORDER BY DSTR
+  </select>
+  <select id="selectTimeSeriesData_L1A_VisPRNU    _bk_ori" parameterType="hashmap" resultType="hashmap">
+      SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, detector,
+	   		max(case when TID = 25 then Value else null end) as VALUE 
+	       FROM CPP_RADIODETPARAM_V
+	       WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+    		 AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')     
+	       AND Detector=${detector}
+	       AND PID=1
+	       AND INSTRUMENTMODE='LA'
+	       AND INSTRUMENT='V'
+	       AND Channel=1
+	       AND TID IN (25)
+	       GROUP BY IMGREFDT,detector
+	       ORDER BY DSTR	
+  </select>
+  
+ 	
+ 	
  	<!-- 
 	<select id="selectTimeSeriesData_L1A_VSNR_Alternative" parameterType="hashmap" resultType="hashmap">
 	    SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR,     
@@ -65,6 +129,8 @@
  	</select>
  	 -->
  	
+ 	
+ 	
 	<select id="selectTimeSeriesData_L1A_VSNR" parameterType="hashmap" resultType="hashmap">
 	    SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, VALUE, DETECTOR
 			FROM CPP_RADIODETPARAM_V 
@@ -75,6 +141,8 @@
 			AND INSTRUMENTMODE='LA' 
 			ORDER BY dStr, detector
  	</select>
+ 	
+  
   
   <!-- imgref(dt)는 instrumentmode별로 다름. -->	
  	<select id="selectTimeSeriesData_L1A_VR_alternative" parameterType="hashmap" resultType="hashmap">
@@ -130,43 +198,29 @@
 <!-- 미구현 -->
 <!-- 미구현 -->
  
-  <!--2 Visible PRNU-->
-  <!--2 Visible PRNU-->
-  <!--2 Visible PRNU-->
-  <select id="selectTimeSeriesData_L1A_VisPRNU    _bk_ori" parameterType="hashmap" resultType="hashmap">
-      SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, detector,
-	   		max(case when TID = 25 then Value else null end) as VALUE 
-	       FROM CPP_RADIODETPARAM_V
-	       WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
-    		 AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')     
-	       AND Detector=${detector}
-	       AND PID=1
-	       AND INSTRUMENTMODE='LA'
-	       AND INSTRUMENT='V'
-	       AND Channel=1
-	       AND TID IN (25)
-	       GROUP BY IMGREFDT,detector
-	       ORDER BY DSTR	
-  </select>
-  <select id="selectTimeSeriesData_L1A_VisPRNU" parameterType="hashmap" resultType="hashmap">
-      SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, detector,
-	   		max(case when TID = 25 then Value else null end) as VALUE 
-	       FROM CPP_RADIODETPARAM_V
-			       WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
-		    		AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
-	       AND Detector=${detector}
-	       AND PID=1
-	       AND INSTRUMENTMODE='LA'
-	       AND INSTRUMENT='V'
-	       AND Channel=1
-	       AND TID IN (25)
-	       GROUP BY IMGREFDT,detector
-	       ORDER BY DSTR	
-  </select>
+
   
   <!--6 IR PRNU-->
   <!--6 IR PRNU-->
   <!--6 IR PRNU-->
+  <select id="selectTimeSeriesData_L1A_IRPRNU" parameterType="hashmap" resultType="hashmap">
+        SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, Channel, 		
+      		max(case when TID = 31 and Detector=0 then Value else null end) as A220, 
+            max(case when TID = 31 and Detector=1 then Value else null end) as B220,
+            max(case when TID = 32 and Detector=0 then Value else null end) as A300,
+            max(case when TID = 32 and Detector=1 then Value else null end) as B300
+          FROM CPP_RADIODETPARAM_V
+            WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+		    	  AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')      
+		      AND Channel = ${channel}
+	          AND INSTRUMENT='I'
+		      AND PID=1
+	          AND INSTRUMENTMODE='LA'
+	          AND TID IN (31, 32) and Detector IN (0,1)
+          GROUP BY IMGREFDT,Channel
+          ORDER BY DSTR
+  </select>
+<!-- DEPRECATED 2018.01.24.
   <select id="selectTimeSeriesData_L1A_IRPRNU" parameterType="hashmap" resultType="hashmap">
       SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, detector, 		
       		max(case when TID = 31 then Value else null end) as VALUE 
@@ -182,6 +236,7 @@
           GROUP BY IMGREFDT,detector       									
           ORDER BY DSTR
   </select>
+  -->
   <!--6 IR PRNU-->
   <!--6 IR PRNU-->
   <!--6 IR PRNU-->
@@ -193,7 +248,28 @@
   
   	채널은 0, 1 외에 값 없음.
   	채널은 2~5까지. 사이드체크박스 가감메뉴를 디텍터 대신 채널로 바꿔서 표출.
+  	TID 36은 220K    37은 330K
   -->
+  
+  <select id="selectTimeSeriesData_L1A_IRNEDT" parameterType="hashmap" resultType="hashmap">
+    SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, Channel,  		
+       		max(case when TID = 36 and Detector=0 then Value else null end) as A220,
+            max(case when TID = 36 and Detector=1 then Value else null end) as B220,
+            max(case when TID = 37 and Detector=0 then Value else null end) as A300,
+            max(case when TID = 37 and Detector=1 then Value else null end) as B300
+           FROM CPP_RADIODETPARAM_V
+           	WHERE IMGREFDT &gt;= TO_DATE('${dBegin}', 'YYYY-MM-DD') 
+			  AND IMGREFDT &lt;= TO_DATE('${targetDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')      
+	           AND Channel = ${channel}
+	           AND INSTRUMENT='I'
+			   AND PID=1
+	           AND INSTRUMENTMODE='LA'
+	           AND TID IN (36,37) and Detector IN (0,1)
+           GROUP BY IMGREFDT,Channel       									
+           ORDER BY DSTR,Channel
+          
+  </select>
+<!--  DEPRECATED 2018.01.24. 
   <select id="selectTimeSeriesData_L1A_IRNEDT" parameterType="hashmap" resultType="hashmap">
         SELECT TO_CHAR(IMGREFDT, 'YYYY-MM-DD HH24:MI:SS')as DSTR, Channel, 		
        		max(case when TID = 36 then Value else null end) as VALUE 
@@ -209,7 +285,7 @@
            GROUP BY IMGREFDT,Channel       									
            ORDER BY DSTR,Channel	
           
-  </select>
+  </select> -->
   <!--5 IR NEDT-->
   <!--5 IR NEDT-->
   <!--5 IR NEDT-->

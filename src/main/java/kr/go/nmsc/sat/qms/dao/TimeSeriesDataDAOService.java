@@ -29,6 +29,12 @@ public class TimeSeriesDataDAOService  implements TimeSeriesDataDAO{
 //	private static final SimpleDateFormat CAL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	
 	@Override
+	public ArrayList<HashMap<String, Object>> selectTimeSeriesData_L1A_MoonSlopeFactor(HashMap<String, String> hashmap) {
+		TimeSeriesDataMapper dataMapper = sqlSession.getMapper(TimeSeriesDataMapper.class);
+		return dataMapper.selectTimeSeriesData_L1A_MoonSlopeFactor(hashmap);
+	}
+	
+	@Override
 	public ArrayList<HashMap<String, Object>> selectTimeSeriesData_L1A_VSNR(HashMap<String, String> hashmap) {
 //		HashMap<String, String> hashmap = new HashMap<String, String>();
 //		hashmap.put("targetDate", targetDate);

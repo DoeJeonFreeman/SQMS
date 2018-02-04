@@ -149,7 +149,7 @@
 <div style="background-color: #f3f3f4; padding-bottom: 15px;">
 	<div class="container">
 		 	<section id="footer-useful-links"  class="col-md-5">
-            	<h5 class="section-title"><i class="fa fa-list-ul fa-fw"></i>Notice</h5>
+            	<h5 class="section-title"><i class="fa fa-list-ul fa-fw"></i> &nbsp;</h5> <!-- Notice -->
            		<ul class="nav">
 					<c:forEach var="result" items="${notices}" varStatus="status">
                     <li>

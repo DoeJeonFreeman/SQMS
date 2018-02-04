@@ -6,7 +6,9 @@ import java.util.HashMap;
 public interface TimeSeriesDataDAO {
     
 	// 14
+	 public ArrayList<HashMap<String,Object>> selectTimeSeriesData_L1A_MoonSlopeFactor(HashMap<String, String> hashmap);
 	 public ArrayList<HashMap<String,Object>> selectTimeSeriesData_L1A_VSNR(HashMap<String, String> hashmap);
+	 
 	 public ArrayList<HashMap<String,Object>> selectTimeSeriesData_L1A_VSNR_Alternative(HashMap<String, String> hashmap);
 	 public ArrayList<HashMap<String,Object>> selectTimeSeriesData_L1A_VR(HashMap<String, String> hashmap);
 	 public ArrayList<HashMap<String, Object>> selectTimeSeriesData_L1A_IRRS(HashMap<String, String> hashmap);
